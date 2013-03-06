@@ -39,7 +39,10 @@ limitations under the License.
 	  ge = object;
 	  ge.getOptions().setFlyToSpeed(100);
 
+	  ge.getLayerRoot().enableLayerById(ge.LAYER_ROADS, true);
 	  ge.getLayerRoot().enableLayerById(ge.LAYER_BUILDINGS, true);
+	  ge.getLayerRoot().enableLayerById(ge.LAYER_TERRAIN, true);
+	  ge.getLayerRoot().enableLayerById(ge.LAYER_TREES, true);
 
 	  cam = new FirstPersonCam();
 	  cam.updateCamera();

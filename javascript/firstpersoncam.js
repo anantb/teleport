@@ -38,7 +38,7 @@ strafeRight = false;
 altitudeUp = false;
 altitudeDown = false;
 
-INITIAL_CAMERA_ALTITUDE = 1.7; // Roughly 6 feet tall
+INITIAL_CAMERA_ALTITUDE = 1.7*40; // Roughly 6 feet tall
 cameraAltitude = INITIAL_CAMERA_ALTITUDE;
 //----------------------------------------------------------------------------
 // Utility Functions
@@ -155,7 +155,7 @@ function FirstPersonCam() {
   // The anchor point is where the camera is situated at. We store
   // the current position in lat, lon, altitude and in cartesian 
   // coordinates.
-  me.localAnchorLla = [37.79333, -122.40, 0];  // San Francisco
+  me.localAnchorLla = [42.35939, -71.09176, 0];  // MIT
   me.localAnchorCartesian = V3.latLonAltToCartesian(me.localAnchorLla);
 
   // Heading, tilt angle is relative to local frame
