@@ -18,6 +18,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
   <title>Teleport</title>
+  <link rel=stylesheet href='css/style.css' type='text/css' />
   <link rel=stylesheet href='css/firstpersoncam.css' type='text/css' />
   <!-- *** Replace the key below below with your own API key, available at http://code.google.com/apis/maps/signup.html *** -->
   <script src="http://www.google.com/jsapi?key=AIzaSyAdgYw9dd2TiekDSJ7tsQC0ogDcDwD673s"></script>
@@ -62,33 +63,34 @@ limitations under the License.
   </script>
 </head>
 <body onload='init()' onunload="GUnload()" onKeyDown="return keyDown(event);" onKeyUp="return keyUp(event);" id='body'>
-  <div class="title">
-    <b>Teleport (Powered by Google Earth/Google Maps)</b>
-  </div>
+	<div id='map3d'></div>
   
-  <table border=0>
-  <tr>
-    <td>
-      <div id='map3d'></div>
-    </td>
-    <td valign=top>
-    KEYBOARD CONTROLS<br>
-    <br>
-    Movement:<br>
-    &nbsp;&nbsp;W = Forwards<br>
-    &nbsp;&nbsp;S = Backwards<br>
-    &nbsp;&nbsp;A = Strafe Left<br>
-    &nbsp;&nbsp;D = Strafe Right<br>
-    &nbsp;&nbsp;Page Up = Move Up<br>
-    &nbsp;&nbsp;Page Down = Move Down<br>
-    <br>
-    Camera View:<br>
-    &nbsp;&nbsp;Up Arrow = Tilt up<br>
-    &nbsp;&nbsp;Down Arrow = Tilt down<br>
-    &nbsp;&nbsp;Right Arrow = Turn right<br>
-    &nbsp;&nbsp;Left Arrow = Turn left<br>  
-    </td>
-  </tr>
-  </table>  
+	<div id="info">
+		<table>
+			<tr>
+				<td>
+    W = Forwards <br />
+   S = Backwards
+	<td/>
+	<td>
+    A = Strafe Left <br />
+    D = Strafe Right
+	
+</td>
+<td>
+	Page Up = Move Up <br />
+    Page Down = Move Down
+</td>
+<td>
+    Up Arrow = Tilt up <br />
+	Down Arrow = Tilt down
+</td>
+<td>
+    Right Arrow = Turn right<br />
+    Left Arrow = Turn left
+</td>
+</tr>
+</table>
+	</div>
 </body>
 </html>

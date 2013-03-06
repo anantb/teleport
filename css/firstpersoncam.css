@@ -36,11 +36,7 @@ form {
   float: right;
 }
 
-#map3d {
-  border: 1px solid silver; 
-  width: 800px;
-  height: 600px;
-}
+
 
 #load_sample_label {  
   font-weight: bold; 
