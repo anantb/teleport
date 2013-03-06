@@ -26,9 +26,6 @@ limitations under the License.
 // Global Variables
 //----------------------------------------------------------------------------
 
-soundSwitch = false;
-isSoundOn = false;
-
 turnLeft = false;
 turnRight = false;
 tiltUp = false;
@@ -41,18 +38,7 @@ strafeRight = false;
 altitudeUp = false;
 altitudeDown = false;
 
-forward_speed = 1;
-turn_speed = 1;
-augmented_reality = false;
-//relocate_cam = false;
-relocate_sf = false;
-relocate_paris = false;
-
-/* Augmented reality variables */
-var networkLink = null;
-
-/* Initialized Variables */
-INITIAL_CAMERA_ALTITUDE = 1.8; // Roughly 6 feet tall
+INITIAL_CAMERA_ALTITUDE = 1.7; // Roughly 6 feet tall
 cameraAltitude = INITIAL_CAMERA_ALTITUDE;
 //----------------------------------------------------------------------------
 // Utility Functions
@@ -74,45 +60,20 @@ function fixAngle(a) {
 //----------------------------------------------------------------------------
 
 function keyDown(event) {
-  var me = this;
-
   if (!event) {
     event = window.event;
   }
-  if (event.keyCode == 85 || event.keyCode == 32) {  // Key U: Altitude Up or space
-    playSound(true);
+  if (event.keyCode == 33) {  // Altitude Up
     altitudeUp = true;
     event.returnValue = false;
-	jetpack.setVisibility(true);
-  } else if (event.keyCode == 74) {  // Key J: Altitude Down
-
-    playSound(false);
+  } else if (event.keyCode == 34) {  // Altitude Down
     altitudeDown = true;
     event.returnValue = false;
-	jetpack.setVisibility(false);
-  } else if (event.keyCode == 37 || event.keyCode == 75) {  // Key Left Arrow or K: Turn Left.
+  } else if (event.keyCode == 37) {  // Turn Left.
     turnLeft = true;
-    turn_speed = 2.75; //used to be = 1
-    leftActive.setVisibility(true);
-    leftInactive.setVisibility(false);
     event.returnValue = false;
-  } else if (event.keyCode == 188) {    // Key Comma: Turn left FAST
-  	turnLeft = true;
-  	turn_speed = 2.75;
-  	leftActive.setVisibility(true);
-  	leftInactive.setVisibility(false);
-    event.returnValue = false;
-  } else if (event.keyCode == 190) {    // Key Period: Turn right FAST
-  	turnRight = true;
-  	turn_speed = 2.75;
-  	rightActive.setVisibility(true);
-  	rightInactive.setVisibility(false);
-    event.returnValue = false;
-  } else if (event.keyCode == 39 || event.keyCode == 76) {  // Key Right Arrow or L: Turn Right.
+  } else if (event.keyCode == 39) {  // Turn Right.
     turnRight = true;
-    turn_speed = 2.75; // used to be =1
-    rightActive.setVisibility(true);
-    rightInactive.setVisibility(false);
     event.returnValue = false;
   } else if (event.keyCode == 38) {  // Tilt Up.
     tiltUp = true;
@@ -129,44 +90,12 @@ function keyDown(event) {
     strafeRight = true;
     event.returnValue = false;
   } else if (event.keyCode == 87 || 
-             event.keyCode == 119) {  // Key W: Move Forward.
-    moveForward = true;
-    upActive.setVisibility(true);
-    upInactive.setVisibility(false);
-    forward_speed = 1;
+             event.keyCode == 119) {  // Move Forward.
+    moveForward = true;    
     event.returnValue = false;    
-  } else if (event.keyCode == 50) {	  // Key 2: Move Forward, faster
-    moveForward = true;
-    upActive.setVisibility(true);
-    upInactive.setVisibility(false);
-  	forward_speed = 3;
-  	event.returnValue = false;
   } else if (event.keyCode == 83 || 
-             event.keyCode == 115) {  // Key S: Move Backward
-
-    moveBackward = true;
-    downActive.setVisibility(true);
-    downInactive.setVisibility(false);
-    event.returnValue = false;
-  } else if (augmented_reality == false && event.keyCode == 89) {   // Y: Show augmented reality
-  		var link = ge.createLink('');		// class ge inherited from index2.html
-		//var href = 'http://www.stanford.edu/~hyunggu/etc/cs247_twit2.kml';
-		var href = 'http://cs247.eidus.org/tweets.kml';
-	  	link.setHref(href);
-	  	networkLink = ge.createNetworkLink('');
-	  	networkLink.set(link, true, true); // Sets the link, refreshVisibility, and flyToView.
-	  	ge.getFeatures().appendChild(networkLink);
-		augmented_reality = true;
-  		event.returnValue = false;
-//  } else if (event.keyCode == 48) {   // Key 0: relocate to SF
-    } else if (event.keyCode == 79) {   // Key O: relocate to SF  
-  	relocate_sf = true;
-  	event.returnValue = false;
-  //} else if (event.keyCode == 57) {    // Key 9: relocate to Paris
-    } else if (event.keyCode == 80) {   // Key P: relocate to Paris
-   
-    relocate_paris = true;
-    event.returnValue = false;
+             event.keyCode == 115) {  // Move Forward.
+    moveBackward = true;     
   } else {
     return true;
   }
@@ -174,41 +103,20 @@ function keyDown(event) {
 }
 
 function keyUp(event) {
-  var me = this;
-
   if (!event) {
     event = window.event;
   } 
-  if (event.keyCode == 85 || event.keyCode == 32) {  // Altitude Up
+  if (event.keyCode == 33) {  // Altitude Up
     altitudeUp = false;
-        altitudeDown = true;
-
     event.returnValue = false;
-    
-  } else if (event.keyCode == 74) {  // Altitude Down
+  } else if (event.keyCode == 34) {  // Altitude Down
     altitudeDown = false;
     event.returnValue = false;
-  } else if (event.keyCode == 37 || event.keyCode == 75) {  // Left.
+  } else if (event.keyCode == 37) {  // Left.
     turnLeft = false;
-    leftInactive.setVisibility(true);
-    leftActive.setVisibility(false);
     event.returnValue = false;
-  } else if (event.keyCode == 188) {    // Turn left FAST
-    turnLeft = false;
-    leftInactive.setVisibility(true);
-    leftActive.setVisibility(false);
-  	turn_speed = 1;
-    event.returnValue = false;
-  } else if (event.keyCode == 190) {    // Turn right FAST
+  } else if (event.keyCode == 39) {  // Right.
     turnRight = false;
-    rightInactive.setVisibility(true);
-    rightActive.setVisibility(false);
-  	turn_speed = 1;
-    event.returnValue = false;
-  } else if (event.keyCode == 39 || event.keyCode == 76) {  // Right.
-    turnRight = false;
-    rightInactive.setVisibility(true);
-    rightActive.setVisibility(false);
     event.returnValue = false;
   } else if (event.keyCode == 38) {  // Up.
     tiltUp = false;
@@ -226,38 +134,12 @@ function keyUp(event) {
     event.returnValue = false;
   } else if (event.keyCode == 87 || 
              event.keyCode == 119) {  // Move Forward.
-    moveForward = false;
-    upInactive.setVisibility(true);
-    upActive.setVisibility(false);
+    moveForward = false;    
     event.returnValue = false;    
-  } else if (event.keyCode == 50) {	  // Move Forward, faster
-  	moveForward = false;
-  	forward_speed = 1;
-  	upInactive.setVisibility(true);
-  	upActive.setVisibility(false);
-  	event.returnValue = false;
   } else if (event.keyCode == 83 || 
-             event.keyCode == 115) {  // Move Backward
-
-    moveBackward = false;
-    downInactive.setVisibility(true);
-    downActive.setVisibility(false);
-    event.returnValue = false;
-  } else if (event.keyCode == 89) {   // Y: Show augmented reality
-  	ge.getFeatures().removeChild(networkLink);
-  	augmented_reality = false;
-  	event.returnValue = false;
-//  } else if (event.keyCode == 48) {   // Key 0: relocate to SF
-    } else if (event.keyCode == 79) {   // Key O: relocate to SF
-
-  	relocate_sf = false;
-  	event.returnValue = false;
-//  } else if (event.keyCode == 57) {   // Key 9: relocate to Paris
-    } else if (event.keyCode == 80) {   // Key P: relocate to Paris
-
-    relocate_paris = false;
-    event.returnValue = false;
-    } 
+             event.keyCode == 115) {  // Move Forward.
+    moveBackward = false;       
+  }
   return false;
 }
 
@@ -278,7 +160,7 @@ function FirstPersonCam() {
 
   // Heading, tilt angle is relative to local frame
   me.headingAngle = 0;
-  me.tiltAngle = 10 * Math.PI / 180.0;
+  me.tiltAngle = 0;
 
   // Initialize the time
   me.lastMillis = (new Date()).getTime();  
@@ -301,132 +183,73 @@ FirstPersonCam.prototype.updateOrientation = function(dt) {
 
   // Based on dt and input press, update turn angle.
   if (turnLeft || turnRight) {  
-    var turnSpeed = 15.0 * turn_speed; // radians/sec
+    var turnSpeed = 60.0; // radians/sec
     if (turnLeft)
       turnSpeed *= -1.0;
     me.headingAngle += turnSpeed * dt * Math.PI / 180.0;
   }
   if (tiltUp || tiltDown) {
-    var tiltSpeed = 40.0; // radians/sec
+    var tiltSpeed = 60.0; // radians/sec
     if (tiltDown)
       tiltSpeed *= -1.0;
     me.tiltAngle = me.tiltAngle + tiltSpeed * dt * Math.PI / 180.0;
     // Clamp
-    var tiltMax = 60.0 * Math.PI / 180.0;
-    var tiltMin = -50.0 * Math.PI / 180.0;
+    var tiltMax = 50.0 * Math.PI / 180.0;
+    var tiltMin = -90.0 * Math.PI / 180.0;
     if (me.tiltAngle > tiltMax)
       me.tiltAngle = tiltMax;
     if (me.tiltAngle < tiltMin)
       me.tiltAngle = tiltMin;
   } 
-
 }
 
-FirstPersonCam.prototype.updatePosition = function (dt) {
-    var me = this;
-
-    // Convert local lat/lon to a global matrix. The up vector is 
-    // vector = position - center of earth. And the right vector is a vector
-    // pointing eastwards and the facing vector is pointing towards north.
-    var localToGlobalFrame = M33.makeLocalToGlobalFrame(me.localAnchorLla);
-
-    // Move in heading direction by rotating the facing vector around
-    // the up vector, in the angle specified by the heading angle.
-    // Strafing is similar, except it's aligned towards the right vec.
-    var headingVec = V3.rotate(localToGlobalFrame[1], localToGlobalFrame[2],
+FirstPersonCam.prototype.updatePosition = function(dt) {
+  var me = this;
+  
+  // Convert local lat/lon to a global matrix. The up vector is 
+  // vector = position - center of earth. And the right vector is a vector
+  // pointing eastwards and the facing vector is pointing towards north.
+  var localToGlobalFrame = M33.makeLocalToGlobalFrame(me.localAnchorLla); 
+  
+  // Move in heading direction by rotating the facing vector around
+  // the up vector, in the angle specified by the heading angle.
+  // Strafing is similar, except it's aligned towards the right vec.
+  var headingVec = V3.rotate(localToGlobalFrame[1], localToGlobalFrame[2],
+                             -me.headingAngle);                             
+  var rightVec = V3.rotate(localToGlobalFrame[0], localToGlobalFrame[2],
                              -me.headingAngle);
-    var rightVec = V3.rotate(localToGlobalFrame[0], localToGlobalFrame[2],
-                             -me.headingAngle);
-    var strafe = 0;
+  // Calculate strafe/forwards                              
+  var strafe = 0;                             
+  if (strafeLeft || strafeRight) {
+    var strafeVelocity = 30;
+    if (strafeLeft)
+      strafeVelocity *= -1;      
+    strafe = strafeVelocity * dt;
+  }  
+  var forward = 0;                             
+  if (moveForward || moveBackward) {
+    var forwardVelocity = 100;
+    if (moveBackward)
+      forwardVelocity *= -1;      
+    forward = forwardVelocity * dt;
+  }  
+  if (altitudeUp) {
+    cameraAltitude += 1.0;
+  } else if (altitudeDown) {
+    cameraAltitude -= 1.0;
+  }
+  cameraAltitude = Math.max(0, cameraAltitude);
+  
+  me.distanceTraveled += forward;
 
-    if (relocate_sf) {
-        me.localAnchorLla = [37.79333, -122.40, 0];  // San Francisco
-        me.localAnchorCartesian = V3.latLonAltToCartesian(me.localAnchorLla);
-        me.headingAngle = 0;
-        me.tiltAngle = 0;
-    } else if (relocate_paris) {
-        me.localAnchorLla = [48.8583, 2.2945, 0];  // Paris
-        me.localAnchorCartesian = V3.latLonAltToCartesian(me.localAnchorLla);
-        me.headingAngle = 0;
-        me.tiltAngle = 0;
-    } else {
-        // Calculate strafe/forwards  
-        if (strafeLeft || strafeRight) {
-            var strafeVelocity = 20;
-            if (strafeLeft)
-                strafeVelocity *= -1;
-            strafe = strafeVelocity * dt;
-        }
-        var forward = 0;
-        if (moveForward || moveBackward) {
-            var forwardVelocity = 15 * forward_speed * (1 + 10*(cameraAltitude/500));
-            if (moveBackward)
-                forwardVelocity *= -1;
-            forward = forwardVelocity * dt;
-        }
-        if (altitudeUp) {
-            cameraAltitude += Math.min(0.5, 0.5 * (cameraAltitude / 15));
-
-            // Handles tilt
-            target_angle = (-40.0 * Math.PI / 180.0) * (cameraAltitude / 500); 	// 500 is the height at which it tapers
-            if (me.tiltAngle != target_angle) {
-                angle_difference = me.tiltAngle - target_angle;
-                me.tiltAngle = me.tiltAngle - angle_difference / 10;
-            }
-
-        } else if (altitudeDown) {
-            jetpack.setVisibility(false);
-            tiltDownSpeed = 70.0;
-
-            // Handles tilt
-            if (cameraAltitude > 30.0) {
-                cameraAltitude -= 1.0;
-                me.tiltAngle = me.tiltAngle - tiltDownSpeed * dt * Math.PI / 180.0;
-                var tiltMinimum = -75.0 * Math.PI / 180.0;
-                if (me.tiltAngle < tiltMinimum) {
-                    me.tiltAngle = tiltMinimum;
-                }
-            } else {
-                cameraAltitude -= 0.5;
-                target_angle = 0;
-                if (me.tiltAngle != target_angle) {
-                    angle_difference = me.tiltAngle - target_angle;
-                    me.tiltAngle = me.tiltAngle - angle_difference / 10;
-                }
-            }
-		} else {
-			//if (cameraAltitude < 30.0) target_angle = 0;
-			//else target_angle = (-40.0 * Math.PI / 180.0) * (cameraAltitude / 500);
-			
-			target_angle = (-70.0 * Math.PI / 180.0) * (cameraAltitude / 500);
-            if (me.tiltAngle != target_angle) {
-                angle_difference = me.tiltAngle - target_angle;
-            	me.tiltAngle = me.tiltAngle - angle_difference / 10;
-            }
-		}
-        /*
-        else {
-	  	
-        target_angle = (-30.0 * Math.PI / 180.0) * (cameraAltitude / 500);		// Negative number
-        if (me.tiltAngle != target_angle) {
-        angle_difference = me.tiltAngle - target_angle;						
-        me.tiltAngle = me.tiltAngle - angle_difference/10;
-        }
-        }
-        */
-        cameraAltitude = Math.max(1.8, cameraAltitude);
-
-        me.distanceTraveled += forward;
-
-        // Add the change in position due to forward velocity and strafe velocity 
-        me.localAnchorCartesian = V3.add(me.localAnchorCartesian,
-									   V3.scale(rightVec, strafe));
-        me.localAnchorCartesian = V3.add(me.localAnchorCartesian,
-									   V3.scale(headingVec, forward));
-
-        // Convert cartesian to Lat Lon Altitude for camera setup later on.
-        me.localAnchorLla = V3.cartesianToLatLonAlt(me.localAnchorCartesian);
-    }
+  // Add the change in position due to forward velocity and strafe velocity 
+  me.localAnchorCartesian = V3.add(me.localAnchorCartesian, 
+                                   V3.scale(rightVec, strafe));
+  me.localAnchorCartesian = V3.add(me.localAnchorCartesian, 
+                                   V3.scale(headingVec, forward));
+                                                                        
+  // Convert cartesian to Lat Lon Altitude for camera setup later on.
+  me.localAnchorLla = V3.cartesianToLatLonAlt(me.localAnchorCartesian);
 }
 
 FirstPersonCam.prototype.updateCamera = function() {
@@ -438,13 +261,13 @@ FirstPersonCam.prototype.updateCamera = function() {
   // Will put in a bit of a stride if the camera is at or below 1.7 meters
   var bounce = 0;  
   if (cameraAltitude <= INITIAL_CAMERA_ALTITUDE /* 1.7 */) {
-    bounce = 0.3 * Math.abs(Math.sin(25 * me.distanceTraveled *
+    bounce = 1.5 * Math.abs(Math.sin(4 * me.distanceTraveled *
                                      Math.PI / 180)); 
   }
     
   // Update camera position. Note that tilt at 0 is facing directly downwards.
   //  We add 90 such that 90 degrees is facing forwards.
-  var la = ge.createCamera('');
+  var la = ge.createLookAt('');
   la.set(me.localAnchorLla[0], me.localAnchorLla[1],
          cameraAltitude + bounce,
          ge.ALTITUDE_RELATIVE_TO_SEA_FLOOR,
@@ -477,15 +300,3 @@ FirstPersonCam.prototype.update = function() {
   me.updateCamera();
 };
 
-function playSound(soundSwitch)	{
-	if (soundSwitch && !isSoundOn) 	{
-		jpsound.src="http://www.stanford.edu/~hyunggu/etc/cs247/jetpack.mp3";
-		document.getElementById('jpsound').volume = 0;
-		isSoundOn = true;
-	}
-	else if (!soundSwitch && isSoundOn) {
-		//jpsound.src="";
-		document.getElementById('jpsound').volume = -10000;
-		isSoundOn = false;
-	}
-};
