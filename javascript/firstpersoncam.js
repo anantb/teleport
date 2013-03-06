@@ -278,6 +278,12 @@ FirstPersonCam.prototype.updateCamera = function() {
   ge.getView().setAbstractView(la);         
 };
 
+
+FirstPersonCam.prototype.refreshCamera = function(){  
+	  var obj = this;
+      obj.updateCamera();
+}
+
 FirstPersonCam.prototype.update = function() {
   var me = this;
   
@@ -297,6 +303,7 @@ FirstPersonCam.prototype.update = function() {
   me.updatePosition(dt);
            
   // Update camera
-  me.updateCamera();
+  me.refreshCamera();
+
 };
 
