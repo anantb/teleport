@@ -38,7 +38,10 @@ strafeRight = false;
 altitudeUp = false;
 altitudeDown = false;
 
-INITIAL_CAMERA_ALTITUDE = 1.7*40; // Roughly 6 feet tall
+var tiltMax = 50.0 * Math.PI / 180.0;
+var tiltMin = -90.0 * Math.PI / 180.0;
+
+INITIAL_CAMERA_ALTITUDE = 1.7*150; // Roughly 6 feet tall
 cameraAltitude = INITIAL_CAMERA_ALTITUDE;
 //----------------------------------------------------------------------------
 // Utility Functions
@@ -160,7 +163,7 @@ function FirstPersonCam() {
 
   // Heading, tilt angle is relative to local frame
   me.headingAngle = 0;
-  me.tiltAngle = 0;
+  me.tiltAngle = tiltMin;
 
   // Initialize the time
   me.lastMillis = (new Date()).getTime();  
@@ -194,8 +197,7 @@ FirstPersonCam.prototype.updateOrientation = function(dt) {
       tiltSpeed *= -1.0;
     me.tiltAngle = me.tiltAngle + tiltSpeed * dt * Math.PI / 180.0;
     // Clamp
-    var tiltMax = 50.0 * Math.PI / 180.0;
-    var tiltMin = -90.0 * Math.PI / 180.0;
+    
     if (me.tiltAngle > tiltMax)
       me.tiltAngle = tiltMax;
     if (me.tiltAngle < tiltMin)
