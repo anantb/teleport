@@ -1,80 +1,242 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html>
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <title>Teleport</title>
-  <link rel=stylesheet href='css/style.css' type='text/css' />
-  <link rel=stylesheet href='css/firstpersoncam.css' type='text/css' />
-  <!-- *** Replace the key below below with your own API key, available at http://code.google.com/apis/maps/signup.html *** -->
-  <script src="http://www.google.com/jsapi?key=AIzaSyAdgYw9dd2TiekDSJ7tsQC0ogDcDwD673s"></script>
-  <script type="text/javascript" src="lib/keyboard-focus-hack.js"></script>
-  <script type="text/javascript" src="lib/math3d.js"></script>
-  <script type="text/javascript" src="javascript/firstpersoncam.js"></script>
-  <script type="text/javascript">
-	google.load("earth", "1");
-	google.load("maps", "2");
+<!-- 
+@author: Anant Bhardwaj
 
-	var ge = null;
-	var cam;
-
-	function init() {
-	  init3D();
-	}
-
-	function initCB(object) {
-	  ge = object;
-	  ge.getOptions().setFlyToSpeed(100);
-
-	  //ge.getLayerRoot().enableLayerById(ge.LAYER_ROADS, true);
-	  ge.getLayerRoot().enableLayerById(ge.LAYER_BUILDINGS, true);
-	 // ge.getLayerRoot().enableLayerById(ge.LAYER_TERRAIN, true);
-	  //ge.getLayerRoot().enableLayerById(ge.LAYER_TREES, true);
-
-	  cam = new FirstPersonCam();
-	  cam.refreshCamera();
-	  ge.getWindow().setVisibility(true);
-
-	  keyboardFocusHack(ge);
-	}
-
-	function failureCB(object) {
-		alert("somthing went wrong!")
-	}
-
-	function init3D() {
-	  google.earth.createInstance("map3d", initCB, failureCB);
-	}
-
-  </script>
+Teleport Web Page
+-->
+<!DOCTYPE html> 
+<html> 
+<head> 
+	<title>Teleport</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
+	<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/teleport.css" />
+    <link rel=stylesheet href='css/firstpersoncam.css' type='text/css' />
+    <!-- *** Replace the key below below with your own API key, available at http://code.google.com/apis/maps/signup.html *** -->
+    <script src="http://www.google.com/jsapi?key=AIzaSyAdgYw9dd2TiekDSJ7tsQC0ogDcDwD673s"></script>
+    <script type="text/javascript" src="lib/keyboard-focus-hack.js"></script>
+    <script type="text/javascript" src="lib/math3d.js"></script>
+    <script type="text/javascript" src="javascript/firstpersoncam.js"></script>
 </head>
-<body onload='init()' onunload="GUnload()" onKeyDown="return keyDown(event);" onKeyUp="return keyUp(event);" id='body'>
-	<div id='map3d'></div>
-  
-	<div id="info">
-		<table>
-			<tr>
-				<td>
-    W = Forwards <br />
-   S = Backwards
-	<td/>
-	<td>
-    A = Strafe Left <br />
-    D = Strafe Right
+<body>
+
+
+
+<div data-role="page" id="home" class="teleport">
+    <div data-role="header">
+        <h1>Teleport</h1>
+        <a href="#settings" data-icon="gear" class="ui-btn-right">Settings</a>
+	    <div data-role="navbar">
+	            <ul>
+	                <li><a href="#home" data-icon="home" class="ui-btn-active ui-state-persist">Home</a></li>
+	                <li><a href="#contacts" data-icon="grid">Contacts</a></li>
+	                <li><a href="#recents" data-icon="bars">Recents</a></li>
+                    <li><a href="#teleportme" data-icon="bars">Teleport Me</a></li>
+	            </ul>
+	    </div><!-- /navbar -->
+    
+    </div><!-- /header -->
+    <div data-role="content">
+        
+        <div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
+            <h4>Recent Contacts</h4>
+            <ul data-role="listview">
+                <li><a href="#">Anant Bhardwaj</a></li>
+                <li><a href="#">Alex Pagan</a></li>
+                <li><a href="#">Ekaterina Ob'yedkova</a></li>
+                <li><a href="#">Sarah Lehmann</a></li>
+            </ul>
+        </div>
+        <br />
+        <div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
+            <h4>New Notifications</h4>
+            <ul data-role="listview">
+                <li data-role="list-divider">Wednesday, April 17, 2013 <span class="ui-li-count">2</span></li>
+                <li><a href="index.html">
+                    <p><strong>Alex Pagan wants to add you to his contact list.</strong></p>
+                    <p>Hey Anant, This is Alex Pagan!.</p>                    
+                </a></li>
+                <li><a href="index.html">
+                    <p><strong>Ekaterina Ob'yedkova has new tweets.</strong></p>
+                    <p>The trip to New York was amazing...</p>
+                </a></li>
+                <li data-role="list-divider">Tuesday, April 16, 2013 <span class="ui-li-count">1</span></li>
+                <li><a href="index.html">
+                    <p><strong>Raj Aryan accepted your friend request.</strong></p>
+                </a></li>
+            </ul>
+        </div>
+    </div>
 	
-</td>
-<td>
-	Page Up = Move Up <br />
-    Page Down = Move Down
-</td>
-<td>
-    Up Arrow = Tilt up <br />
-	Down Arrow = Tilt down
-</td>
-<td>
-    Right Arrow = Turn right<br />
-    Left Arrow = Turn left
-</td>
-</tr>
-</table>
-	</div>
+</div><!-- /home -->
+
+
+<div data-role="page" data-theme="b" id="contacts" class="teleport grid">
+    <div data-role="header">
+        <h1>Teleport</h1>
+        <a href="#settings" data-icon="gear" class="ui-btn-right">Settings</a>
+	    <div data-role="navbar">
+	            <ul>
+	                <li><a href="#home" data-icon="home">Home</a></li>
+	                <li><a href="#contacts" data-icon="grid" class="ui-btn-active ui-state-persist">Contacts</a></li>
+	                <li><a href="#recents" data-icon="bars">Recents</a></li>
+                    <li><a href="#teleportme" data-icon="bars">Teleport Me</a></li>
+	            </ul>
+	    </div><!-- /navbar -->
+        
+    </div><!-- /header -->
+    <div data-role="content">
+        <ul data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Search contacts">
+            <li><a href="#chat">
+                <img src="images/profile.png">
+                <h2>Anant Bhardwaj</h2>
+                <p>MIT</p>
+                <p class="ui-li-aside">Online</p>
+            </a></li>
+            <li><a href="#chat">
+                <img src="images/profile.png">
+                <h2>Alex Pagan</h2>
+                <p>MIT</p>
+                <p class="ui-li-aside">Online</p>
+            </a></li>
+            <li><a href="#chat">
+                <img src="images/profile.png">
+                <h2>Ekaterina Ob'yedkova</h2>
+                <p>MIT</p>
+                <p class="ui-li-aside">Online</p>
+            </a></li>
+            <li><a href="#chat">
+                <img src="images/profile.png">
+                <h2>Rob Miller</h2>
+                <p>MIT Professor</p>
+                <p class="ui-li-aside">Online</p>
+            </a></li>
+            <li><a href="#chat">
+                <img src="images/profile.png">
+                <h2>Sarah Lehmann</h2>
+                <p>Amazing TA</p>
+                <p class="ui-li-aside">Online</p>
+            </a></li>            
+            <li><a href="#chat">
+                <img src="images/profile.png">
+                <h2>Raj Aryan</h2>
+                <p>San Francisco</p>
+                <p class="ui-li-aside">Away</p>
+            </a></li>
+            <li><a href="#chat">
+                <img src="images/profile.png">
+                <h2>David Cheriton</h2>
+                <p>Stanford</p>
+                <p class="ui-li-aside">Away</p>
+            </a></li>
+            <li><a href="#chat">
+				<img src="images/profile.png">
+                <h2>Sam Madden</h2>
+                <p>MIT</p>
+                <p class="ui-li-aside">Away</p>
+            </a></li>
+        </ul>
+    </div><!-- /contacts -->   
+</div>
+
+
+
+<div data-role="page" id="recents" class="teleport">
+    <div data-role="header">
+        <h1>Teleport</h1>
+        <a href="#settings" data-icon="gear" class="ui-btn-right">Settings</a>
+        <div data-role="navbar">
+                <ul>
+                    <li><a href="#home" data-icon="home">Home</a></li>
+                    <li><a href="#contacts" data-icon="grid">Contacts</a></li>
+                    <li><a href="#recents" data-icon="bars" class="ui-btn-active ui-state-persist">Recents</a></li>
+                    <li><a href="#teleportme" data-icon="bars">Teleport Me</a></li>
+                </ul>
+        </div><!-- /navbar -->
+    
+    </div><!-- /header -->
+    <div data-role="content">      
+        <div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
+            <h4>Archive</h4>
+            <ul data-role="listview" data-filter="true" data-filter-placeholder="Search ...">                
+                <li><a href="index.html">
+                    <p><strong>Alex Pagan wants to add you to his contact list.</strong></p>
+                    <p>Hey Anant, This is Alex Pagan!.</p>                    
+                </a></li>
+                <li><a href="index.html">
+                    <p><strong>Ekaterina Ob'yedkova has new tweets.</strong></p>
+                    <p>The trip to New York was amazing...</p>
+                </a></li>
+                <li><a href="index.html">
+                    <p><strong>Raj Aryan accepted your friend request.</strong></p>
+                </a></li>
+            </ul>
+        </div>
+    </div>
+    
+</div><!-- /home -->
+
+
+<div data-role="page" id="teleportme" class="teleport">
+    <div data-role="header">
+        <h1>Teleport</h1>
+        <a href="#settings" data-icon="gear" class="ui-btn-right">Settings</a>
+        <div data-role="navbar">
+                <ul>
+                    <li><a href="#home" data-icon="home">Home</a></li>
+                    <li><a href="#contacts" data-icon="grid">Contacts</a></li>
+                    <li><a href="#recents" data-icon="bars">Recents</a></li>
+                    <li><a href="#teleportme" data-icon="bars" class="ui-btn-active ui-state-persist">Teleport Me</a></li>
+                </ul>
+        </div><!-- /navbar -->
+    
+    </div><!-- /header -->
+    <div data-role="content">      
+        <div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
+            <h4>Archive</h4>
+            <ul data-role="listview" data-filter="true" data-filter-placeholder="Search ...">                
+                <li><a href="index.html">
+                    <p><strong>Alex Pagan wants to add you to his contact list.</strong></p>
+                    <p>Hey Anant, This is Alex Pagan!.</p>                    
+                </a></li>
+                <li><a href="index.html">
+                    <p><strong>Ekaterina Ob'yedkova has new tweets.</strong></p>
+                    <p>The trip to New York was amazing...</p>
+                </a></li>
+                <li><a href="index.html">
+                    <p><strong>Raj Aryan accepted your friend request.</strong></p>
+                </a></li>
+            </ul>
+        </div>
+    </div>
+    
+</div><!-- /home -->
+
+
+<div data-role="page" id="chat" class="teleport">
+        <div data-role="header">
+            <h1>Teleport</h1>
+            <a href="#" data-rel="back">Back</a>
+            <div data-role="navbar">
+                    <ul>
+                        <li><a href="#home" data-icon="home">Home</a></li>
+                        <li><a href="#contacts" data-icon="grid">Contacts</a></li>
+                        <li><a href="#settings" data-icon="gear">Settings</a></li>
+                    </ul>
+            </div><!-- /navbar -->        
+        </div><!-- /header -->
+        <div data-role="content">
+        </div>
+
+</div><!-- /home -->
+
+
+
+
+
+
+
+
 </body>
 </html>
