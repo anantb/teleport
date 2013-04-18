@@ -103,7 +103,7 @@ $("#chat").live('pageinit', function(e){
     session.addEventListener('streamCreated', streamCreatedHandler);
     session.connect(apiKey, token);
     function sessionConnectedHandler(event) {
-        var publisher = TB.initPublisher(apiKey, 'myPublisherDiv');
+        var publisher = TB.initPublisher(apiKey, 'chat-window');
         session.publish(publisher);
 
         // Subscribe to streams that were in the session when we connected
@@ -125,7 +125,7 @@ $("#chat").live('pageinit', function(e){
             // Create the div to put the subscriber element in to
             var div = document.createElement('div');
             div.setAttribute('id', 'stream' + streams[i].streamId);
-           ($(div)).appendTo($("#chat-window"))
+            document.body.appendChild(div);
 
             // Subscribe to the stream
             session.subscribe(streams[i], div.id);
