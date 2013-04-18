@@ -142,6 +142,27 @@ $("#teletalk").live('pageinit', function(e){
 </script>
 
 
+<div data-role="page" class="ui-responsive-panel" id="login">
+
+    <div data-role="header">
+    <h1>Teleport</h1>
+    </div><!-- /header -->
+
+    <div data-role="content" data-theme="b" data-content-theme="d"> 
+
+    <form method="POST" action="#home" data-ajax="false">
+        <label for="login_email">Email</label>
+        <input type="email" name="login_email" id="login_email" value="">
+        <label for="login_password">Password</label>
+        <input type="password" name="login_password" id="login_password" value="" autocomplete="off">
+        <button id="login_submit" type="submit">Submit</button>
+    </form>
+
+    </div><!-- /content -->
+
+</div><!-- /login -->
+
+
 
 <div data-role="page" id="home" class="teleport">
     <div data-role="header">
