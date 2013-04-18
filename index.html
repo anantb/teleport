@@ -92,7 +92,7 @@ $("#teleportme").live('pageinit', function (e) {
         
         <div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
             <h4>Recent Contacts</h4>
-            <ul data-role="listview">
+            <ul data-role="listview" data-theme="d">
                 <li><a href="#">Anant Bhardwaj</a></li>
                 <li><a href="#">Alex Pagan</a></li>
                 <li><a href="#">Ekaterina Ob'yedkova</a></li>
@@ -102,7 +102,7 @@ $("#teleportme").live('pageinit', function (e) {
         <br />
         <div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
             <h4>New Notifications</h4>
-            <ul data-role="listview">
+            <ul data-role="listview" data-theme="d">
                 <li data-role="list-divider">Wednesday, April 17, 2013 <span class="ui-li-count">2</span></li>
                 <li><a href="index.html">
                     <p><strong>Alex Pagan wants to add you to his contact list.</strong></p>
@@ -208,22 +208,19 @@ $("#teleportme").live('pageinit', function (e) {
     
     </div><!-- /header -->
     <div data-role="content">      
-        <div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
-            <h4>Archive</h4>
-            <ul data-role="listview" data-filter="true" data-filter-placeholder="Search ...">                
-                <li><a href="index.html">
-                    <p><strong>Alex Pagan wants to add you to his contact list.</strong></p>
-                    <p>Hey Anant, This is Alex Pagan!.</p>                    
+      
+            <ul data-role="listview" data-inset="true" data-theme="d">               
+                <li><a href="#">
+                    <p><strong>Alex Pagan</strong></p>                
                 </a></li>
-                <li><a href="index.html">
-                    <p><strong>Ekaterina Ob'yedkova has new tweets.</strong></p>
-                    <p>The trip to New York was amazing...</p>
+                <li><a href="#">
+                    <p><strong>Ekaterina Ob'yedkova</strong></p>
                 </a></li>
-                <li><a href="index.html">
-                    <p><strong>Raj Aryan accepted your friend request.</strong></p>
+                <li><a href="#">
+                    <p><strong>Raj Aryan</strong></p>
                 </a></li>
             </ul>
-        </div>
+        
     </div>
     
 </div><!-- /home -->
