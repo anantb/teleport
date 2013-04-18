@@ -90,9 +90,11 @@ $("#chat").live('pageinit', function(e){
     // Initialize API key, session, and token...
     // Think of a session as a room, and a token as the key to get in to the room
     // Sessions and tokens are generated on your server and passed down to the client
-    var apiKey = "1127";
-    var sessionId = "1_MX4xMTI3fn5XZWQgQXByIDE3IDE5OjU0OjIzIFBEVCAyMDEzfjAuNDAwOTQ1OX4";
-    var token = "T1==cGFydG5lcl9pZD0xMTI3JnNpZz1lZDM3N2JjODlhNmViZDNiMDJjZDg3MzE0OGQ2NWE4NTRhZTFiYjdlOnNlc3Npb25faWQ9MV9NWDR4TVRJM2ZuNVhaV1FnUVhCeUlERTNJREU1T2pVME9qSXpJRkJFVkNBeU1ERXpmakF1TkRBd09UUTFPWDQmY3JlYXRlX3RpbWU9MTM2NjI1MzY2MyZub25jZT05NTAzNjMmcm9sZT1wdWJsaXNoZXI=";
+   
+
+    var apiKey = "25730622";
+    var sessionId = "1_MX4yNTczMDYyMn4xMjcuMC4wLjF-V2VkIEFwciAxNyAyMDo1NDowMCBQRFQgMjAxM34wLjk0NDA3NjM2fg";
+    var token = "T1==cGFydG5lcl9pZD0yNTczMDYyMiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz02NTk0OGQ3Mzk3MDZiNWY0OTk5NzJlMmNiOTVmZjVkOWFlNmRmMzM0OnJvbGU9cHVibGlzaGVyJnNlc3Npb25faWQ9JmNyZWF0ZV90aW1lPTEzNjYyNTcyMzkmbm9uY2U9MC43NzUxMTkwNDk5MzM4NTc2JmV4cGlyZV90aW1lPTEzNjYzNDM2NDAmY29ubmVjdGlvbl9kYXRhPQ==";
 
     // Enable console logs for debugging
     TB.setLogLevel(TB.DEBUG);
@@ -103,7 +105,7 @@ $("#chat").live('pageinit', function(e){
     session.addEventListener('streamCreated', streamCreatedHandler);
     session.connect(apiKey, token);
     function sessionConnectedHandler(event) {
-        var publisher = TB.initPublisher(apiKey, 'chat-window');
+        var publisher = TB.initPublisher(apiKey, 'my-chat-window');
         session.publish(publisher);
 
         // Subscribe to streams that were in the session when we connected
@@ -126,7 +128,7 @@ $("#chat").live('pageinit', function(e){
             var div = $('<div></div>');
             div.attr('id', 'stream' + streams[i].streamId);
             //document.body.appendChild(div);
-            div.appendTo($('chat-window'))
+            div.appendTo($('chat-windows'))
             // Subscribe to the stream
             session.subscribe(streams[i], div.attr('id'));
         }
@@ -344,8 +346,10 @@ $("#chat").live('pageinit', function(e){
             </div><!-- /navbar -->        
         </div><!-- /header -->
         <div data-role="content">
-            <div id="chat-window">
+        <div id="chat-windows">
+            <div id="my-chat-window">
             </div>
+        </div>
         </div>
 
 </div><!-- /home -->
