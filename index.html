@@ -20,7 +20,7 @@ Teleport Web Page
     <script type="text/javascript" src="lib/math3d.js"></script>
     <script type="text/javascript" src="javascript/firstpersoncam.js"></script>
 </head>
-<body onKeyDown="return keyDown(event);" onKeyUp="return keyUp(event);" id='body'>
+<body>
 
 <script type="text/javascript">
 $(document).bind("mobileinit", function(){
@@ -65,7 +65,19 @@ function init3D() {
 
 
 $("#teleportme").live('pageinit', function (e) {       
-    init()   
+    
+    $('#map-container').keyup(function(event) {
+        console.log(event)
+        return keyUp(event);
+      
+    });
+
+     $('#map-container').keydown(function(event) {
+        console.log(event)
+        return keyDown(event);
+      
+    });
+    init()
 });
 
 
