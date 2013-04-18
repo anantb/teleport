@@ -181,19 +181,19 @@ $("#teletalk").live('pageinit', function(e){
         <div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
             <h4>Recent Contacts</h4>
             <ul data-role="listview" data-theme="d">               
-                <li data-icon="forward"><a href="#teletalk">
+                <li data-icon="forward"><a href="#contact">
                     <p><strong>Alex Pagan</strong></p>
                     <span class="ui-li-count">April 17, 2013 06:09 PM</span>             
                 </a></li>
-                <li data-icon="back"><a href="#teletalk">
+                <li data-icon="back"><a href="#contact">
                     <p><strong>Ekaterina Ob'yedkova</strong></p>
                     <span class="ui-li-count">April 17, 2013 11:45 AM</span>
                 </a></li>
-                <li data-icon="forward"><a href="#teletalk">
+                <li data-icon="forward"><a href="#contact">
                     <p><strong>Raj Aryan</strong></p>
                     <span class="ui-li-count">April 15, 2013 06:57 PM</span>
                 </a></li>
-                <li data-icon="alert"><a href="#teletalk">
+                <li data-icon="alert"><a href="#contact">
                     <p><strong>Sarah Lehmann</strong></p>
                     <span class="ui-li-count">April 14, 2013 11:29 AM</span>
                 </a></li>
@@ -222,49 +222,49 @@ $("#teletalk").live('pageinit', function(e){
     </div><!-- /header -->
     <div data-role="content">
         <ul data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Search contacts">
-            <li><a href="#teletalk">
+            <li><a href="#contact">
                 <img src="images/profile.png">
                 <h2>Anant Bhardwaj</h2>
                 <p>MIT</p>
                 <p class="ui-li-aside">Online</p>
             </a></li>
-            <li><a href="#teletalk">
+            <li><a href="#contact">
                 <img src="images/profile.png">
                 <h2>Alex Pagan</h2>
                 <p>MIT</p>
                 <p class="ui-li-aside">Online</p>
             </a></li>
-            <li><a href="#teletalk">
+            <li><a href="#contact">
                 <img src="images/profile.png">
                 <h2>Ekaterina Ob'yedkova</h2>
                 <p>MIT</p>
                 <p class="ui-li-aside">Online</p>
             </a></li>
-            <li><a href="#teletalk">
+            <li><a href="#contact">
                 <img src="images/profile.png">
                 <h2>Rob Miller</h2>
                 <p>MIT Professor</p>
                 <p class="ui-li-aside">Online</p>
             </a></li>
-            <li><a href="#teletalk">
+            <li><a href="#contact">
                 <img src="images/profile.png">
                 <h2>Sarah Lehmann</h2>
                 <p>Amazing TA</p>
                 <p class="ui-li-aside">Online</p>
             </a></li>            
-            <li><a href="#teletalk">
+            <li><a href="#contact">
                 <img src="images/profile.png">
                 <h2>Raj Aryan</h2>
                 <p>San Francisco</p>
                 <p class="ui-li-aside">Away</p>
             </a></li>
-            <li><a href="#teletalk">
+            <li><a href="#contact">
                 <img src="images/profile.png">
                 <h2>David Cheriton</h2>
                 <p>Stanford</p>
                 <p class="ui-li-aside">Away</p>
             </a></li>
-            <li><a href="#teletalk">
+            <li><a href="#contact">
 				<img src="images/profile.png">
                 <h2>Sam Madden</h2>
                 <p>MIT</p>
@@ -309,6 +309,7 @@ $("#teletalk").live('pageinit', function(e){
 <div data-role="page" id="teletalk" class="teleport">
         <div data-role="header">
             <h1>Teleport</h1>
+            <a href="#settings" data-icon="gear" class="ui-btn-right">Settings</a>
             <div data-role="navbar">
                     <ul>
                         <li><a href="#home" data-icon="home">Home</a></li>
@@ -324,6 +325,47 @@ $("#teletalk").live('pageinit', function(e){
             </div>
         </div>
         </div>
+
+</div><!-- /home -->
+
+
+<div data-role="page" id="contact" class="teleport">
+        <div data-role="header">
+            <h1>Teleport</h1>
+            <a href="#contacts" data-icon="bars" class="ui-btn-left">All Contacts</a>
+            <a href="#settings" data-icon="grid" class="ui-btn-right">Settings</a>
+            <div data-role="navbar">
+                    <ul>
+                        <li><a href="#home" data-icon="home">Home</a></li>
+                        <li><a href="#contacts" data-icon="grid" class="ui-btn-active ui-state-persist">Contacts</a></li>
+                        <li><a href="#teletalk" data-icon="bars">TeleTalk</a></li>
+                        <li><a href="#teleport" data-icon="arrow-r">Teleport Me</a></li>
+                    </ul>
+            </div><!-- /navbar -->        
+        </div><!-- /header -->
+        <div data-role="content">
+            <a href="#teletalk" data-role="button">Call</a>
+            <br />
+            <div class="ui-grid-a">
+                <div class="ui-block-a">   
+                    <img src="images/profile.png" style="height:100%; height:200px; margin:0 auto;">
+                    <p><strong>Raj Aryan<strong></p>
+                </div>
+                <div class="ui-block-b">
+                    
+                </div>
+
+            </div><!-- /grid-a -->
+            
+                
+                
+                  
+                
+                    
+                
+            
+        </div>
+        
 
 </div><!-- /home -->
 
