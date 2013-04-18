@@ -104,7 +104,7 @@ $("#teleportme").live('pageinit', function (e) {
 
 
 $("#chat").live('pageinit', function(e){
-    TB.addEventListener("exception", exceptionHandler);
+    //TB.addEventListener("exception", exceptionHandler);
     var session = TB.initSession("2_MX4xMTI3fn5XZWQgQXByIDE3IDE5OjQwOjU3IFBEVCAyMDEzfjAuNzgyMzI2NDZ-"); // Replace with your own session ID. See https://dashboard.tokbox.com/projects
     session.addEventListener("sessionConnected", sessionConnectedHandler);
     session.addEventListener("streamCreated", streamCreatedHandler);
