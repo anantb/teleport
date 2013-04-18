@@ -68,7 +68,7 @@ function init3D() {
 
 
 
-$("#teleportme").live('pageinit', function (e) {       
+$("#teleport").live('pageinit', function (e) {       
     
     $('#map-container').keyup(function(event) {
         console.log(event)
@@ -86,7 +86,7 @@ $("#teleportme").live('pageinit', function (e) {
 });
 
 
-$("#chat").live('pageinit', function(e){
+$("#teletalk").live('pageinit', function(e){
     // Initialize API key, session, and token...
     // Think of a session as a room, and a token as the key to get in to the room
     // Sessions and tokens are generated on your server and passed down to the client
@@ -151,43 +151,56 @@ $("#chat").live('pageinit', function(e){
 	            <ul>
 	                <li><a href="#home" data-icon="home" class="ui-btn-active ui-state-persist">Home</a></li>
 	                <li><a href="#contacts" data-icon="grid">Contacts</a></li>
-	                <li><a href="#recents" data-icon="bars">Recents</a></li>
-                    <li><a href="#teleportme" data-icon="arrow-r">Teleport Me</a></li>
+	                <li><a href="#teletalk" data-icon="bars">TeleTalk</a></li>
+                    <li><a href="#teleport" data-icon="arrow-r">Teleport Me</a></li>
 	            </ul>
 	    </div><!-- /navbar -->
     
     </div><!-- /header -->
     <div data-role="content">
-        
-        <div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
-            <h4>Recent Contacts</h4>
-            <ul data-role="listview" data-theme="d">
-                <li><a href="#">Anant Bhardwaj</a></li>
-                <li><a href="#">Alex Pagan</a></li>
-                <li><a href="#">Ekaterina Ob'yedkova</a></li>
-                <li><a href="#">Sarah Lehmann</a></li>
-            </ul>
-        </div>
-        <br />
         <div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
             <h4>New Notifications</h4>
             <ul data-role="listview" data-theme="d">
-                <li><a href="index.html">
+                <li data-icon="delete"><a href="#">
                     <p><strong>Alex Pagan wants to add you to his contact list.</strong></p>
                     <p>Hey Anant, This is Alex Pagan!.</p>  
                     <span class="ui-li-count">April 17, 2013 05:49 PM</span>                     
                 </a></li>
-                <li><a href="index.html">
+                <li data-icon="delete"><a href="#">
                     <p><strong>Ekaterina Ob'yedkova has new tweets.</strong></p>
                     <p>The trip to New York was amazing...</p>
                     <span class="ui-li-count">April 17, 2013 11:04 AM</span>   
                 </a></li>
-                <li><a href="index.html">
+                <li data-icon="delete"><a href="#">
                     <p><strong>Raj Aryan accepted your friend request.</strong></p>
                     <span class="ui-li-count">April 16, 2013 06:09 PM</span>   
                 </a></li>
             </ul>
         </div>
+         <br />
+        <div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
+            <h4>Recent Contacts</h4>
+            <ul data-role="listview" data-theme="d">               
+                <li data-icon="forward"><a href="#teletalk">
+                    <p><strong>Alex Pagan</strong></p>
+                    <span class="ui-li-count">April 17, 2013 06:09 PM</span>             
+                </a></li>
+                <li data-icon="back"><a href="#teletalk">
+                    <p><strong>Ekaterina Ob'yedkova</strong></p>
+                    <span class="ui-li-count">April 17, 2013 11:45 AM</span>
+                </a></li>
+                <li data-icon="forward"><a href="#teletalk">
+                    <p><strong>Raj Aryan</strong></p>
+                    <span class="ui-li-count">April 15, 2013 06:57 PM</span>
+                </a></li>
+                <li data-icon="alert"><a href="#teletalk">
+                    <p><strong>Sarah Lehmann</strong></p>
+                    <span class="ui-li-count">April 14, 2013 11:29 AM</span>
+                </a></li>
+            </ul>
+        </div>
+       
+        
     </div>
 	
 </div><!-- /home -->
@@ -201,8 +214,8 @@ $("#chat").live('pageinit', function(e){
 	            <ul>
 	                <li><a href="#home" data-icon="home">Home</a></li>
 	                <li><a href="#contacts" data-icon="grid" class="ui-btn-active ui-state-persist">Contacts</a></li>
-	                <li><a href="#recents" data-icon="bars">Recents</a></li>
-                    <li><a href="#teleportme" data-icon="arrow-r">Teleport Me</a></li>
+	                <li><a href="#teletalk" data-icon="bars">TeleTalk</a></li>
+                    <li><a href="#teleport" data-icon="arrow-r">Teleport Me</a></li>
 	            </ul>
 	    </div><!-- /navbar -->
         
@@ -263,7 +276,8 @@ $("#chat").live('pageinit', function(e){
 
 
 
-<div data-role="page" id="recents" class="teleport">
+
+<div data-role="page" id="teleport" class="teleport">
     <div data-role="header">
         <h1>Teleport</h1>
         <a href="#settings" data-icon="gear" class="ui-btn-right">Settings</a>
@@ -271,48 +285,8 @@ $("#chat").live('pageinit', function(e){
                 <ul>
                     <li><a href="#home" data-icon="home">Home</a></li>
                     <li><a href="#contacts" data-icon="grid">Contacts</a></li>
-                    <li><a href="#recents" data-icon="bars" class="ui-btn-active ui-state-persist">Recents</a></li>
-                    <li><a href="#teleportme" data-icon="arrow-r">Teleport Me</a></li>
-                </ul>
-        </div><!-- /navbar -->
-    
-    </div><!-- /header -->
-    <div data-role="content">      
-      
-            <ul data-role="listview" data-inset="true" data-theme="d">               
-                <li data-icon="forward"><a href="#">
-                    <p><strong>Alex Pagan</strong></p>
-                    <span class="ui-li-count">April 17, 2013 06:09 PM</span>             
-                </a></li>
-                <li data-icon="back"><a href="#">
-                    <p><strong>Ekaterina Ob'yedkova</strong></p>
-                    <span class="ui-li-count">April 17, 2013 11:45 AM</span>
-                </a></li>
-                <li data-icon="forward"><a href="#">
-                    <p><strong>Raj Aryan</strong></p>
-                    <span class="ui-li-count">April 15, 2013 06:57 PM</span>
-                </a></li>
-                <li data-icon="alert"><a href="#">
-                    <p><strong>Sarah Lehmann</strong></p>
-                    <span class="ui-li-count">April 14, 2013 11:29 AM</span>
-                </a></li>
-            </ul>
-        
-    </div>
-    
-</div><!-- /home -->
-
-
-<div data-role="page" id="teleportme" class="teleport">
-    <div data-role="header">
-        <h1>Teleport</h1>
-        <a href="#settings" data-icon="gear" class="ui-btn-right">Settings</a>
-        <div data-role="navbar">
-                <ul>
-                    <li><a href="#home" data-icon="home">Home</a></li>
-                    <li><a href="#contacts" data-icon="grid">Contacts</a></li>
-                    <li><a href="#recents" data-icon="bars">Recents</a></li>
-                    <li><a href="#teleportme" data-icon="arrow-r" class="ui-btn-active ui-state-persist">Teleport Me</a></li>
+                    <li><a href="#teletalk" data-icon="bars">TeleTalk</a></li>
+                    <li><a href="#teleport" data-icon="arrow-r" class="ui-btn-active ui-state-persist">Teleport Me</a></li>
                 </ul>
         </div><!-- /navbar -->
     
@@ -332,16 +306,15 @@ $("#chat").live('pageinit', function(e){
 </div><!-- /home -->
 
 
-<div data-role="page" id="chat" class="teleport">
+<div data-role="page" id="teletalk" class="teleport">
         <div data-role="header">
             <h1>Teleport</h1>
-            <a href="#" data-rel="back">Back</a>
             <div data-role="navbar">
                     <ul>
                         <li><a href="#home" data-icon="home">Home</a></li>
                         <li><a href="#contacts" data-icon="grid">Contacts</a></li>
-                        <li><a href="#recents" data-icon="bars">Recents</a></li>
-                        <li><a href="#teleportme" data-icon="arrow-r">Teleport Me</a></li>
+                        <li><a href="#teletalk" data-icon="bars" class="ui-btn-active ui-state-persist">TeleTalk</a></li>
+                        <li><a href="#teleport" data-icon="arrow-r">Teleport Me</a></li>
                     </ul>
             </div><!-- /navbar -->        
         </div><!-- /header -->
