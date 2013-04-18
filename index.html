@@ -19,6 +19,7 @@ Teleport Web Page
     <script type="text/javascript" src="lib/keyboard-focus-hack.js"></script>
     <script type="text/javascript" src="lib/math3d.js"></script>
     <script type="text/javascript" src="javascript/firstpersoncam.js"></script>
+    <script src="http://static.opentok.com/webrtc/v2.0/js/TB.min.js" ></script>
 </head>
 <body>
 
@@ -61,7 +62,27 @@ function failureCB(object) {
 
 function init3D() {
     google.earth.createInstance("map3d", initCB, failureCB);
-}  
+} 
+
+
+
+function sessionConnectedHandler (event) {
+    subscribeToStreams(event.streams);
+    session.publish();
+}
+
+function subscribeToStreams(streams) {
+    for (i = 0; i < streams.length; i++) {
+        var stream = streams[i];
+        if (stream.connection.connectionId != session.connection.connectionId) {
+            session.subscribe(stream);
+        }
+    }
+}
+
+function streamCreatedHandler(event) {
+    subscribeToStreams(event.streams);
+} 
 
 
 $("#teleportme").live('pageinit', function (e) {       
@@ -78,6 +99,17 @@ $("#teleportme").live('pageinit', function (e) {
       
     });
     init()
+
+});
+
+
+$("#chat").live('pageinit', function(e){
+    TB.addEventListener("exception", exceptionHandler);
+    var session = TB.initSession("2_MX4xMTI3fn5XZWQgQXByIDE3IDE5OjQwOjU3IFBEVCAyMDEzfjAuNzgyMzI2NDZ-"); // Replace with your own session ID. See https://dashboard.tokbox.com/projects
+    session.addEventListener("sessionConnected", sessionConnectedHandler);
+    session.addEventListener("streamCreated", streamCreatedHandler);
+    session.connect(1127, "T1==cGFydG5lcl9pZD0xMTI3JnNpZz1lODU4MjdhZGI3MTBjZjcxNTg0NTdiY2NjNmM4NWNmNmE2ODFmNDUwOnNlc3Npb25faWQ9Ml9NWDR4TVRJM2ZuNVhaV1FnUVhCeUlERTNJREU1T2pRd09qVTNJRkJFVkNBeU1ERXpmakF1TnpneU16STJORFotJmNyZWF0ZV90aW1lPTEzNjYyNTMwMDQmbm9uY2U9OTkyMTQwJnJvbGU9cHVibGlzaGVy"); // Replace with your API key and token. See https://dashboard.tokbox.com/projects
+
 });
 
 
