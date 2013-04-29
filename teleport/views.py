@@ -10,8 +10,11 @@ from django.core.context_processors import csrf
 
 
 
-def earth(request):
-	return render_to_response('earth.html')
+def teleport(request):
+	return render_to_response('teleport.html')
+
+def teletalk(request):
+	return render_to_response('teletalk.html')
 		
 	
 

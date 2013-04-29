@@ -7,12 +7,7 @@ import teleport
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^$', 'teleport.views.earth'),
-    # url(r'^teleport/', include('teleport.foo.urls')),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', 'teleport.views.teleport'),
+    url(r'^teleport', 'teleport.views.teleport'),
+    url(r'teletalk', 'teleport.views.teletalk'),
 )
