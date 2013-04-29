@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+import teleport
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -6,7 +7,7 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'teleport.views.home', name='home'),
+    url(r'^$', 'teleport.views.earth'),
     # url(r'^teleport/', include('teleport.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
