@@ -158,13 +158,10 @@ body {
 	background-color: #FFF;
 	box-shadow: 1px 0px 10px #666;
 	margin-bottom: 50px;
+	position: relative;
 }
 
-#content .dataTables_wrapper{
-	bottom:0px; 
-	overflow:auto; 
-	border-top: #ccc solid 1px;
-}
+
 
 
 
