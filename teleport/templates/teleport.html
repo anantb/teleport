@@ -3,69 +3,85 @@
 
 Teleport Web Page
 -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <title>Teleport</title>
-  <link rel=stylesheet href='/tp_static/css/style.css' type='text/css' />
-  <link rel=stylesheet href='/tp_static/css/teleport.css' type='text/css' />
-  <link rel=stylesheet href='/tp_static/css/firstpersoncam.css' type='text/css' />
-  <!-- *** Replace the key below below with your own API key, available at http://code.google.com/apis/maps/signup.html *** -->
-  <script src="http://www.google.com/jsapi?key=AIzaSyAdgYw9dd2TiekDSJ7tsQC0ogDcDwD673s"></script>
-  <script type="text/javascript" src="/tp_static/javascript/keyboard-focus-hack.js"></script>
-  <script type="text/javascript" src="/tp_static/javascript/math3d.js"></script>
-  <script type="text/javascript" src="/tp_static/javascript/firstpersoncam.js"></script>
-  <script type="text/javascript">
-	google.load("earth", "1");
-	google.load("maps", "2");
 
-	var ge = null;
-	var cam;
+{% extends "base.html" %}
+{% block headlink-right %}
+{% endblock %}
+{% block content %}  
+<!-- *** Replace the key below below with your own API key, available at http://code.google.com/apis/maps/signup.html *** -->
+<script src="http://www.google.com/jsapi?key=AIzaSyAdgYw9dd2TiekDSJ7tsQC0ogDcDwD673s"></script>
+<script type="text/javascript" src="/tp_static/javascript/keyboard-focus-hack.js"></script>
+<script type="text/javascript" src="/tp_static/javascript/math3d.js"></script>
+<script type="text/javascript" src="/tp_static/javascript/firstpersoncam.js"></script>
 
-	function init() {
-	  init3D();
-	}
+<script type="text/javascript">
 
-	function initCB(object) {
-	  ge = object;
-	  ge.getOptions().setFlyToSpeed(100);
+google.load("earth", "1");
+google.load("maps", "2");
 
-	  //ge.getLayerRoot().enableLayerById(ge.LAYER_ROADS, true);
-	  ge.getLayerRoot().enableLayerById(ge.LAYER_BUILDINGS, true);
-	 // ge.getLayerRoot().enableLayerById(ge.LAYER_TERRAIN, true);
-	  //ge.getLayerRoot().enableLayerById(ge.LAYER_TREES, true);
+var ge = null;
+var cam;
 
-	  cam = new FirstPersonCam();
-	  cam.refreshCamera();
-	  ge.getWindow().setVisibility(true);
+function init() {
+  init3D();
+}
 
-	  keyboardFocusHack(ge);
-	}
+function initCB(object) {
+  ge = object;
+  ge.getOptions().setFlyToSpeed(100);
 
-	function failureCB(object) {
-		alert("somthing went wrong!")
-	}
+  //ge.getLayerRoot().enableLayerById(ge.LAYER_ROADS, true);
+  ge.getLayerRoot().enableLayerById(ge.LAYER_BUILDINGS, true);
+ // ge.getLayerRoot().enableLayerById(ge.LAYER_TERRAIN, true);
+  //ge.getLayerRoot().enableLayerById(ge.LAYER_TREES, true);
 
-	function init3D() {
-	  google.earth.createInstance("map3d", initCB, failureCB);
-	}
+  cam = new FirstPersonCam();
+  cam.refreshCamera();
+  ge.getWindow().setVisibility(true);
 
-  </script>
-</head>
-<body onload='init()' onunload="GUnload()" onKeyDown="return keyDown(event);" onKeyUp="return keyUp(event);" id='body'>
-	<div id='map3d'></div>
+  keyboardFocusHack(ge);
+}
+
+function failureCB(object) {
+	alert("somthing went wrong!")
+}
+
+function init3D() {
+  google.earth.createInstance("map3d", initCB, failureCB);
+}
+
+$(document).ready(function(){
+	init()
+});
+
+$(document).unload(function(){
+	GUnload()
+})
+
+$(document).on('keydown', function(event){
+	return keyDown(event)
+})
+
+$(document).on('keyup', function(event){
+	return keyUp(event)
+})
+
+</script>
+
+
+<div id="content">
+<div id='map3d'></div>
   
-	<div id="info">
-		<table>
-			<tr>
-				<td>
-    W = Forwards <br />
-   S = Backwards
-	<td/>
-	<td>
-    A = Strafe Left <br />
-    D = Strafe Right
+<div id="info">
+<table>
+<tr>
+<td>
+	W = Forwards <br />
+	S = Backwards
+<td/>
+<td>
+A = Strafe Left <br />
+D = Strafe Right
 	
 </td>
 <td>
@@ -82,6 +98,6 @@ Teleport Web Page
 </td>
 </tr>
 </table>
-	</div>
-</body>
-</html>
+</div>
+</div>
+{% endblock %}
