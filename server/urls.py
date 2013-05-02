@@ -10,4 +10,9 @@ urlpatterns = patterns('',
     url(r'^$', 'teleport.views.teleport'),
     url(r'^teleport', 'teleport.views.teleport'),
     url(r'teletalk', 'teleport.views.teletalk'),
+
+
+    url(r'login', 'teleport.views.login'),
+    url(r'register', 'teleport.views.register'),
+    url(r'logout', 'teleport.views.logout'),
 )

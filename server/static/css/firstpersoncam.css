@@ -6,6 +6,8 @@ textarea {
   padding: 6px;
 }
 
+/*
+
 form {
   border: 1px solid silver; 
   padding: 3px; 
@@ -13,6 +15,8 @@ form {
   margin-bottom: 0px; 
   width: 100%
 }
+
+*/
 
 #eval_out {
   margin-top: 3px; 
