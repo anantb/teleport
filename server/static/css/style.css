@@ -287,7 +287,7 @@ body {
   height:2em;
   width: 2em;
   margin:0;
-  background-image:url(/tp_static/images/profile.svg);
+  background-image:url(/tp_static/images/profile.png);
   background-size: 2em 2em;
   background-repeat:no-repeat;
   display: inline-block;
@@ -359,6 +359,30 @@ body {
 }
 
 
+.grid{
+	padding: 5px;
+}
+
+
+.grid1{
+	background-color: #DA70D6;
+}
+
+.grid2{
+	background-color: #8B7B8B;
+}
+
+.grid3{
+	background-color: #8968CD;
+}
+
+.grid4{
+	background-color: #7A8B8B;
+}
+
+.grid5{
+	background-color: #63B8FF;
+}
 .default-text {
 }
 
@@ -370,11 +394,18 @@ body {
 
 #info{
 	margin:0;
-	padding:10px;
+	padding:0px;
 	font-size:0.9em;
 	color:#fff;
-	background-color: #000;
+	background-color: #fff;
+	box-sizing:border-box;
 	
+}
+
+#teleport-help{
+	box-sizing:border-box;
+	width:100%;
+	border-spacing: 0;
 }
 
 #map3d{
