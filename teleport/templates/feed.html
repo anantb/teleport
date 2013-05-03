@@ -1,0 +1,103 @@
+<!-- 
+@author: Anant Bhardwaj
+
+Teleport Web Page
+-->
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Teleport</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel=stylesheet href='/tp_static/css/style.css' type='text/css' />
+  <link href='http://fonts.googleapis.com/css?family=Tangerine' rel='stylesheet' type='text/css'>
+  <link rel=stylesheet href='/tp_static/css/firstpersoncam.css' type='text/css' />
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  
+</head>
+
+<body>
+<script type="text/javascript">
+
+function get_feed_html(id){
+  var raw_html = '<tr class="clickable">'
+  raw_html += '<td class="metadeta"><span class="profile-small"></span></td>'
+  raw_html += '<td class="content">'
+  raw_html += '<ul>'
+  raw_html += '<li class="from">Anant Bhardwaj</li>'
+  raw_html += '<li class="blurb">Our study suggests that a careful combination of methods that increase social transparency and different peer-dependent reward schemes can significantly improve crowdsourcing outcomes.</li>'
+  
+  raw_html += '</ul>'
+  raw_html += '</td>'
+  raw_html += '</tr>'
+
+  return raw_html
+}
+
+
+
+function populate_feed(){
+  var raw_html = ''
+  for (var i=0; i<10; i++){
+    raw_html += get_feed_html()
+  }
+  $('#feed-table').html(raw_html)
+}
+
+
+
+$(document).ready(function(){
+  populate_feed()
+});
+
+</script>
+
+<div id="header">
+    
+    <span id="headlink-left">
+    {% block headlink-left %}<a id="logo" href="/">Teleport</a>{% endblock %}
+    </span>
+    <span id="headlink-right">
+    <a href="/logout">Log out</a>
+    </span>
+    
+</div>
+
+
+<div id="page">
+
+<div id="content">
+<table id="content-layout">
+  <tr>
+    <td class="col-small" style="text-align:center; vertical-align:middle; padding:10px;">
+      
+      <span class="profile-big"></span>
+    
+    </td>
+    <td class="col-big">
+      <div class="search-container" style="border: #ccc solid 1px;">
+      <input type="text" id="search_contacts" class="search-box" title="Search Contacts"></input>
+      </div>
+    </td>
+  </tr>
+
+  <tr>
+<td class="col-small">
+
+<div class="links">
+<a class="nav" href="/contacts">Contacts</a>
+<a class="nav active" href="/feed">Feed</a>
+<a class="nav" href="/teleport">Teleport</a>
+</div>
+</td>
+<td class="col-big">
+  <table id="feed-table" class="content-table">    
+  </table>
+</td>
+</tr>
+</table>
+
+</div>
+</div>
+</body>
+</html>
