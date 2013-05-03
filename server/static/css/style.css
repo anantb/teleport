@@ -172,28 +172,30 @@ body {
 
 
 .col-small{
-	width:15%;
+	width:25%;
 	min-width: 150px;
 	padding: 0;
 	vertical-align: top;
-	background-color: #e4eef2;
-	border-right: solid 1px #eee;
+	background-color: #00aeef;
+	border-right: solid 1px #00aff0;
 }
 
 .col-big{
 	padding: 20px;
-	max-width:85%;
+	max-width:75%;
 	vertical-align: top;
 }
 
 
 .nav{
 	display: block;
-	background-color: #00aff0;
+	background-color: #0078ca;
+	border-radius: 10px;
 	color: #fff;
 	text-decoration: none;
 	padding: 10px;
-	border-bottom: 1px solid #fff;
+	margin: 10px;
+	text-shadow: 0.06em 0.06em 0.03em #ccc;
 }
 
 .active{
@@ -278,7 +280,7 @@ body {
   height:2em;
   width: 2em;
   margin:0;
-  background-image:url(/tp_static/images/profile.png);
+  background-image:url(/tp_static/images/profile.svg);
   background-size: 2em 2em;
   background-repeat:no-repeat;
   display: inline-block;
@@ -289,7 +291,7 @@ body {
   height:6em;
   width: 6em;
   margin:0;
-  background-image:url(/tp_static/images/profile.png);
+  background-image:url(/tp_static/images/profile.svg);
   background-size: 6em 6em;
   background-repeat:no-repeat;
   display: inline-block;
