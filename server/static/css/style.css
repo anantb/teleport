@@ -321,6 +321,15 @@ body {
 	padding: 0.7em;
 }
 
+.from{
+	color:000;
+	font-size: 1.1em;
+}
+
+.blurb{
+  font-size: 0.9em;
+  margin: 0.4em 0 0 0;  
+}
 
 
 .default-text {
