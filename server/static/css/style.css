@@ -9,7 +9,6 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, p, pre, a, abbr, acronym, address
 	padding: 0;
 	border: 0;
 	outline: 0;
-	vertical-align: baseline;
 }
 
 
@@ -189,7 +188,6 @@ body {
 #col3{
 	width:18%;
 	text-align: left;
-	vertical-align: baseline;
 	display: inline-block;
 	margin:0px;
 	padding:0px;
@@ -205,12 +203,9 @@ body {
 }
 
 
-.profile img{
-	width: 80%;
-	margin: 0 auto;
-}
 
-.profile img{
+
+.profile-container img{
 	width: 50%;
 	margin: 0 auto;
 }
@@ -251,8 +246,7 @@ body {
 .online{
   height:1em;
   width: 1em;
-  margin:0 auto;
-  margin-left: 1em;
+  margin:0;
   background-image:url(/tp_static/images/online.png);
   background-size: 1em 1em;
   background-repeat:no-repeat;
@@ -261,8 +255,7 @@ body {
 .away{
   height:1em;
   width: 1em;
-  margin:0 auto;
-  margin-left: 1em;
+  margin:0;
   background-image:url(/tp_static/images/offline.png);
   background-size: 1em 1em;
   background-repeat:no-repeat;
@@ -272,10 +265,31 @@ body {
 .offline{
   height:1em;
   width: 1em;
-  margin:0 auto;
-  margin-left: 1em;
+  margin:0;
   background-image:url(/tp_static/images/away.png);
   background-size: 1em 1em;
+  background-repeat:no-repeat;
+  display: block;
+}
+
+
+.profile-small{
+  height:2em;
+  width: 2em;
+  margin:0;
+  background-image:url(/tp_static/images/profile.png);
+  background-size: 2em 2em;
+  background-repeat:no-repeat;
+  display: block;
+}
+
+
+.profile-big{
+  height:6em;
+  width: 6em;
+  margin:0;
+  background-image:url(/tp_static/images/profile.png);
+  background-size: 6em 6em;
   background-repeat:no-repeat;
   display: block;
 }
@@ -296,6 +310,16 @@ body {
 	text-decoration: none;
 }
 
+
+.collapsible{
+	background:#2B2B2B;
+  font-weight:normal;
+	/*background:#3D7AA6;*/
+	cursor: pointer;
+	border: 1px solid #ccc;
+	color: #F6F6F6;
+	padding: 0.7em;
+}
 
 
 
@@ -323,7 +347,6 @@ body {
 }
 
 #map3d{
-	position: absolute;
 	left: 20px;
 	right: 20px;
 	bottom: 90px;
