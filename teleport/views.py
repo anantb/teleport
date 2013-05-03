@@ -80,8 +80,12 @@ def logout(request):
 	return HttpResponseRedirect('/login')
 
 @login_required
-def home(request):
-	return render_to_response('home.html')
+def contacts(request):
+	return render_to_response('contacts.html')
+
+@login_required
+def feed(request):
+	return render_to_response('feed.html')
 
 @login_required
 def teleport(request):

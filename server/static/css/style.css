@@ -92,6 +92,7 @@ body {
 	font-size:0.9em;
 	height: 100%;
 	overflow: auto;
+	background: #4c4c4c;
 }
 
 
@@ -102,12 +103,10 @@ body {
 	left:0px;
 	height: 59px;
 	font-size:1.1em;
-	background: #4c4c4c;
+	background-color:#fff;
 	margin-bottom: 1px;
-	color: white;
-	width: 100%;
-	position: fixed;
-	z-index: 100;
+	width: 70%;
+	position: relative;
 }
 
 
@@ -115,33 +114,39 @@ body {
 	position:absolute;
 	top: 20px;
 	right:20px;
-	color: #FFF;
+	color: #4c4c4c;
 }
 
 #headlink-left{
 	position:absolute;
 	top:5px;
 	left:20px;
-	color: #FFF;
-	font-size: 3em;
+	color: #4c4c4c;
 	font-weight: bold;
 	font-family: 'Tangerine', cursive;
 }
 
+#logo{
+	font-weight: bold;
+	font-family: 'Tangerine', cursive;
+	text-decoration: none;
+	font-size: 3em;
+	color: #953cac;
+}
+
 #headlink-right a, #headlink-left a{
 	text-decoration: none;
-	color: #FFF;
 }
 
 
 #page{
 	position: relative;
 	margin:0 auto;
-	top: 60px;
+	top: 10px;
 	right: 0px;
 	bottom: 0px;
 	left: 0px;
-	width: 100%;
+	width: 70%;
 	background-color: #fff;
 }
 
@@ -152,63 +157,56 @@ body {
 
 #content{
 	margin-top: 20px;
-	padding-right: 20px;
-	padding-top: 20px;
-	padding-left: 20px;
-	padding-bottom: 20px;
+	padding: 0;
 	background-color: #FFF;
 	margin-bottom: 20px;
 }
 
+#content-layout{
+	border-spacing: 1px;
+	padding: 0;
+	margin: 0;
+}
 
 
 
 
-
-#col1{
+.col-small{
 	width:15%;
-	text-align: left;
+	min-width: 150px;
+	padding: 0;
 	vertical-align: top;
-	display: inline-block;
-	margin:0px;
-	padding:0px;
-	top: 90px;
-	left: 40px;
-	bottom: 0px;
-	position: fixed;
+	background-color: #e4eef2;
+	border-right: solid 1px #eee;
 }
 
-#col2{
-	width:60%;
-	display: inline-block;
-	margin-left:15%;
-	padding:0px;
+.col-big{
+	padding: 20px;
+	max-width:85%;
+	vertical-align: top;
 }
 
-#col3{
-	width:18%;
-	text-align: left;
-	display: inline-block;
-	margin:0px;
-	margin-top: 90px;
-	padding:0px;
-	right: 20px;
-	bottom: 0px;
-	position: fixed;
+
+.nav{
+	display: block;
+	background-color: #00aff0;
+	color: #fff;
+	text-decoration: none;
+	padding: 10px;
+	border-bottom: 1px solid #fff;
 }
 
+.active{
+	background-color: #953cac;
+}
 
 .links{
-	margin-top: 20px;
+	margin: 0px;
 }
 
 
 
 
-.profile-container img{
-	width: 50%;
-	margin: 0 auto;
-}
 
 
 .content-table{
@@ -253,7 +251,7 @@ body {
   background-repeat:no-repeat;
   display: inline-block;
 }
-.away{
+.offline{
   height:0.8em;
   width: 0.8em;
   margin:0;
@@ -264,7 +262,7 @@ body {
   display: inline-block;
 }
 
-.offline{
+.away{
   height:0.8em;
   width: 0.8em;
   margin:0;
@@ -307,6 +305,10 @@ body {
 
 .strong{
 	font-weight: bold;
+}
+
+.no-background{
+	background-color: #fff !important;
 }
 
 .link{
@@ -357,16 +359,11 @@ body {
 
 
 #info{
-	position:absolute;
 	margin:0;
 	padding:10px;
 	font-size:0.9em;
 	color:#fff;
 	background-color: #000;
-	left: 20px;
-	right: 20px;
-	height: 70px;
-	bottom: 20px;
 	
 }
 
@@ -374,7 +371,8 @@ body {
 	left: 20px;
 	right: 20px;
 	bottom: 90px;
-	top: 20px;
+	min-height:400px;
+	height: 80%;
 }
 
 #my-chat-window{

@@ -3,15 +3,24 @@
 
 Teleport Web Page
 -->
-{% extends "base.html" %}
-{% block headlink-right %}
-<a href="/logout">Log out</a>
-{% endblock %}
-{% block content %} 
-<script src="http://static.opentok.com/webrtc/v2.0/js/TB.min.js" ></script>
 
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Teleport</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel=stylesheet href='/tp_static/css/style.css' type='text/css' />
+  <link href='http://fonts.googleapis.com/css?family=Tangerine' rel='stylesheet' type='text/css'>
+  <link rel=stylesheet href='/tp_static/css/firstpersoncam.css' type='text/css' />
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script src="http://static.opentok.com/webrtc/v2.0/js/TB.min.js" ></script>
 
+  
+</head>
+
+<body>
 <script type="text/javascript">
+
 // Initialize API key, session, and token...
 // Think of a session as a room, and a token as the key to get in to the room
 // Sessions and tokens are generated on your server and passed down to the client
@@ -59,10 +68,56 @@ function subscribeToStreams(streams) {
 }
 
 </script>
-  
-	
-<div id="content">
-  <div id='my-chat-window'></div>
-  <div id="chat-windows"></div>
+
+<div id="header">
+    
+    <span id="headlink-left">
+    {% block headlink-left %}<a id="logo" href="/">Teleport</a>{% endblock %}
+    </span>
+    <span id="headlink-right">
+    <a href="/logout">Log out</a>
+    </span>
+    
 </div>
-{% endblock %}
+
+
+<div id="page">
+
+<div id="content">
+<table id="content-layout">
+  <tr>
+    <td class="col-small" style="text-align:center; vertical-align:middle; padding:10px;">
+      
+      <span class="profile-big"></span>
+    
+    </td>
+    <td class="col-big">
+      <div class="search-container" style="border: #ccc solid 1px;">
+      <input type="text" id="search_contacts" class="search-box" title="Search Contacts"></input>
+      </div>
+    </td>
+  </tr>
+
+  <tr>
+<td class="col-small">
+
+<div class="links">
+<a class="nav" href="/contacts">Contacts</a>
+<a class="nav" href="/feed">Feed</a>
+<a class="nav active" href="/teleport">Teleport</a>
+</div>
+</td>
+<td class="col-big">
+<div id='my-chat-window'></div>
+<div id="chat-windows"></div>
+
+ 
+
+</td>
+</tr>
+</table>
+
+</div>
+</div>
+</body>
+</html>
