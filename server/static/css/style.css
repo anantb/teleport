@@ -203,15 +203,24 @@ body {
 
 #info{
 	position:absolute;
-	left:5px;
-	right:5px;
-	height:70px;
-	bottom:0px;
 	margin:0;
 	padding:10px;
 	font-size:9pt;
 	color:#fff;
+	background-color: #000;
+	left: 20px;
+	right: 20px;
+	height: 70px;
+	bottom: 20px;
 	
+}
+
+#map3d{
+	position: absolute;
+	left: 20px;
+	right: 20px;
+	bottom: 90px;
+	top: 20px;
 }
 
 #chat-windows div{
