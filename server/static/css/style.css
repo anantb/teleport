@@ -12,6 +12,11 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, p, pre, a, abbr, acronym, address
 	vertical-align: baseline;
 }
 
+html, body{
+	height: 100%;
+	position: relative;
+}
+
 
 ol, ul, li {
 	list-style: none;
@@ -142,6 +147,7 @@ body {
 	left: 0px;
 	width: 1024px;
 	background-color: #fff;
+	position: absolute;
 }
 
 
@@ -157,8 +163,12 @@ body {
 	padding-bottom: 20px;
 	background-color: #FFF;
 	box-shadow: 1px 0px 10px #666;
-	margin-bottom: 50px;
-	position: relative;
+	margin-bottom: 20px;
+	position: absolute;
+	top:0px;
+	bottom: 0px;
+	left:0px;
+	right: 0px;
 }
 
 
