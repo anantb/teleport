@@ -7,7 +7,7 @@ import teleport
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^$', 'teleport.views.teleport'),
+    url(r'^$', 'teleport.views.home'),
     url(r'^teleport', 'teleport.views.teleport'),
     url(r'teletalk', 'teleport.views.teletalk'),
 
