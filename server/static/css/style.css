@@ -92,7 +92,7 @@ body {
 	font-size:0.9em;
 	height: 100%;
 	overflow: auto;
-	background: #4c4c4c;
+	background: #eee;
 }
 
 
@@ -103,8 +103,7 @@ body {
 	left:0px;
 	height: 59px;
 	font-size:1.1em;
-	background-color:#fff;
-	margin-bottom: 1px;
+	background: #4c4c4c;
 	width: 70%;
 	position: relative;
 }
@@ -114,7 +113,7 @@ body {
 	position:absolute;
 	top: 20px;
 	right:20px;
-	color: #4c4c4c;
+	color: #fff;
 }
 
 #headlink-left{
@@ -131,18 +130,19 @@ body {
 	font-family: 'Tangerine', cursive;
 	text-decoration: none;
 	font-size: 3em;
-	color: #953cac;
+	color: #fff;
 }
 
 #headlink-right a, #headlink-left a{
 	text-decoration: none;
+	color: #fff;
 }
 
 
 #page{
 	position: relative;
 	margin:0 auto;
-	top: 10px;
+	top: 0px;
 	right: 0px;
 	bottom: 0px;
 	left: 0px;
@@ -156,7 +156,7 @@ body {
 
 
 #content{
-	margin-top: 20px;
+	margin: 0;
 	padding: 0;
 	background-color: #FFF;
 	margin-bottom: 20px;
@@ -166,13 +166,14 @@ body {
 	border-spacing: 1px;
 	padding: 0;
 	margin: 0;
+	width: 100%;
 }
 
 
 
 
 .col-small{
-	width:25%;
+	width:15%;
 	min-width: 150px;
 	padding: 0;
 	vertical-align: top;
@@ -182,7 +183,8 @@ body {
 
 .col-big{
 	padding: 20px;
-	max-width:75%;
+	max-width:85%;
+	width:100%;
 	vertical-align: top;
 }
 
