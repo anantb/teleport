@@ -187,12 +187,22 @@ body {
 }
 
 .col-big{
-	padding: 20px;
+	padding: 0px;
+	padding-left: 30px;
+	padding-right: 30px;
 	max-width:85%;
 	width:100%;
 	vertical-align: top;
+	
 }
 
+
+.search{
+	padding:0;
+	padding-left:20px;
+	padding-right: 20px;
+	vertical-align: middle;
+}
 
 .nav{
 	display: block;
@@ -356,6 +366,7 @@ body {
 	width: 100%;
 	height:30px;
 	border:#ccc solid thin !important;
+	border-radius: 10px;
 }
 
 
