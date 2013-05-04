@@ -42,22 +42,39 @@ function initCB(object) {
  // ge.getLayerRoot().enableLayerById(ge.LAYER_TERRAIN, true);
   //ge.getLayerRoot().enableLayerById(ge.LAYER_TREES, true);
 
-  setLocation('MIT Stata Center')
+  setLocation('MIT', "Massachusetts Institute of Technology")
 
   keyboardFocusHack(ge);
 }
 
 
-function setLocation(geocodeLocation){
+function createPlacemark(point, geocodeLocation, desc){
+    // create the placemark
+    placemark = ge.createPlacemark('');
+
+    var p = ge.createPoint('');
+    p.setLatitude(point.y);
+    p.setLongitude(point.x);
+    placemark.setGeometry(p);
+
+    // add the placemark to the earth DOM
+    ge.getFeatures().appendChild(placemark);   
+    placemark.setName(geocodeLocation);
+    placemark.setDescription(desc);  
+
+}
+
+
+function setLocation(geocodeLocation, desc){
   var geocoder = new google.maps.ClientGeocoder();
-    geocoder.getLatLng(geocodeLocation, function(point) {
+  geocoder.getLatLng(geocodeLocation, function(point) {
       if(point) {
         cam = new FirstPersonCam([point.y, point.x, 0])
         cam.refreshCamera();
-        ge.getWindow().setVisibility(true);        
-
+        ge.getWindow().setVisibility(true); 
+        createPlacemark(point, geocodeLocation,  desc)
       }
-    });
+  });
   
 }
 
