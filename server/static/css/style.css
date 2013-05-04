@@ -386,27 +386,28 @@ body {
 
 .grid{
 	padding: 5px;
+	padding-left: 10px;
 }
 
 
 .grid1{
-	background-color: #DA70D6;
+	background-color: #16A085;
 }
 
 .grid2{
-	background-color: #8B7B8B;
+	background-color: #27AE60;
 }
 
 .grid3{
-	background-color: #8968CD;
+	background-color: #2980B9;
 }
 
 .grid4{
-	background-color: #7A8B8B;
+	background-color: #8E44AD;
 }
 
 .grid5{
-	background-color: #63B8FF;
+	background-color: #2C3E50;
 }
 .default-text {
 }
@@ -437,7 +438,7 @@ body {
 	left: 20px;
 	right: 20px;
 	bottom: 90px;
-	min-height:400px;
+	min-height:500px;
 	height: 80%;
 }
 
