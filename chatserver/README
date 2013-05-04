@@ -1,0 +1,13 @@
+To run the chat server:
+
+first have node and npm installed.
+
+then:
+
+npm install express socket.io request
+
+then:
+
+node app.js
+
+(screen/tmux may help here)
