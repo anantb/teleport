@@ -152,13 +152,13 @@ function keyUp(event) {
 // JSObject - FirstPersonCamera
 //----------------------------------------------------------------------------
 
-function FirstPersonCam() {
+function FirstPersonCam(loc) {
   var me = this;
  
   // The anchor point is where the camera is situated at. We store
   // the current position in lat, lon, altitude and in cartesian 
   // coordinates.
-  me.localAnchorLla = [42.35939, -71.09176, 0];  // MIT
+  me.localAnchorLla = loc  // MIT
   me.localAnchorCartesian = V3.latLonAltToCartesian(me.localAnchorLla);
 
   // Heading, tilt angle is relative to local frame
@@ -180,6 +180,9 @@ function FirstPersonCam() {
   google.earth.addEventListener(ge, "frameend",
                                 function() { me.update(); });
 }
+
+
+
 
 FirstPersonCam.prototype.updateOrientation = function(dt) {
   var me = this;

@@ -70,11 +70,11 @@ button, input[type="button"], input[type="submit"]{
 
 .button{
 	background: #3498db !important;
-	color: #000;
-	border: #ccc solid thin;
+	color: #fff;
 	padding:10px;
 	border-radius: 10px;
 	margin-left: 0px;
+	text-decoration: none;
 }
 
 

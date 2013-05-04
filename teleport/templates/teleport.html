@@ -42,7 +42,7 @@ function initCB(object) {
  // ge.getLayerRoot().enableLayerById(ge.LAYER_TERRAIN, true);
   //ge.getLayerRoot().enableLayerById(ge.LAYER_TREES, true);
 
-  cam = new FirstPersonCam();
+  cam = new FirstPersonCam([42.35939, -71.09176, 0]);
   cam.refreshCamera();
   ge.getWindow().setVisibility(true);
 
@@ -59,7 +59,38 @@ function init3D() {
 
 $(document).ready(function(){
   init()
+  $("#teleport_me_btn").on('click', function(){
+    var geocodeLocation = $('#teleport_input').val();
+    console.log(geocodeLocation)
+    var geocoder = new google.maps.ClientGeocoder();
+    geocoder.getLatLng(geocodeLocation, function(point) {
+      if(point) {
+        console.log(point)
+        //var lookAt = ge.createLookAt('');
+        /*lookAt.set(point.y, point.x, 10, ge.ALTITUDE_RELATIVE_TO_GROUND,
+                   0, 60, 20000);
+        ge.getView().setAbstractView(lookAt);*/
+        cam = new FirstPersonCam([point.y, point.x, 0])
+        cam.refreshCamera();
+        ge.getWindow().setVisibility(true);
+
+      }
+    });
+  });
+
+  $("#teleport_input").on('keydown', function(event){
+      event.stopPropagation();
+  });
+
+  $("#teleport_input").on('keyup', function(event){
+      event.stopPropagation();
+  });
+
+
 });
+
+
+
 
 $(document).unload(function(){
   GUnload()
@@ -72,6 +103,7 @@ $(document).on('keydown', function(event){
 $(document).on('keyup', function(event){
   return keyUp(event)
 })
+
 
 
 
@@ -101,7 +133,8 @@ $(document).on('keyup', function(event){
     </td>
     <td class="col-big search">
       <div class="search-container">
-      <input type="text" id="search_contacts" class="search-box" title="Search Contacts"></input>
+      <input type="text" id="teleport_input" class="search-box" style="width:80%;" title="Teleport Me"></input>
+      <a class="button" href="#" id="teleport_me_btn" style="width:100px !important;">Teleport Me</a>
       </div>
     </td>
   </tr>
