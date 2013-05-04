@@ -110,7 +110,7 @@ def teleport(request):
 
 @login_required
 def teletalk(request):
-    return render_to_response('teletalk.html')
+    return render_to_response('teletalk.html', {'api_key': OPENTOK_API_KEY, 'login_id': request.session[SESSION_KEY]})
 
 
 @csrf_exempt

@@ -15,7 +15,7 @@ Teleport Web Page
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="http://static.opentok.com/webrtc/v2.0/js/TB.min.js" ></script>
 
-    <!-- changeme -->
+    <!-- node.js serves the socket.io client -->
     <script src="http://anantb.csail.mit.edu:3000/socket.io/socket.io.js"></script>
 
   </head>
@@ -23,67 +23,64 @@ Teleport Web Page
   <body>
 
     <script type="text/javascript">
+
     //This script extracts parameters from the URL
-    //from jquery-howto.blogspot.com
-        $.extend({
-            getUrlVars : function() {
-                var vars = [], hash;
-                var hashes = window.location.href.slice(
-                        window.location.href.indexOf('?') + 1).split('&');
-                for ( var i = 0; i < hashes.length; i++) {
-                    hash = hashes[i].split('=');
-                    vars.push(hash[0]);
-                    vars[hash[0]] = hash[1];
-                }
-                return vars;
-            },
-            getUrlVar : function(name) {
-                return $.getUrlVars()[name];
+    $.extend({
+        getUrlVars : function() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(
+                    window.location.href.indexOf('?') + 1).split('&');
+            for ( var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
             }
-        });
+            return vars;
+        },
+        getUrlVar : function(name) {
+            return $.getUrlVars()[name];
+        }
+    });
+
+    </script>
+
+    <script>
+        var apiKey = '{{api_key}}';
+        var userId = '{{login_id}}';
     </script>
 
     <script>
 
     var socket = io.connect('http://anantb.csail.mit.edu:3000/');
-    var invited = false;
-    var session_id, _session_id;
-    var token;
-    var apiKey = '28119882';
-    var user_id = 'Alex';
-    var session;
+    var sessionId, _session_id, token, session, invited;
 
-    if ($.getUrlVar('session') && $.getUrlVar('user_id')) {
+    if ($.getUrlVar('session')) {
         _session_id = $.getUrlVar('session');
-        user_id = $.getUrlVar('user_id');
         invited = true;
     }
 
     socket.on('notify', function(data) {
         if (data) {
-            $('#text-chat').prepend('</br>'+ data.msg);
+            $('#messages').prepend('<p>'+ data.msg +'</p>');
         }
     });
 
     socket.on('join', function (data) {
         token = data.token;
-        session_id = data.session_id;
+        sessionId = data.session_id;
 
-        TB.setLogLevel(TB.DEBUG);
-
+        //TB.setLogLevel(TB.DEBUG);
         // Initialize session, set up event listeners, and connect
-        session = TB.initSession(session_id);
+        session = TB.initSession(sessionId);
         session.addEventListener('sessionConnected', sessionConnectedHandler);
         session.addEventListener('streamCreated', streamCreatedHandler);
         session.connect(apiKey, token);
-
-        console.log(session_id);
     });
 
     socket.on('message', function (data) {
         var messages = data.messages;
         for(var i in messages) {
-            $('#text-chat').prepend('</br>['+messages[i].user_id +'] '+messages[i].message);
+            $('#messages').prepend('<p>['+messages[i].user_id +'] '+messages[i].message+'</p>');
         }
     });
 
@@ -93,7 +90,7 @@ Teleport Web Page
 
     socket.on('accepted', function (data) {
         socket.emit('join', {
-            'user_id' : user_id,
+            'user_id' : userId,
             'session_id': data.session_id
         });
     });
@@ -106,10 +103,27 @@ Teleport Web Page
         alert(data.error);
     });
 
+
+    function resize(elemId, height) {
+        var oldWidth, oldHeight, ratio, elem;
+        elem = $("#" + elemId)
+
+        oldWidth = elem.width();
+        oldHeight = elem.height();
+        ratio = parseFloat(oldWidth)/parseFloat(oldHeight);
+
+        elem.height(height);
+        elem.width(height * ratio);
+    }
+
     // OpenTok stuff.
     function sessionConnectedHandler(event) {
-        var publisher = TB.initPublisher(apiKey, 'my-chat-window');
+        var elemId = 'my-chat-window';
+
+        var publisher = TB.initPublisher(apiKey, elemId);
         session.publish(publisher);
+
+        resize(elemId, 115);
 
         // Subscribe to streams that were in the session when we connected
         subscribeToStreams(event.streams);
@@ -137,54 +151,75 @@ Teleport Web Page
         }
     }
 
-    $(document).ready(function(){
-        $('#send').click(function() {
-            if (session_id) {
-                var msg = {
-                    'message': $('#field').val(),
-                    'session_id': session_id,
-                    'user_id': user_id
-                };
-                if(msg.message) {
-                    socket.emit('chatmsg', msg);
-                    $('#field').val('');
-                }
-            } else {
-                console.log("session not initialized!");
+
+    function joinChat(sessionId) {
+        socket.emit('join', {
+            user_id: userId,
+            session_id: sessionId
+        })
+    }
+
+    function initiateChat() {
+        socket.emit('initiate', {'initiator': userId});
+    }
+
+    function sendMessage(message) {
+        if (sessionId) {
+            var msg = {
+                'message': message,
+                'session_id': sessionId,
+                'user_id': userId
+            };
+            if(msg.message) {
+                socket.emit('chatmsg', msg);
+                $('#field').val('');
             }
+        }
+    }
+
+    function inviteUser(invitee) {
+        if (sessionId) {
+            var msg = {
+                'invitee': invitee,
+                'session_id': sessionId,
+                'inviter': userId
+            };
+            if(msg.invitee) {
+                baseurl = window.location.href.split('?')[0];
+                socket.emit('invite', msg);
+                $('#messages').prepend("<br/>"+baseurl+"?session="+sessionId);
+                $('#invitee').val('');
+            }
+        }
+    }
+
+    $(document).ready(function(){
+
+        $('#send').click(function() {
+            var message = $('#field').val();
+            sendMessage(message);
         });
 
         $("#invite").click(function() {
-            if (session_id) {
-                var msg = {
-                    'invitee': $('#invitee').val(),
-                    'session_id': session_id,
-                    'inviter': user_id
-                };
-                if(msg.invitee) {
-                    baseurl = window.location.href.split('?')[0];
-                    socket.emit('invite', msg);
-                    $('#text-chat').prepend(baseurl+"?session="+session_id+"&user_id="+$('#invitee').val());
-                    $('#invitee').val('');
-                }
-            }
+            var invitee = $('#invitee').val()
+            inviteUser(invitee);
         });
 
         $('form').on('submit', function () {
             return false;
         });
+
+        if (!invited) {
+            initiateChat();
+        } else {
+            joinChat(_session_id);
+        }
+
     });
 
-    if (invited == false) {
-        socket.emit('initiate', {'initiator': user_id});
-    } else {
-        socket.emit('join', {
-            user_id: user_id,
-            session_id: _session_id
-        })
-    }
-
     </script>
+
+
 
     <div id="header">
 
@@ -213,6 +248,7 @@ Teleport Web Page
           </tr>
 
           <tr>
+
             <td class="col-small">
               <div class="links">
                 <a class="nav" href="/contacts">Contacts</a>
@@ -220,18 +256,45 @@ Teleport Web Page
                 <a class="nav active" href="/teleport">Teleport</a>
               </div>
             </td>
+
             <td class="col-big">
-              <div id='my-chat-window'></div>
-              <div id="chat-windows"></div>
-              <div id="text-chat">
-                <form>
-                    <input id='field' type="text" />
-                    <input id='send' type="submit" value="Send" />
-                    <input id='invitee' type="text" />
-                    <input id='invite' type="submit" value="Invite" />
-                </form>
-              </div>
+
+                <div class="content-inner">
+                    <div id="video-chat-container">
+                      <div id="chat-windows"></div>
+                    </div>
+
+                    <div id="text-chat-container">
+                        <h3 class="chat-header">Chat</h3>
+                        <div id="messages">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="bottom-panel">
+                    <div class="mini-chat">
+                        <div id="my-chat-window"></div>
+                    </div>
+
+                    <div class="chat-controls" >
+                      <form class="chat-form">
+                        <div class="">
+                            <div>
+                                <input class="large-text" id='field' type="text" />
+                                <input class="right" id='send' type="submit" value="Send" />
+                            </div>
+                            <br>
+                            <div>
+                                <input id='invitee' class="large-text" type="text" />
+                                <input id='invite' type="submit" value="+ Invite" />
+                            </div>
+                        </div>
+                      </form>
+                    </div>
+
+                </div>
             </td>
+
           </tr>
         </table>
       </div>
