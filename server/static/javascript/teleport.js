@@ -114,6 +114,10 @@ function setLocation(geocodeLocation, desc){
 	    cam.refreshCamera();
 	    ge.getWindow().setVisibility(true); 
 	    createPlacemark(point, geocodeLocation,  desc)
+	    if(socket == null){
+	    	socket = io.connect('http://anantb.csail.mit.edu:3000/');
+	    }
+	    socket.emit('follow', {'location': geocodeLocation});
 	  }
 	});
   
@@ -191,6 +195,7 @@ function bindTeletalkEvents(){
 
     socket.on('follow', function (data) {
         // update google earth with leader's coordinates
+        console.log('follow: ', data)
     });
 
     socket.on('error', function (data) {
@@ -255,6 +260,8 @@ function joinChat(sessionId) {
         session_id: sessionId
     })
 }
+
+
 
 function initiateChat() {
     socket.emit('initiate', {'initiator': userId});
