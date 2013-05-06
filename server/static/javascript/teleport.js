@@ -1,6 +1,10 @@
 
 // REALTIME NOTIFICATION SOCKET
-socket = io.connect('http://anantb.csail.mit.edu:3000/');
+var socket = io.connect('http://anantb.csail.mit.edu:3000/');
+
+// Global Tables
+
+
 
 
 /*
@@ -19,14 +23,7 @@ function get_contact_html(id){
 }
 
 
-function populate_contacts(){
-	var raw_html = ''
-	for (var i=0; i<40; i++){
-	raw_html += get_contact_html()
-	}
-	$('#contacts-table').html(raw_html)
 
-}
 
 
 function get_feed_html(id){
@@ -46,13 +43,7 @@ function get_feed_html(id){
 
 
 
-function populate_feed(){
-	var raw_html = ''
-	for (var i=0; i<10; i++){
-	raw_html += get_feed_html()
-	}
-	$('#feed-table').html(raw_html)
-}
+
 
 
 /*
@@ -150,6 +141,9 @@ function initTeletalk(apiKey, userId){
 	if ($.getUrlVar('session')) {
 		_session_id = $.getUrlVar('session');
 		invited = true;
+	}
+	if(socket == null){
+		socket = io.connect('http://anantb.csail.mit.edu:3000/');
 	}
 	bindTeletalkEvents()
 

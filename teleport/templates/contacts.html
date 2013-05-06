@@ -23,10 +23,57 @@ Teleport Web Page
 
 
 
+function populate_contacts(){
+  var raw_html = ''
+  for (var i=0; i<40; i++){
+  raw_html += get_contact_html()
+  }
+  $('#contacts-table').html(raw_html)
+
+}
+
+
+function populate_contacts_table(res){
+  contacts_table.fnClearTable();
+  for(var i = 0; i< res.contacts.length; i++){
+    curr = contacts_table.fnAddData( [
+              res.contacts[i].name,
+              res.members[i].status,
+              ''
+              ]);
+  }
+
+}
+
+
+
 
 
 $(document).ready(function(){
-  populate_contacts()
+  //populate_contacts()
+      contacts_table = $('#contacts-table').dataTable({
+      "sDom": '<"top"f<"clear">>rt<"bottom"ilp<"clear">>',
+      "bPaginate": false,
+      "bInfo": false,
+      "bAutoWidth": false,
+      "bFilter": false,
+      "sWidth": "100%",
+      "aoColumns": [                 
+        {"bSortable": false, "sWidth": "40%"},
+        {"bSortable": false, "sWidth": "20%"},
+        {"bSortable": false, "sWidth": "40%"}
+      ],
+      "oLanguage": {
+        "sEmptyTable": "Your contact list is empty"
+      }  
+    });
+
+
+    $.post('get_contacts', {}, 
+        function(res){
+          populate_contacts_table(res);
+        }
+    );  
 });
 
 </script>
@@ -55,7 +102,8 @@ $(document).ready(function(){
     </td>
     <td class="col-big search">
       <div class="search-container">
-      <input type="text" id="search_contacts" class="search-box" title="Search Contacts"></input>
+      <input type="text" id="search_contacts" class="search-box" title="Search Contacts" placeholder="Search Contact" style="width:60%;margin-right:20px;"></input>
+      <a class="button" href="/add_contact" style="width:100px !important;">Add Contact</a>
       </div>
     </td>
   </tr>
@@ -72,7 +120,14 @@ $(document).ready(function(){
 <td class="col-big">
 
   <div class="content-inner">
-  <table id="contacts-table" class="content-table">
+  <table id="contacts-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
   </table>
   </div>
 

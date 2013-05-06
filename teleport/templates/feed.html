@@ -20,8 +20,50 @@ Teleport Web Page
 
 <body>
 <script type="text/javascript">
+
+function populate_feed(){
+  var raw_html = ''
+  for (var i=0; i<10; i++){
+  raw_html += get_feed_html()
+  }
+  $('#feed-table').html(raw_html)
+}
+
+function populate_feeds_table(res){
+  feeds_table.fnClearTable();
+  for(var i = 0; i< res.feeds.length; i++){
+    feeds_table.fnAddData( [
+      res.feeds[i].time,
+      res.feeds[i].message,
+      ''
+      ]);
+  }
+
+}
+
 $(document).ready(function(){
-  populate_feed()
+  feeds_table = $('#feeds-table').dataTable({
+      "sDom": '<"top"f<"clear">>rt<"bottom"ilp<"clear">>',
+      "bPaginate": false,
+      "bInfo": false,
+      "bAutoWidth": false,
+      "bFilter": false,
+      "sWidth": "100%",
+      "aoColumns": [                 
+        {"bSortable": false, "sWidth": "40%"},
+        {"bSortable": false, "sWidth": "20%"},
+        {"bSortable": false, "sWidth": "40%"}
+      ],
+      "oLanguage": {
+        "sEmptyTable": "No feed to display"
+      }  
+    });
+    $.post('get_feeds', {}, 
+        function(res){
+          populate_feeds_table(res)
+        }
+    ); 
+    
 });
 
 </script>
@@ -49,9 +91,11 @@ $(document).ready(function(){
 
     </td>
     <td class="col-big search">
+      
       <div class="search-container">
-      <input type="text" id="search_contacts" class="search-box" title="Search Contacts"></input>
+      <input type="text" id="search_feeds" class="search-box" title="Search feeds" placeholder="Search Feeds" style="width:60%;margin-right:20px;"></input>
       </div>
+
     </td>
   </tr>
 
@@ -65,8 +109,15 @@ $(document).ready(function(){
 </div>
 </td>
 <td class="col-big">
-  <div class="content-inner"
-  <table id="feed-table" class="content-table">
+  <div class="content-inner">
+  <table id="feeds-table">
+    <thead>
+    <tr>
+        <th>Date</th>
+        <th>Message</th>
+        <th></th>
+      </tr>
+    </thead>
   </table>
   </div>
 </td>

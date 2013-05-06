@@ -16,7 +16,7 @@ Teleport Web Page
 
     <!-- node.js serves the socket.io client -->
     <script src="http://anantb.csail.mit.edu:3000/socket.io/socket.io.js"></script>
-    <script src="/tp_static/javascript/teleport.js"></script>
+    <script type="text/javascript" src="/tp_static/javascript/teleport.js"></script>
 
   </head>
 
@@ -75,9 +75,23 @@ Teleport Web Page
               <span class="profile-big"></span>
             </td>
             <td class="col-big search">
-              <div class="search-container">
-                <input type="text" id="search_contacts" class="search-box" title="Search Contacts"></input>
-              </div>
+                <table style="width:100%;">
+                <tr>
+                <td style="width:60%;">
+                    <input id='invitee' class="search-box" type="text" placeholder="Enter name or email address" style="width:100%;"/>
+                    
+                </td>
+                <td style="width:80px;">
+                    <a class="button" href="#" id="invite" style="margin-left:20px;">+ Invite</a>
+                </td>
+                <td style="width:120px;">
+                    <div class="mini-chat">
+                        <div id="my-chat-window"></div>
+                    </div>
+                </td>
+                </tr>
+                </table>
+
             </td>
           </tr>
 
@@ -91,41 +105,51 @@ Teleport Web Page
               </div>
             </td>
 
-            <td class="col-big">
+            <td class="col-big" text-align="center">
 
-                <div class="content-inner">
-                    <div id="video-chat-container">
-                      <div id="chat-windows"></div>
-                    </div>
+                <div class="content-inner">                
+                
 
-                    <div id="text-chat-container">
-                        <h3 class="chat-header">Chat</h3>
-                        <div id="messages">
+                <table id="bottom-panel" style="width:100%;">
+                    <tr>                   
+                        
+                        <td style"width:60%;" class="border">
+                            
+                        <div id="chat-windows"></div>
+                            
+                        </td>
+                        <td style="width:80px;">
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        
+                        <td style"width:60%;" class="border">
+                        
+                        <div id="messages" style="height:400px; overflow:scroll;">
+                        
                         </div>
-                    </div>
-                </div>
-
-                <div id="bottom-panel">
-                    <div class="mini-chat">
-                        <div id="my-chat-window"></div>
-                    </div>
-
-                    <div class="chat-controls" >
-                      <form class="chat-form">
-                        <div class="">
-                            <div>
-                                <input class="large-text" id='field' type="text" />
-                                <input class="right" id='send' type="submit" value="Send" />
-                            </div>
-                            <br>
-                            <div>
-                                <input id='invitee' class="large-text" type="text" />
-                                <input id='invite' type="submit" value="+ Invite" />
-                            </div>
-                        </div>
-                      </form>
-                    </div>
-
+                        </td>
+                        <td style="width:80px;">
+                        </td>
+                        <td>
+                        </td>
+                    </tr>  
+                    <tr>
+                       
+                    <td style="width:60%;">
+                        <input type="text" style="width:100%; box-sizing:border-box;" id='field' />
+                        
+                    </td>
+                    <td style="width:80px;">
+                        <input id='send' type="submit" style="margin-left:20px;" value="Send" />
+                    </td>
+                    <td>
+                        </td>
+                    
+                    </tr>
+                </table>
                 </div>
             </td>
 
