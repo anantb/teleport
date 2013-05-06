@@ -217,7 +217,7 @@ function sessionConnectedHandler(event) {
     var publisher = TB.initPublisher(apiKey, elemId);
     session.publish(publisher);
 
-    resize(elemId, 115);
+    resize(elemId, 80);
 
     // Subscribe to streams that were in the session when we connected
     subscribeToStreams(event.streams);
@@ -236,12 +236,14 @@ function subscribeToStreams(streams) {
         }
 
         // Create the div to put the subscriber element in to
-        var div = $('<div></div>');
+        var div = $('<div style="width:100%;"></div>');
         div.appendTo($('#chat-windows'))
         div.attr('id', 'stream' + streams[i].streamId);
         //document.body.appendChild(div);
         // Subscribe to the stream
         session.subscribe(streams[i], div.attr('id'));
+        //console.log($('#stream' + streams[i].streamId))
+        $('#stream' + streams[i].streamId).css('width', '100%')
     }
 }
 
