@@ -17,81 +17,15 @@ Teleport Web Page
 <script type="text/javascript" src="/tp_static/javascript/keyboard-focus-hack.js"></script>
 <script type="text/javascript" src="/tp_static/javascript/math3d.js"></script>
 <script type="text/javascript" src="/tp_static/javascript/firstpersoncam.js"></script>
+<script type="text/javascript" src="/tp_static/javascript/teleport.js"></script>
   
 </head>
 
 <body>
 <script type="text/javascript">
 
-google.load("earth", "1");
-google.load("maps", "2");
-
-var ge = null;
-var cam;
-
-function init() {
-  init3D();
-}
-
-function initCB(object) {
-  ge = object;
-  ge.getOptions().setFlyToSpeed(100);
-
-  //ge.getLayerRoot().enableLayerById(ge.LAYER_ROADS, true);
-  ge.getLayerRoot().enableLayerById(ge.LAYER_BUILDINGS, true);
- // ge.getLayerRoot().enableLayerById(ge.LAYER_TERRAIN, true);
-  //ge.getLayerRoot().enableLayerById(ge.LAYER_TREES, true);
-
-  setLocation('MIT', "Massachusetts Institute of Technology")
-
-  keyboardFocusHack(ge);
-}
-
-
-function createPlacemark(point, geocodeLocation, desc){
-    // create the placemark
-    placemark = ge.createPlacemark('');
-
-    var p = ge.createPoint('');
-    p.setLatitude(point.y);
-    p.setLongitude(point.x);
-    placemark.setGeometry(p);
-
-    // add the placemark to the earth DOM
-    ge.getFeatures().appendChild(placemark);   
-    placemark.setName(geocodeLocation);
-    placemark.setDescription(desc);  
-
-}
-
-
-function setLocation(geocodeLocation, desc){
-  var geocoder = new google.maps.ClientGeocoder();
-  geocoder.getLatLng(geocodeLocation, function(point) {
-      if(point) {
-        cam = new FirstPersonCam([point.y, point.x, 0])
-        cam.refreshCamera();
-        ge.getWindow().setVisibility(true); 
-        createPlacemark(point, geocodeLocation,  desc)
-      }
-  });
-  
-}
-
-function do_f(event){
-	console.log(event);
-}
-
-function failureCB(object) {
-  alert("somthing went wrong!")
-}
-
-function init3D() {
-  google.earth.createInstance("map3d", initCB, failureCB);
-}
-
 $(document).ready(function(){
-  init()
+  initTeleport()
   $("#teleport_me_btn").on('click', function(){
     var geocodeLocation = $('#teleport_input').val();
     setLocation(geocodeLocation)
@@ -108,9 +42,6 @@ $(document).ready(function(){
 
 
 });
-
-
-
 
 $(document).unload(function(){
   GUnload()

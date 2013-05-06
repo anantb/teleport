@@ -11,8 +11,9 @@ Teleport Web Page
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <link rel=stylesheet href='/tp_static/css/style.css' type='text/css' />
   <link href='http://fonts.googleapis.com/css?family=Tangerine' rel='stylesheet' type='text/css'>
-  <link rel=stylesheet href='/tp_static/css/firstpersoncam.css' type='text/css' />
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript" src="/tp_static/javascript/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="/tp_static/javascript/teleport.js"></script>
 
 </head>
 
@@ -21,24 +22,7 @@ Teleport Web Page
 
 
 
-function get_contact_html(id){
-  var raw_html = '<tr class="clickable">'
-  raw_html += '<td class="metadeta"><span class="profile-small"></span></td>'
-  raw_html += '<td class="content"><span class="online"></span><a href="/teletalk">Anant Bhardwaj</a></td>'
-  raw_html += '</tr>'
 
-  return raw_html
-}
-
-
-function populate_contacts(){
-  var raw_html = ''
-  for (var i=0; i<40; i++){
-    raw_html += get_contact_html()
-  }
-  $('#contacts-table').html(raw_html)
-
-}
 
 $(document).ready(function(){
   populate_contacts()

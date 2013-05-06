@@ -11,41 +11,14 @@ Teleport Web Page
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <link rel=stylesheet href='/tp_static/css/style.css' type='text/css' />
   <link href='http://fonts.googleapis.com/css?family=Tangerine' rel='stylesheet' type='text/css'>
-  <link rel=stylesheet href='/tp_static/css/firstpersoncam.css' type='text/css' />
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript" src="/tp_static/javascript/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="/tp_static/javascript/teleport.js"></script>
 
 </head>
 
 <body>
 <script type="text/javascript">
-
-function get_feed_html(id){
-  var raw_html = '<tr class="clickable">'
-  raw_html += '<td class="metadeta"><span class="profile-small"></span></td>'
-  raw_html += '<td class="content">'
-  raw_html += '<ul>'
-  raw_html += '<li class="from">Anant Bhardwaj</li>'
-  raw_html += '<li class="blurb">Our study suggests that a careful combination of methods that increase social transparency and different peer-dependent reward schemes can significantly improve crowdsourcing outcomes.</li>'
-
-  raw_html += '</ul>'
-  raw_html += '</td>'
-  raw_html += '</tr>'
-
-  return raw_html
-}
-
-
-
-function populate_feed(){
-  var raw_html = ''
-  for (var i=0; i<10; i++){
-    raw_html += get_feed_html()
-  }
-  $('#feed-table').html(raw_html)
-}
-
-
-
 $(document).ready(function(){
   populate_feed()
 });
