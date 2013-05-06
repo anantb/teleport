@@ -32,15 +32,31 @@ function populate_contacts(){
 
 }
 
+function get_status_html(s){
+  var html = '<span class="offline"></span>'
+  if(s=='online'){
+    html = '<span class="online"></span>'
+  }else if(s=='away'){
+    html = '<span class="away"></span><'
+  }
+  return html
+}
+
+function get_email_html(e){
+  var html = '<a href="mailto:' +e +'"><span class="email-icon"></span></a>'
+  
+  return html
+}
 
 function populate_contacts_table(res){
+  var chat_html = '<a href="/teletalk"><span class="chat-icon"></span></a>'
   contacts_table.fnClearTable();
   for(var i = 0; i< res.contacts.length; i++){
-    curr = contacts_table.fnAddData( [
-              res.contacts[i].name,
-              res.contacts[i].status,
-              ''
-              ]);
+    contacts_table.fnAddData( [
+        res.contacts[i].name,
+        get_status_html(res.contacts[i].status) + res.contacts[i].status,
+        chat_html +  get_email_html(res.contacts[i].email)
+    ]);
   }
 
 }
