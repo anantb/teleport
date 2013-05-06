@@ -173,8 +173,9 @@ function bindTeletalkEvents(){
     socket.on('message', function (data) {
         var messages = data.messages;
         for(var i in messages) {
-            $('#messages').prepend('<p>['+messages[i].user_id +'] '+messages[i].message+'</p>');
+            $('#messages').append('<p>['+messages[i].user_id +'] '+messages[i].message+'</p>');
         }
+        $('#messages').scrollTop($('#messages')[0].scrollHeight);
     });
 
     socket.on('leave', function (data) {
