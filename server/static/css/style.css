@@ -178,6 +178,10 @@ body {
 }
 
 
+
+
+
+
 .user-profile{
 	text-align:center;
 	vertical-align:middle;
@@ -205,6 +209,7 @@ body {
 .content-inner {
 	padding-left:30px;
 	padding-right:30px;
+	min-height: 400px;
 }
 
 
@@ -512,7 +517,7 @@ body {
 
 
 #chat-windows div {
-	
+
 }
 
 
@@ -554,7 +559,7 @@ table.dataTable tbody tr:hover td {
 }
 
 
-.dataTables_filter label{
+.dataTables_filter{
 	display:none;
 }
 

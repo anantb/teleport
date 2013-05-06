@@ -9,7 +9,11 @@ import teleport
 urlpatterns = patterns('',
     url(r'^$', 'teleport.views.contacts'),
     url(r'^contacts', 'teleport.views.contacts'),
+    url(r'^get_contacts', 'teleport.views.get_contacts'),
+    url(r'^add_contact', 'teleport.views.add_contact'),
+
     url(r'^feed', 'teleport.views.feed'),
+    url(r'^get_feeds', 'teleport.views.get_feeds'),
     url(r'^teleport', 'teleport.views.teleport'),
     url(r'^teletalk', 'teleport.views.teletalk'),
 

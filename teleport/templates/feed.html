@@ -58,7 +58,7 @@ $(document).ready(function(){
         "sEmptyTable": "No feed to display"
       }  
     });
-    $.post('get_feeds', {}, 
+    $.get('get_feeds', {}, 
         function(res){
           populate_feeds_table(res)
         }

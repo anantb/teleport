@@ -20,14 +20,19 @@ Teleport Web Page
 
 <body>
 <script type="text/javascript">
-
-
-
-
-
 $(document).ready(function(){
-  populate_contacts()
+  $("#add_contact_btn").on('click', function(){
+      var email = $('#add_contact').val();
+      $.post('/add_contact', {'email':email},
+          function(res){
+            window.location.href="/contacts"
+          }
+      ); 
+      
+    });
 });
+
+
 
 </script>
 
@@ -55,7 +60,8 @@ $(document).ready(function(){
     </td>
     <td class="col-big search">
       <div class="search-container">
-      <input type="text" id="search_contacts" class="search-box" title="Search Contacts"></input>
+      <input type="text" id="add_contact" class="search-box" title="Add Contact" placeholder="Enter email address of the new contact" style="width:60%;margin-right:20px;"></input>
+      <a class="button" href="#" id="add_contact_btn">Add</a>
       </div>
     </td>
   </tr>
@@ -72,8 +78,6 @@ $(document).ready(function(){
 <td class="col-big">
 
   <div class="content-inner">
-  <table id="contacts-table" class="content-table">
-  </table>
   </div>
 
 </td>

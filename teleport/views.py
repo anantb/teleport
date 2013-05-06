@@ -1,5 +1,5 @@
 import json
-import OpenTokSDK
+import OpenTokSDK, datetime
 from django.http import *
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
@@ -106,6 +106,60 @@ def feed(request):
 @login_required
 def teleport(request):
     return render_to_response('teleport.html')
+
+@csrf_exempt
+@login_required
+def add_contact(request):
+    if request.method == "POST":
+        user1 = User.objects.get(email=request.session[SESSION_KEY])
+        user2 = request.POST["email"]
+        c = Contact(user1=user1, user2=user2)
+        c.save()
+        return HttpResponseRedirect('/contacts')
+    else:
+        return render_to_response('add_contact.html')
+
+
+@login_required
+def get_contacts(request):
+    user = User.objects.get(email=request.session[SESSION_KEY])
+    res = {'status':False, 'user': request.session[SESSION_KEY]}
+    try:
+        res['status'] = True
+        res['contacts'] = []        
+        contacts = Contact.objects.filter(user1=user).values()
+        for c in contacts:
+            name = ''
+            u= User.objects.filter(email=c['user2']).values()
+            if(len(u)>0):
+                name = u[0]['f_name'] + ' ' + u[0]['l_name']
+            else:
+                name = c['user2']
+            res['contacts'].append({'email':c['user2'], 'name':name, 'status':c['status']})
+    except:
+        print sys.exc_info()
+        res['code'] = 'UNKNOWN_ERROR'
+    return HttpResponse(json.dumps(res), mimetype="application/json")
+
+
+@login_required
+def get_feeds(request):
+    user = User.objects.get(email=request.session[SESSION_KEY])
+    res = {'status':False, 'user': request.session[SESSION_KEY]}
+    try:
+        feeds = Feed.objects.filter(to_addr=user).values()
+        res['status'] = True
+        res['feeds'] = []        
+        for f in feeds:
+            res['feeds'].append({'timestamp':format_date_time(f.timestamp), 'msg':f['msg'], 'from':f['from_addr']})
+    except:
+        print sys.exc_info()
+        res['code'] = 'UNKNOWN_ERROR'
+    return HttpResponse(json.dumps(res), mimetype="application/json")
+
+
+def format_date_time(d):
+    return datetime.datetime.strftime(d, '%Y/%m/%d %H:%M:%S')
 
 
 @login_required
