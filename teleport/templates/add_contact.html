@@ -20,6 +20,45 @@ Teleport Web Page
 
 <body>
 <script type="text/javascript">
+function populate_contacts(){
+  var raw_html = ''
+  for (var i=0; i<40; i++){
+  raw_html += get_contact_html()
+  }
+  $('#contacts-table').html(raw_html)
+
+}
+
+function get_status_html(s){
+  var html = '<span class="offline"></span>'
+  if(s=='online'){
+    html = '<span class="online"></span>'
+  }else if(s=='away'){
+    html = '<span class="away"></span><'
+  }
+  return html
+}
+
+function get_email_html(e){
+  var html = '<a href="mailto:' +e +'"><span class="email-icon"></span></a>'
+  
+  return html
+}
+
+function populate_contacts_table(res){
+  var chat_html = '<a href="/teletalk"><span class="chat-icon"></span></a>'
+  contacts_table.fnClearTable();
+  for(var i = 0; i< res.contacts.length; i++){
+    contacts_table.fnAddData( [
+        res.contacts[i].name,
+        get_status_html(res.contacts[i].status) + res.contacts[i].status,
+        chat_html +  get_email_html(res.contacts[i].email)
+    ]);
+  }
+
+}
+
+
 $(document).ready(function(){
   $("#add_contact_btn").on('click', function(){
       var email = $('#add_contact').val();
@@ -30,6 +69,33 @@ $(document).ready(function(){
       ); 
       
     });
+   contacts_table = $('#contacts-table').dataTable({
+      "sDom": '<"top"f<"clear">>rt<"bottom"ilp<"clear">>',
+      "bPaginate": false,
+      "bInfo": false,
+      "bAutoWidth": false,
+      "bFilter": true,
+      "sWidth": "100%",
+      "aoColumns": [                 
+        {"bSortable": false, "sWidth": "40%"},
+        {"bSortable": false, "sWidth": "20%"},
+        {"bSortable": false, "sWidth": "40%"}
+      ],
+      "oLanguage": {
+        "sEmptyTable": "Your contact list is empty"
+      }  
+    });
+
+
+    $.get('get_contacts', 
+        function(res){
+          populate_contacts_table(res);
+        }
+    ); 
+
+    $("#search_contacts").on('keyup', function(){
+      contacts_table.fnFilter($(this).val())
+    }) 
 });
 
 
@@ -78,6 +144,20 @@ $(document).ready(function(){
 <td class="col-big">
 
   <div class="content-inner">
+    <table id="contacts-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+  </table>
+  </div>
+
+</td>
+</tr>
+</table>
   </div>
 
 </td>
