@@ -1,4 +1,8 @@
 
+// REALTIME NOTIFICATION SOCKET
+socket = io.connect('http://anantb.csail.mit.edu:3000/');
+
+
 /*
 ==================================
  COntacts/Feed
@@ -143,7 +147,6 @@ var socket = null
 function initTeletalk(apiKey, userId){
 	apiKey = apiKey
 	userId = userId
-	socket = io.connect('http://anantb.csail.mit.edu:3000/');
 	if ($.getUrlVar('session')) {
 		_session_id = $.getUrlVar('session');
 		invited = true;

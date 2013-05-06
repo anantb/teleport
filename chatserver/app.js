@@ -14,6 +14,8 @@ var approot = 'http://anantb.csail.mit.edu';
 
 var calls = {};
 
+var logged_in = []
+
 io.sockets.on('connection', function(client){
 
     var clientId = client.id;
@@ -154,6 +156,14 @@ io.sockets.on('connection', function(client){
                 }
             }
         }
+    });
+
+    client.on('login', function(){
+        
+    });
+
+    client.on('send_notification', function(){
+        
     });
 
 });
