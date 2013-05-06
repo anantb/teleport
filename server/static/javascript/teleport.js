@@ -281,12 +281,14 @@ function inviteUser(invitee) {
             'session_id': sessionId,
             'inviter': userId
         };
-        if(msg.invitee) {
-            baseurl = window.location.href.split('?')[0];
-            socket.emit('invite', msg);
-            $('#messages').prepend("<br/>"+baseurl+"?session="+sessionId);
-            $('#invitee').val('');
-        }
+        
+        baseurl = window.location.href.split('?')[0];
+        socket.emit('invite', msg);
+        $('#messages').append('Notification sent! You can also directly send this URL to people: <br/>'+'<a href="' + baseurl+'?session='+sessionId + '">'+baseurl+'?session='+sessionId+'</a>');
+        $('#invitee').val('');
+        
+
+
     }
 }
 
