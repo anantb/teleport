@@ -122,15 +122,16 @@ body {
 	left:20px;
 	color: #4c4c4c;
 	font-weight: bold;
-	font-family: 'Tangerine', cursive;
+	font-family: 'Sintony', sans-serif;
 }
 
 #logo{
 	font-weight: bold;
-	font-family: 'Tangerine', cursive;
+	font-family: 'Sintony', sans-serif;
 	text-decoration: none;
-	font-size: 3em;
+	font-size: 2em;
 	color: #fff;
+	text-transform: capitalize !important;
 }
 
 #headlink-right a{
@@ -144,6 +145,7 @@ body {
 #headlink-left a{
 	text-decoration: none;
 	color: #fff;
+	text-transform: capitalize !important;
 }
 
 

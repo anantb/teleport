@@ -3,22 +3,10 @@
 
 Teleport Web Page
 -->
+{% extends "layout.html" %}
 
-<!DOCTYPE HTML>
-<html>
-<head>
-  <title>Teleport</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <link rel=stylesheet href='/tp_static/css/style.css' type='text/css' />
-  <link href='http://fonts.googleapis.com/css?family=Tangerine' rel='stylesheet' type='text/css'>
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-  <script type="text/javascript" src="/tp_static/javascript/jquery.dataTables.min.js"></script>
-  <script src="http://anantb.csail.mit.edu:3000/socket.io/socket.io.js"></script>
-  <script type="text/javascript" src="/tp_static/javascript/teleport.js"></script>
 
-</head>
-
-<body>
+{% block javascript %} 
 <script type="text/javascript">
 
 function populate_feed(){
@@ -67,64 +55,34 @@ $(document).ready(function(){
 });
 
 </script>
+{% endblock %} 
 
-<div id="header">
+{% block main_content_header %}       
+  <div class="search-container">
+  <input type="text" id="search_feeds" class="search-box" title="Search feeds" placeholder="Search Feeds" style="width:60%;margin-right:20px;"></input>
+  </div>
+{% endblock %} 
 
-    <span id="headlink-left">
-    {% block headlink-left %}<a id="logo" href="/">Teleport</a>{% endblock %}
-    </span>
-    <span id="headlink-right">
-    <a href="/logout">Log out</a>
-    </span>
-
-</div>
-
-
-<div id="page">
-
-<div id="content">
-<table id="content-layout">
-  <tr>
-    <td class="col-small user-profile">
-
-      <span class="profile-big"></span>
-
-    </td>
-    <td class="col-big search">
-      
-      <div class="search-container">
-      <input type="text" id="search_feeds" class="search-box" title="Search feeds" placeholder="Search Feeds" style="width:60%;margin-right:20px;"></input>
-      </div>
-
-    </td>
-  </tr>
-
-  <tr>
-<td class="col-small">
-
+  
+{% block links %} 
 <div class="links">
 <a class="nav" href="/contacts">Contacts</a>
 <a class="nav active" href="/feed">Feed</a>
 <a class="nav" href="/teleport">Teleport</a>
 </div>
-</td>
-<td class="col-big">
-  <div class="content-inner">
-  <table id="feeds-table">
-    <thead>
-    <tr>
-        <th>Date</th>
-        <th>Message</th>
-        <th></th>
-      </tr>
-    </thead>
-  </table>
-  </div>
-</td>
-</tr>
-</table>
+{% endblock %} 
 
+
+{% block main_content_body %} 
+<div class="content-inner">
+<table id="feeds-table">
+<thead>
+<tr>
+  <th>Date</th>
+  <th>Message</th>
+  <th></th>
+</tr>
+</thead>
+</table>
 </div>
-</div>
-</body>
-</html>
+{% endblock %} 

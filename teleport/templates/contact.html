@@ -3,84 +3,34 @@
 
 Teleport Web Page
 -->
+{% extends "layout.html" %}
 
-<!DOCTYPE HTML>
-<html>
-<head>
-  <title>Teleport</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <link rel=stylesheet href='/tp_static/css/style.css' type='text/css' />
-  <link href='http://fonts.googleapis.com/css?family=Tangerine' rel='stylesheet' type='text/css'>
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-  <script type="text/javascript" src="/tp_static/javascript/jquery.dataTables.min.js"></script>
-  <script src="http://anantb.csail.mit.edu:3000/socket.io/socket.io.js"></script>
-  <script type="text/javascript" src="/tp_static/javascript/teleport.js"></script>
-
-</head>
-
-<body>
+{% block javascript %} 
 <script type="text/javascript">
-
-
-
-
-
 $(document).ready(function(){
   populate_contacts()
 });
 
 </script>
+{% endblock %}
 
-<div id="header">
-
-    <span id="headlink-left">
-    {% block headlink-left %}<a id="logo" href="/">Teleport</a>{% endblock %}
-    </span>
-    <span id="headlink-right">
-    <a href="/logout">Log out</a>
-    </span>
-
-</div>
-
-
-<div id="page">
-
-<div id="content">
-<table id="content-layout">
-  <tr>
-    <td class="col-small user-profile">
-
-      <span class="profile-big"></span>
-
-    </td>
-    <td class="col-big search">
-      <div class="search-container">
-      <input type="text" id="search_contacts" class="search-box" title="Search Contacts"></input>
-      </div>
-    </td>
-  </tr>
-
-  <tr>
-<td class="col-small">
-
+{% block links %}
 <div class="links">
 <a class="nav active" href="/contacts">Contacts</a>
 <a class="nav" href="/feed">Feed</a>
 <a class="nav" href="/teleport">Teleport</a>
 </div>
-</td>
-<td class="col-big">
+{% endblock %}
 
-  <div class="content-inner">
-  <table id="contacts-table" class="content-table">
-  </table>
-  </div>
+{% block main_content_header %}   
+<div class="search-container">
+<input type="text" id="search_contacts" class="search-box" title="Search Contacts"></input>
+</div>
+{% endblock %}
 
-</td>
-</tr>
+{% block main_content_body %} 
+<div class="content-inner">
+<table id="contacts-table" class="content-table">
 </table>
-
 </div>
-</div>
-</body>
-</html>
+{% endblock %}

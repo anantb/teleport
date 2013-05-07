@@ -3,25 +3,9 @@
 
 Teleport Web Page
 -->
+{% extends "layout.html" %}
 
-<!DOCTYPE HTML>
-<html>
-  <head>
-    <title>Teleport</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel=stylesheet href='/tp_static/css/style.css' type='text/css' />
-    <link href='http://fonts.googleapis.com/css?family=Tangerine' rel='stylesheet' type='text/css'>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script src="http://static.opentok.com/webrtc/v2.0/js/TB.min.js" ></script>
-
-    <!-- node.js serves the socket.io client -->
-    <script src="http://anantb.csail.mit.edu:3000/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="/tp_static/javascript/teleport.js"></script>
-
-  </head>
-
-  <body>
-
+{% block javascript %}
 <script type="text/javascript">
     var apiKey = '{{api_key}}';
     var userId = '{{login_id}}';
@@ -58,110 +42,81 @@ Teleport Web Page
     });
 
 </script>
+{% endblock %}
 
 
+{% block links %}
+<div class="links">
+<a class="nav active" href="/contacts">Contacts</a>
+<a class="nav" href="/feed">Feed</a>
+<a class="nav" href="/teleport">Teleport</a>
+</div>
+{% endblock %}    
 
-    <div id="header">
-
-        <span id="headlink-left">
-        {% block headlink-left %}<a id="logo" href="/">Teleport</a>{% endblock %}
-        </span>
-        <span id="headlink-right">
-        <a href="/logout">Log out</a>
-        </span>
-
+   
+{% block main_content_header %}            
+            
+<table style="width:100%;">
+<tr>
+<td style="width:60%;">
+    <input id='invitee' class="search-box" type="text" placeholder="Enter name or email address" style="width:100%;"/>
+    
+</td>
+<td style="width:80px;">
+    <a class="button" href="#" id="invite" style="margin-left:20px;">+ Invite</a>
+</td>
+<td style="width:120px;">
+    <div class="mini-chat">
+        <div id="my-chat-window"></div>
     </div>
+</td>
+</tr>
+</table>
+{% endblock %}
 
-
-    <div id="page">
-      <div id="content">
-        <table id="content-layout">
-          <tr>
-            <td class="col-small user-profile">
-              <span class="profile-big"></span>
-            </td>
-            <td class="col-big search">
-                <table style="width:100%;">
-                <tr>
-                <td style="width:60%;">
-                    <input id='invitee' class="search-box" type="text" placeholder="Enter name or email address" style="width:100%;"/>
-                    
-                </td>
-                <td style="width:80px;">
-                    <a class="button" href="#" id="invite" style="margin-left:20px;">+ Invite</a>
-                </td>
-                <td style="width:120px;">
-                    <div class="mini-chat">
-                        <div id="my-chat-window"></div>
-                    </div>
-                </td>
-                </tr>
-                </table>
-
-            </td>
-          </tr>
-
-          <tr>
-
-            <td class="col-small">
-              <div class="links">
-                <a class="nav" href="/contacts">Contacts</a>
-                <a class="nav" href="/feed">Feed</a>
-                <a class="nav active" href="/teleport">Teleport</a>
-              </div>
-            </td>
-
-            <td class="col-big" text-align="center">
-
-                <div class="content-inner">                
-                
-
-                <table id="bottom-panel" style="width:100%;">
-                    <tr>                   
-                        
-                        <td style"width:60%;" class="border">
-                            
-                        <div id="chat-windows"></div>
-                            
-                        </td>
-                        <td style="width:80px;">
-                        </td>
-                        <td>
-                        </td>
-                    </tr>
-                    <tr>
-                        
-                        <td style"width:60%;" class="border">
-                        
-                        <div id="messages" style="height:400px; overflow:scroll;">
-                        
-                        </div>
-                        </td>
-                        <td style="width:80px;">
-                        </td>
-                        <td>
-                        </td>
-                    </tr>  
-                    <tr>
-                       
-                    <td style="width:60%; background-color:#eee; padding:20px;">
-                        <input type="text" style="width:100%; box-sizing:border-box;" id='field' />
-                        
-                    </td>
-                    <td style="width:80px;">
-                        <input id='send' type="submit" style="margin-left:20px;" value="Send" />
-                    </td>
-                    <td>
-                        </td>
-                    
-                    </tr>
-                </table>
-                </div>
-            </td>
-
-          </tr>
-        </table>
-      </div>
-    </div>
-  </body>
-</html>
+           
+            
+{% block main_content_body %}  
+<div class="content-inner">
+<table id="bottom-panel" style="width:100%;">
+    <tr>                   
+        
+        <td style"width:60%;" class="border">
+            
+        <div id="chat-windows"></div>
+            
+        </td>
+        <td style="width:80px;">
+        </td>
+        <td>
+        </td>
+    </tr>
+    <tr>
+        
+        <td style"width:60%;" class="border">
+        
+        <div id="messages" style="height:400px; overflow:scroll;">
+        
+        </div>
+        </td>
+        <td style="width:80px;">
+        </td>
+        <td>
+        </td>
+    </tr>  
+    <tr>
+       
+    <td style="width:60%; background-color:#eee; padding:20px;">
+        <input type="text" style="width:100%; box-sizing:border-box;" id='field' />
+        
+    </td>
+    <td style="width:80px;">
+        <input id='send' type="submit" style="margin-left:20px;" value="Send" />
+    </td>
+    <td>
+        </td>
+    
+    </tr>
+</table>
+</div>
+{% endblock %}        
