@@ -21,6 +21,15 @@ $(document).ready(function(){
           res.invite + ' added successfully to your contacts list. <br /> <br /> <br />' +
           '<a class= "button" href="/add_contact">Add More Contacts</a>' + '</div>'
           $('#content-area').html(html);
+          $.ajax({
+              type: 'POST',
+              async: true,
+              url: '/invite_email/',
+              data: {'email':res.invite},
+              success: function(res) {
+                  console.log(res)
+              }
+          });
         }
       });
     });

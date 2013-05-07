@@ -49,17 +49,6 @@ function populate_contacts_table(res){
 
 $(document).ready(function(){
   //populate_contacts()
-
-    if(invite!=null && invite != ''){
-      $.ajax({
-            type: 'GET',
-            async: true,
-            url: '/invite_email/' + invite,
-            success: function(res) {
-                console.log(res)
-            }
-        });
-    }
     contacts_table = $('#contacts-table').dataTable({
       "sDom": '<"top"f<"clear">>rt<"bottom"ilp<"clear">>',
       "bPaginate": false,

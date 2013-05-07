@@ -58,8 +58,9 @@ def send_email(addr, subject, msg_body):
 
 
 @csrf_exempt
-def invite_email(request, to_email):
+def invite_email(request):
     login_email = request.session[SESSION_KEY]
+    to_email = request.POST["email"]
     subject = "%s has invited you to Teleport" %(login_email)
     msg_body = """
     Dear %s,
