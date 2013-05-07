@@ -160,7 +160,7 @@ def add_contact(request):
         user2 = request.POST["email"]
         c = Contact(user1=user1, user2=user2)
         c.save()
-        return HttpResponse('/contacts.html', {'invite':user2})
+        return HttpResponse(json.dumps({'invite':user2}), mimetype="application/json")
     else:
         return render_to_response('add_contact.html')
 
