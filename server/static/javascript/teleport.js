@@ -110,7 +110,7 @@ function add_feed(location){
       url: '/add_feed/',
       data: {'msg':msg},
       success: function(res) {
-          console.log(res)
+          show_notify('Shared with your contacts', true)
       }
   });
 }
@@ -127,7 +127,13 @@ function send_tweet(location){
         "twitter", "width=500,height=300");
 }
 
-
+function show_notify(msg, res){
+		if(!res){
+			noty({text: "Error: " + res.code, dismissQueue: true, timeout:2000, force: true, type: 'error', layout: 'topRight'});
+		}else{			
+			noty({text: "Success!", dismissQueue: true, timeout:2000, force: true, type:'success', layout: 'topRight'});			
+		}
+	}
 
 function createPlacemark(geocodeLocation){
 	var geocoder = new google.maps.ClientGeocoder();
