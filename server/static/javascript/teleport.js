@@ -87,7 +87,7 @@ function geInitSuccess(object) {
 	if(loc != null){
 		console.log(loc)
 		setLocation(loc)
-		createPlacemark(loc)		
+		createPlacemark(loc)
 	}else{
 		setLocation('MIT Cambridge', "Massachusetts Institute of Technology")
 	}
@@ -118,12 +118,12 @@ function add_feed(location){
 function send_tweet(location){
 	var url = "http://teleport.csail.mit.edu/teleport#" +encodeURIComponent(location);
     var message = "Looking forward to seeing \"" + location  + "\""
-    window.open ("https://twitter.com/share?" + 
-    	"url=" + encodeURIComponent(url) + 
+    window.open ("https://twitter.com/share?" +
+    	"url=" + encodeURIComponent(url) +
         "&counturl=" + encodeURIComponent(url) +
-        "&text=" + encodeURIComponent(message) + 
-        "&hashtags=" + encodeURIComponent('teleport') + 
-        "&via=" + encodeURIComponent('teleport_mit'), 
+        "&text=" + encodeURIComponent(message) +
+        "&hashtags=" + encodeURIComponent('teleport') +
+        "&via=" + encodeURIComponent('teleport_mit'),
         "twitter", "width=500,height=300");
 }
 
@@ -155,7 +155,7 @@ function createPlacemark(geocodeLocation){
 	  	alert("Couldn't find the location");
 	 }
 	});
-	
+
 
 }
 
@@ -193,6 +193,7 @@ function displaySessions(data) {
         console.log("display", data);
         var s = data[0];
         var url = "/teletalk?session="+s.session_id;
+        localStorage.setItem("sessionId",s.session_id);
         joinChat(s.session_id, false);
         $("#other-chat-window").click(function() {
             window.location = url;
@@ -227,7 +228,7 @@ function getLiveSessions(userId) {
 */
 
 //var userId = null
-var sessionId, _session_id, token, session, invited;
+var sessionId, _session_id, _invitee, token, session, invited;
 
 
 function initTeletalk(apiKey, userId){
@@ -236,7 +237,9 @@ function initTeletalk(apiKey, userId){
 	if ($.getUrlVar('session')) {
 		_session_id = $.getUrlVar('session');
 		invited = true;
-	}
+	} else if ($.getUrlVar('invite')) {
+        _invitee = $.getUrlVar('invitee');
+    }
 	if(socket == null){
 		socket = io.connect(nodeSrv);
 	}
@@ -301,7 +304,23 @@ function bindTeletalkEvents(){
     });
 
     socket.on('accepted', function (data) {
-        joinChat(data.session_id, true)
+        joinChat(data.session_id, true);
+        if (_invitee) {
+            var msg = {
+                'invitee': _invitee,
+                'session_id': data.session_id,
+                'inviter': userId
+            };
+
+            // check if user is online
+
+            if (online) {
+                socket.emit('invite', msg);
+            } else {
+                // send email and create a missed call
+            }
+
+        }
     });
 
     socket.on('follow', function (data) {
