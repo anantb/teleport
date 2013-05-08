@@ -14,7 +14,7 @@ class User(models.Model):
 	f_name = models.CharField(max_length=50)
 	l_name = models.CharField(max_length=50)
 	password = models.CharField(max_length=500)
-	
+
 	def __unicode__(self):
 		return self.name
 
@@ -36,7 +36,6 @@ class Contact(models.Model):
 		db_table = "contacts"
 
 
-
 class Feed(models.Model):
 	id = models.AutoField(primary_key=True)
 	to_addr = models.CharField(max_length=100)
@@ -51,5 +50,26 @@ class Feed(models.Model):
 		ordering = ['-timestamp']
 
 
+class Missed(models.Model):
+	id = models.AutoField(primary_key=True)
+	to_user = models.CharField(max_length=100)
+	from_user = models.CharField(max_length=100)
+	session_id = models.CharField(max_length=200)
+	timestamp = models.DateTimeField(auto_now=True)
+
+	class Meta:
+		unique_together = ('to_user', 'from_user', 'session_id')
+		db_table = "missed"
+
+
+class Login(models.Model):
+	id = models.AutoField(primary_key=True)
+	user = models.CharField(max_length=100)
+	timestamp = models.DateTimeField(auto_now=True)
+	logout = models.BooleanField(default=False)
+
+	class Meta:
+		db_table = "login"
+		ordering = ['-timestamp']
 
 

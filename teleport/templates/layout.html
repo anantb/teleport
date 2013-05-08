@@ -70,6 +70,10 @@ Teleport Web Page
     </div>
 </div>
 
+<div class="call-notifications">
+
+</div>
+
 <div class="session-info">
     <div style="width:120px;">
         <div class="mini-chat">
@@ -102,7 +106,7 @@ $(document).ready(function(){
     }
     userId = localStorage.getItem('userId');
     apiKey = localStorage.getItem('apiKey');
-
+    socket.emit('announce', {'user_id': userId});
 });
 </script>
 {% block javascript %}{% endblock %}

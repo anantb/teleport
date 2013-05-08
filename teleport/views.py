@@ -108,6 +108,8 @@ def login(request):
             user = User.objects.get(email=login_email, password=login_password)
             request.session.flush()
             request.session[SESSION_KEY] = user.email
+            login = Login(user=user.email)
+            login.save()
             return HttpResponseRedirect('/')
         except:
             print sys.exc_info()
@@ -127,6 +129,8 @@ def register(request):
             user.save()
             request.session.flush()
             request.session[SESSION_KEY] = user.email
+            login = Login(user=user.email)
+            login.save()
             return HttpResponseRedirect('/')
         except:
             print sys.exc_info()
@@ -139,6 +143,8 @@ def register(request):
 
 
 def logout(request):
+    user = request.session[SESSION_KEY]
+    login = Login(user)
     request.session.flush()
     return HttpResponseRedirect('/login')
 
@@ -285,14 +291,12 @@ def get_token(request):
     return HttpResponse(json.dumps(ret), mimetype="application/json")
 
 
-@login_required
-def send_invite(request):
-    session_id = request.META['POST'].get('session_id')
+@csrf_exempt
+def register_missed(request):
     inviter_id = request.META['POST'].get('inviter_id')
     invitee_id = request.META['POST'].get('invitee_id')
 
     ret = {'error': True}
 
-    # TODO: enter into the database with current timestamp. Note that sessions do not exipire
-
     return HttpResponse(json.dumps(ret), mimetype="application/json")
+

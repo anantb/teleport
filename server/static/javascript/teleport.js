@@ -1,5 +1,5 @@
 
-var nodeSrv='http://teleport.csail.mit.edu:3000/';
+var nodeSrv='http://localhost:3000/';
 
 // REALTIME NOTIFICATION SOCKET
 var socket = io.connect(nodeSrv);
@@ -130,8 +130,8 @@ function send_tweet(location){
 function show_notify(msg, res){
 	if(!res){
 		noty({text: msg, dismissQueue: true, timeout:2000, force: true, type: 'error', layout: 'topCenter'});
-	}else{			
-		noty({text: msg, dismissQueue: true, timeout:2000, force: true, type:'success', layout: 'topCenter'});			
+	}else{
+		noty({text: msg, dismissQueue: true, timeout:2000, force: true, type:'success', layout: 'topCenter'});
 	}
 }
 
@@ -139,8 +139,8 @@ function show_notify(msg, res){
 function show_notify_stick(msg, res){
 	if(!res){
 		noty({text: msg, dismissQueue: false,  force: true, type: 'error', layout: 'topCenter'});
-	}else{			
-		noty({text: msg, dismissQueue: false, force: true, type:'success', layout: 'topCenter'});			
+	}else{
+		noty({text: msg, dismissQueue: false, force: true, type:'success', layout: 'topCenter'});
 	}
 }
 
@@ -227,6 +227,11 @@ function bindGlobalEvents() {
         console.log('join-global', data);
         initSmallVideo(data.session_id, data.token);
     });
+
+    socket.on('invited', function(data) {
+        console.log(data);
+        show_notify_stick('Yay', true);
+    })
 }
 
 function getLiveSessions(userId) {
@@ -327,14 +332,7 @@ function bindTeletalkEvents(){
                 'inviter': userId
             };
 
-            // check if user is online
-
-            if (online) {
-                socket.emit('invite', msg);
-            } else {
-                // send email and create a missed call
-            }
-
+            socket.emit('invite', msg);
         }
     });
 

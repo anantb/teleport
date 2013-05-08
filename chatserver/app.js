@@ -14,9 +14,20 @@ var approot = 'http://teleport.csail.mit.edu';
 
 var calls = {};
 
+var clients = [];
+
 io.sockets.on('connection', function(client){
 
     var clientId = client.id;
+
+    clients.push(client);
+
+    client.on('announce', function(msg) {
+        console.log("User " + msg.user_id + " announced." );
+        client.set('user_id', msg.user_id, function() {
+            console.log("User " + msg.user_id + " announced." );
+        });
+    });
 
     client.on('initiate', function(msg) {
         var session_id = '';
@@ -77,12 +88,14 @@ io.sockets.on('connection', function(client){
 
             inviteIdx = call_state.invited.indexOf(msg.user_id);
 
+            /*
             if (inviteIdx > -1) {
                 // no op
             } else {
                 client.emit('error', {'error': 'Not invited to the party.'});
                 return;
             }
+            */
 
             request.post(
                 approot + '/get_token',
@@ -146,6 +159,13 @@ io.sockets.on('connection', function(client){
             if (call_state.members.indexOf(msg.inviter) > -1 &&
                 call_state.invited.indexOf(msg.invitee) == -1) {
                 call_state.invited.push(msg.invitee);
+                for (var i in clients) {
+                    client[i].get('user_id', function(err, user_id) {
+                        if (user_id === msg.invitee) {
+                            client[i].emit('invited', msg);
+                        }
+                    });
+                }
             }
             return;
         }
@@ -174,18 +194,17 @@ io.sockets.on('connection', function(client){
     });
 
     client.on('disconnect', function(){
+        clients.splice(clients.indexOf(client), 1);
         var rooms = io.sockets.manager.roomClients[client.id];
         for (var field in rooms) {
             if (field.length > 0) {
                 var session_id = field.substring(1);
                 if (session_id in calls) {
                     client.get('user_id', function(err, uid) {
-                        // io.sockets.in(session_id).emit('notify', {
-                        //     'msg' : uid + ' has left chat.'
-                        // });
+                        io.sockets.in(session_id).emit('notify', {
+                            'msg' : uid + ' has left chat.'
+                        });
                     });
-
-                    // TODO: also remove from members?  needed?
                 }
             }
         }
