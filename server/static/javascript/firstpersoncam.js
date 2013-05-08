@@ -44,7 +44,6 @@ var tiltMin = -90.0 * Math.PI / 180.0;
 INITIAL_CAMERA_ALTITUDE = 1.7*150; // Roughly 6 feet tall
 cameraAltitude = INITIAL_CAMERA_ALTITUDE;
 
-var reset = null
 //----------------------------------------------------------------------------
 // Utility Functions
 //----------------------------------------------------------------------------
@@ -276,8 +275,7 @@ FirstPersonCam.prototype.updateCamera = function() {
          me.tiltAngle * 180 / Math.PI + 90, /* tilt */         
          0 /* altitude is constant */         
          );  
-  ge.getView().setAbstractView(la);  
-  reset = me       
+  ge.getView().setAbstractView(la);         
 };
 
 

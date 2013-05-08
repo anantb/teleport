@@ -42,7 +42,6 @@ $(document).on('keydown', function(event){
   socket.emit('lead', {
         user_id: localStorage.getItem('userId'),
         session_id: localStorage.getItem('sessionId'),
-        'reset' : reset,
         'keydown': event.keyCode
     })
   /*
@@ -57,7 +56,6 @@ $(document).on('keyup', function(event){
   socket.emit('lead', {
         user_id: localStorage.getItem('userId'),
         session_id: localStorage.getItem('sessionId'),
-        'reset' : reset,
         'keyup' : event.keyCode
     })
   /*
