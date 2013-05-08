@@ -62,42 +62,39 @@ function fixAngle(a) {
 // Input Handlers
 //----------------------------------------------------------------------------
 
-function keyDown(event) {
-  if (!event) {
-    event = window.event;
-  }
-  if (event.keyCode == 33) {  // Altitude Up
+function keyDown(keyCode) {
+  if (keyCode == 33) {  // Altitude Up
     altitudeUp = true;
-    event.returnValue = false;
-  } else if (event.keyCode == 34) {  // Altitude Down
+    //event.returnValue = false;
+  } else if (keyCode == 34) {  // Altitude Down
     altitudeDown = true;
-    event.returnValue = false;
-  } else if (event.keyCode == 37) {  // Turn Left.
+    //event.returnValue = false;
+  } else if (keyCode == 37) {  // Turn Left.
     turnLeft = true;
-    event.returnValue = false;
-  } else if (event.keyCode == 39) {  // Turn Right.
+    //event.returnValue = false;
+  } else if (keyCode == 39) {  // Turn Right.
     turnRight = true;
-    event.returnValue = false;
-  } else if (event.keyCode == 38) {  // Tilt Up.
+    //event.returnValue = false;
+  } else if (keyCode == 38) {  // Tilt Up.
     tiltUp = true;
-    event.returnValue = false;
-  } else if (event.keyCode == 40) {  // Tilt Down.
+    //event.returnValue = false;
+  } else if (keyCode == 40) {  // Tilt Down.
     tiltDown = true;
-    event.returnValue = false;
-  } else if (event.keyCode == 65 || 
-             event.keyCode == 97) {  // Strafe Left.
+    //event.returnValue = false;
+  } else if (keyCode == 65 || 
+            keyCode == 97) {  // Strafe Left.
     strafeLeft = true;
     event.returnValue = false;
-  } else if (event.keyCode == 68 || 
-             event.keyCode == 100) {  // Strafe Right.
+  } else if (keyCode == 68 || 
+             keyCode == 100) {  // Strafe Right.
     strafeRight = true;
-    event.returnValue = false;
-  } else if (event.keyCode == 87 || 
-             event.keyCode == 119) {  // Move Forward.
+    //event.returnValue = false;
+  } else if (keyCode == 87 || 
+             keyCode == 119) {  // Move Forward.
     moveForward = true;    
-    event.returnValue = false;    
-  } else if (event.keyCode == 83 || 
-             event.keyCode == 115) {  // Move Forward.
+    //event.returnValue = false;    
+  } else if (keyCode == 83 || 
+             keyCode == 115) {  // Move Forward.
     moveBackward = true;     
   } else {
     return true;
@@ -105,42 +102,39 @@ function keyDown(event) {
   return false;
 }
 
-function keyUp(event) {
-  if (!event) {
-    event = window.event;
-  } 
-  if (event.keyCode == 33) {  // Altitude Up
+function keyUp(keyCode) {
+  if (keyCode == 33) {  // Altitude Up
     altitudeUp = false;
-    event.returnValue = false;
-  } else if (event.keyCode == 34) {  // Altitude Down
+    //event.returnValue = false;
+  } else if (keyCode == 34) {  // Altitude Down
     altitudeDown = false;
-    event.returnValue = false;
-  } else if (event.keyCode == 37) {  // Left.
+    //event.returnValue = false;
+  } else if (keyCode == 37) {  // Left.
     turnLeft = false;
-    event.returnValue = false;
-  } else if (event.keyCode == 39) {  // Right.
+    //event.returnValue = false;
+  } else if (keyCode == 39) {  // Right.
     turnRight = false;
-    event.returnValue = false;
-  } else if (event.keyCode == 38) {  // Up.
+    //event.returnValue = false;
+  } else if (keyCode == 38) {  // Up.
     tiltUp = false;
-    event.returnValue = false;
-  } else if (event.keyCode == 40) {  // Down.
+    //event.returnValue = false;
+  } else if (keyCode == 40) {  // Down.
     tiltDown = false;
-    event.returnValue = false;   
-  } else if (event.keyCode == 65 || 
-             event.keyCode == 97) {  // Strafe Left.
+    //event.returnValue = false;   
+  } else if (keyCode == 65 || 
+             keyCode == 97) {  // Strafe Left.
     strafeLeft = false;
-    event.returnValue = false;
-  } else if (event.keyCode == 68 || 
-             event.keyCode == 100) {  // Strafe Right.
+    //event.returnValue = false;
+  } else if (keyCode == 68 || 
+             keyCode == 100) {  // Strafe Right.
     strafeRight = false;
-    event.returnValue = false;
-  } else if (event.keyCode == 87 || 
-             event.keyCode == 119) {  // Move Forward.
+    //event.returnValue = false;
+  } else if (keyCode == 87 || 
+             keyCode == 119) {  // Move Forward.
     moveForward = false;    
-    event.returnValue = false;    
-  } else if (event.keyCode == 83 || 
-             event.keyCode == 115) {  // Move Forward.
+    //event.returnValue = false;    
+  } else if (keyCode == 83 || 
+             keyCode == 115) {  // Move Forward.
     moveBackward = false;       
   }
   return false;

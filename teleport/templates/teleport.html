@@ -6,7 +6,7 @@
 $(document).ready(function(){
   
   var loc = get_hash()
-  
+  bindTeletalkEvents()
   initTeleport(loc)
 
   $("#teleport_me_btn").on('click', function(){
@@ -37,11 +37,33 @@ $(document).unload(function(){
 })
 
 $(document).on('keydown', function(event){
-  return keyDown(event)
+  event.returnValue = false;
+  
+  socket.emit('lead', {
+        user_id: localStorage.getItem('userId'),
+        session_id: localStorage.getItem('sessionId'),
+        'keydown' : event.keyCode
+    })
+  /*
+  keyDown(event.keyCode)
+  return false
+  */
 })
 
 $(document).on('keyup', function(event){
-  return keyUp(event)
+  event.returnValue = false;
+  
+  socket.emit('lead', {
+        user_id: localStorage.getItem('userId'),
+        session_id: localStorage.getItem('sessionId'),
+        'keyup' : event.keyCode
+    })
+  /*
+  
+  
+  keyUp(event.keyCode)
+  return false
+  */
 })
 </script>
 
