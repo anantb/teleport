@@ -100,7 +100,23 @@ function geInitFail(object) {
 }
 
 
+
+function add_feed(location){
+	var url = "http://teleport.csail.mit.edu/teleport#" +encodeURIComponent(location);
+    var msg = "Looking forward to seeing \"" + location  + "\". <a href=\""+url+"\">"+url+"</a>"
+	$.ajax({
+      type: 'POST',
+      async: true,
+      url: '/add_feed/',
+      data: {'msg':msg},
+      success: function(res) {
+          console.log(res)
+      }
+  });
+}
+
 function send_tweet(location){
+	add_feed(location)
 	var url = "http://teleport.csail.mit.edu/teleport#" +encodeURIComponent(location);
     var message = "Looking forward to seeing \"" + location  + "\""
     window.open ("https://twitter.com/share?" + 

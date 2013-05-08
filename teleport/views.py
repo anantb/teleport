@@ -151,6 +151,15 @@ def contacts(request):
 def feed(request):
     return render_to_response('feed.html')
 
+@csrf_exempt
+@login_required
+def add_feed(request):
+    user = User.objects.get(email=request.session[SESSION_KEY])
+    msg = request.POST["msg"]
+    f1 = Feed(from_addr = user.email, msg = "%s: %s" %(user.f_name + user.l_name, msg))
+    f1.save()
+    return HttpResponse(json.dumps({'status':'ok'}), mimetype="application/json")
+
 
 @login_required
 def teleport(request):

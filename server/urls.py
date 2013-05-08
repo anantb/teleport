@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^contacts', 'teleport.views.contacts'),
     url(r'^get_contacts', 'teleport.views.get_contacts'),
     url(r'^add_contact', 'teleport.views.add_contact'),
+    url(r'^add_feed', 'teleport.views.add_feed'),
 
     url(r'^feed', 'teleport.views.feed'),
     url(r'^get_feeds', 'teleport.views.get_feeds'),
