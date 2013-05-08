@@ -276,6 +276,12 @@ function initSmallVideo(sessionId, token) {
 }
 
 function svSessionConnectedHandler(event) {
+    if (window.location.pathname == '/teleport') {
+        var elemId = 'my-chat-window';
+        var publisher = TB.initPublisher(apiKey, elemId);
+        session.publish(publisher);
+        resize(elemId, 100);
+    }
     svSubscribeToStreams(event.streams);
 }
 
