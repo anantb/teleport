@@ -328,6 +328,12 @@ function bindTeletalkEvents(){
     socket.on('join', function (data) {
         token = data.token;
         sessionId = data.session_id;
+
+        if (_invitee) {
+            inviteUser(_invitee);
+            show_notify("You have invited " + _invitee + " to chat.", true);
+        }
+
         // Initialize session, set up event listeners, and connect
         //TB.setLogLevel(TB.DEBUG);
         session = TB.initSession(sessionId);
@@ -350,10 +356,6 @@ function bindTeletalkEvents(){
 
     socket.on('accepted', function (data) {
         joinChat(data.session_id, true);
-        if (_invitee) {
-            inviteUser(_invitee);
-            show_notify("You have invited " + _invitee + " to chat.", true);
-        }
     });
 
     socket.on('follow', function (data) {
