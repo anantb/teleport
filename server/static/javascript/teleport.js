@@ -1,5 +1,5 @@
 
-var nodeSrv='http://localhost:3000/';
+var nodeSrv='http://teleport.csail.mit.edu:3000/';
 
 // REALTIME NOTIFICATION SOCKET
 var socket = io.connect(nodeSrv);
@@ -172,7 +172,7 @@ function createPlacemark(geocodeLocation){
 	    var balloon = ge.createHtmlDivBalloon('');
 		balloon.setFeature(placemark);
 		var div = document.createElement('DIV');
-		div.innerHTML = geocodeLocation + '<br /><a href="#" onclick="add_feed(\'' + 
+		div.innerHTML = geocodeLocation + '<br /><a href="#" onclick="add_feed(\'' +
 			geocodeLocation+'\');">Post</a> &nbsp; &nbsp; <a href="#" onclick="send_tweet(\''+geocodeLocation+'\');">Tweet</a><br /><br />'  +
 		'<input type="text" placeholder="image/video url" id="image_video_url"><br /><a href="#" onclick="addURL();">Save</a>';
 		balloon.setContentDiv(div);
@@ -358,7 +358,7 @@ function bindTeletalkEvents(){
 
     socket.on('follow', function (data) {
         // update google earth with leader's coordinates
-       
+
         if(data.keyup != null){
         	keyUp(data.keyup)
         }
