@@ -10,6 +10,8 @@ Teleport Web Page
     var apiKey = '{{api_key}}';
     var userId = '{{login_id}}';
 
+    var teleTalk = true;
+
     $(document).ready(function(){
         initTeletalk(apiKey, userId)
 
@@ -36,7 +38,7 @@ Teleport Web Page
         if (!invited) {
             initiateChat();
         } else {
-            joinChat(_session_id);
+            joinChat(_session_id, true);
         }
 
     });
@@ -51,72 +53,54 @@ Teleport Web Page
 <a class="nav" href="/feed">Feed</a>
 <a class="nav" href="/teleport">Teleport</a>
 </div>
-{% endblock %}    
-
-   
-{% block main_content_header %}            
-            
-<table style="width:100%;">
-<tr>
-<td style="width:60%;">
-    <input id='invitee' class="search-box" type="text" placeholder="Enter name or email address" style="width:100%;"/>
-    
-</td>
-<td style="width:80px;">
-    <a class="button" href="#" id="invite" style="margin-left:20px;">+ Invite</a>
-</td>
-<td style="width:120px;">
-    <div class="mini-chat">
-        <div id="my-chat-window"></div>
-    </div>
-</td>
-</tr>
-</table>
 {% endblock %}
 
-           
-            
-{% block main_content_body %}  
+
+{% block main_content_header %}
+
+<div id="alert">
+</div>
+{% endblock %}
+
+
+
+{% block main_content_body %}
 <div class="content-inner">
-<table id="bottom-panel" style="width:100%;">
-    <tr>                   
-        
-        <td style"width:60%;" class="border">
-            
+<table id="bottom-panel" style="width:100%; ">
+    <tr>
+
+        <td class="border">
+
         <div id="chat-windows"></div>
-            
+
         </td>
         <td style="width:80px;">
         </td>
-        <td>
-        </td>
+
     </tr>
     <tr>
-        
-        <td style"width:60%;" class="border">
-        
-        <div id="messages" style="height:400px; overflow:scroll;">
-        
+
+        <td class="border text-chat-container">
+
+        <div id="messages" style="height:150px; overflow:scroll;">
+
         </div>
         </td>
         <td style="width:80px;">
         </td>
-        <td>
-        </td>
-    </tr>  
+
+    </tr>
     <tr>
-       
-    <td style="width:60%; background-color:#eee; padding:20px;">
+
+    <td style="background-color:#eee; padding:20px;">
         <input type="text" style="width:100%; box-sizing:border-box;" id='field' />
-        
+
     </td>
     <td style="width:80px;">
         <input id='send' type="submit" style="margin-left:20px;" value="Send" />
     </td>
-    <td>
-        </td>
-    
+
     </tr>
 </table>
 </div>
-{% endblock %}        
+{% endblock %}

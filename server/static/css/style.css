@@ -11,7 +11,9 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, p, pre, a, abbr, acronym, address
 	outline: 0;
 }
 
+html {
 
+}
 
 
 ol, ul, li {
@@ -93,6 +95,7 @@ body {
 	height: 100%;
 	overflow: auto;
 	background: #eee;
+
 }
 
 
@@ -209,10 +212,22 @@ body {
 
 }
 
+.backdrop {
+    background-image:url(/tp_static/images/backgroundOpt2Transp4.png);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+
+.backdrop-subtle {
+}
+
 .content-inner {
 	padding-left:30px;
 	padding-right:30px;
-	min-height: 400px;
+	min-height: 550px;
 }
 
 
@@ -356,7 +371,7 @@ body {
   height:6em;
   width: 6em;
   margin:0;
-  background-image:url(/tp_static/images/profile.svg);
+  background-image:url(/tp_static/images/logoWhite.png);
   background-size: 6em 6em;
   background-repeat:no-repeat;
   display: inline-block;
@@ -477,9 +492,10 @@ body {
 }
 
 #bottom-panel {
-	width:60%;
+	width:80%;
 	overflow: hidden;
 	margin-bottom: 50px;
+    margin: 0 auto;
 }
 
 .border{
@@ -492,8 +508,8 @@ body {
 	max-height:200px;
 	overflow: scroll;
 	width:100%;
-	border-radius: 10px;
 	margin:0px 0px 20px 0px;
+    background:#fff;
 }
 
 #video-chat-container {
@@ -508,9 +524,8 @@ body {
 }
 
 
-
-#text-chat-container {
-	color:#2C3E50;
+.text-chat-container {
+	background: white;
 }
 
 .mini-chat {
@@ -520,7 +535,7 @@ body {
 }
 
 .chat-controls {
-	width:80%;
+	width:90%;
 	float:right;
 }
 
@@ -535,7 +550,7 @@ body {
 }
 
 .large-text {
-	width:80% !important;
+	width:90% !important;
 	height:100px;
 }
 
@@ -548,6 +563,7 @@ body {
 
 
 table.dataTable{
+    background-color:#fff;
 	width:100%;
 	border-spacing:0;
 }
@@ -598,13 +614,22 @@ table.dataTable tbody tr:hover td {
 
 
 .session-info {
-    height:20%;
     position:absolute;
-    bottom:0;
-    padding:15px;
+    bottom:15px;
     color: #fff;
 }
 
+#curr-call {
+    color:#fff;
+    padding:5px;
+    border-radius:10px;
+    font-size:1.2em;
+    margin:15px;
+}
+
+.OT_video-container {
+    background-color:#000 !important;
+}
 
 
 
