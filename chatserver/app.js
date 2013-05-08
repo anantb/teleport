@@ -10,11 +10,9 @@ io.set('log level', 2); // reduce logging
 server.listen(3000);
 
 // TODO: change me.
-var approot = 'http://anantb.csail.mit.edu';
+var approot = 'http://teleport.csail.mit.edu';
 
 var calls = {};
-
-var logged_in = []
 
 io.sockets.on('connection', function(client){
 
@@ -35,7 +33,8 @@ io.sockets.on('connection', function(client){
                         'invited': [msg.initiator],
                         'leader':  msg.initiator,
                         'initiator': msg.initiator,
-                        'buffer': []
+                        'buffer': [],
+                        'timestamp': new Date()
                     };
                     client.emit('accepted', calls[res.session_id]);
                 } else {
@@ -44,6 +43,26 @@ io.sockets.on('connection', function(client){
             }
         );
     });
+
+    client.on('getLiveSessions', function(msg) {
+        var userId = msg.user_id,
+            user_calls = [],
+            call = {};
+
+        console.log('getLiveSessions', msg);
+
+        for (var sessionId in calls) {
+            call = calls[sessionId];
+            if (call.members.indexOf(userId) > -1) {
+                user_calls.push(call);
+            }
+        }
+
+        console.log(user_calls);
+
+        client.emit('sessionUpdate', user_calls);
+    });
+
 
     client.on('join', function(msg) {
 
@@ -111,7 +130,6 @@ io.sockets.on('connection', function(client){
         if (call_state) {
             if (call_state.members.indexOf(msg.inviter) > -1 &&
                 call_state.invited.indexOf(msg.invitee) == -1) {
-
                 call_state.invited.push(msg.invitee);
             }
             return;
@@ -159,11 +177,11 @@ io.sockets.on('connection', function(client){
     });
 
     client.on('login', function(){
-        
+
     });
 
     client.on('send_notification', function(){
-        
+
     });
 
 });
