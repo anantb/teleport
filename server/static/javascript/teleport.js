@@ -115,6 +115,19 @@ function add_feed(location){
   });
 }
 
+
+function addURL(location){
+	url = $("#image_video_url").val()
+	var balloon = ge.createHtmlStringBalloon('');
+    //balloon.setFeature(placemark); // optional
+    balloon.setMaxWidth(400);
+
+    // YouTube video embed... the &nbsp; in the beginning is a fix for IE6
+    balloon.setContentString(url);
+
+    ge.setBalloon(balloon);
+}
+
 function send_tweet(location){
 	var url = "http://teleport.csail.mit.edu/teleport#" +encodeURIComponent(location);
     var message = "Looking forward to seeing \"" + location  + "\""
@@ -159,7 +172,9 @@ function createPlacemark(geocodeLocation){
 	    var balloon = ge.createHtmlDivBalloon('');
 		balloon.setFeature(placemark);
 		var div = document.createElement('DIV');
-		div.innerHTML = geocodeLocation + '<br /><a href="#" onclick="add_feed(\''+geocodeLocation+'\');">Post</a> &nbsp; &nbsp; <a href="#" onclick="send_tweet(\''+geocodeLocation+'\');">Tweet</a> &nbsp; &nbsp; <a href="#" onclick="addURL();">Add Image/Video</a>';
+		div.innerHTML = geocodeLocation + '<br /><a href="#" onclick="add_feed(\'' + 
+			geocodeLocation+'\');">Post</a> &nbsp; &nbsp; <a href="#" onclick="send_tweet(\''+geocodeLocation+'\');">Tweet</a><br /><br />'  +
+		'<input type="text" placeholder="image/video url" id="image_video_url"><br /><a href="#" onclick="addURL();">Save</a>';
 		balloon.setContentDiv(div);
 		ge.setBalloon(balloon);
 	    // add the placemark to the earth DOM
