@@ -116,7 +116,6 @@ function add_feed(location){
 }
 
 function send_tweet(location){
-	add_feed(location)
 	var url = "http://teleport.csail.mit.edu/teleport#" +encodeURIComponent(location);
     var message = "Looking forward to seeing \"" + location  + "\""
     window.open ("https://twitter.com/share?" + 
@@ -145,7 +144,7 @@ function createPlacemark(geocodeLocation){
 	    var balloon = ge.createHtmlDivBalloon('');
 		balloon.setFeature(placemark);
 		var div = document.createElement('DIV');
-		div.innerHTML = geocodeLocation + '<br /><a href="#" onclick="send_tweet(\''+geocodeLocation+'\');">Tweet</a> &nbsp; &nbsp; <a href="#" onclick="addURL();">Add Image/Video</a>';
+		div.innerHTML = geocodeLocation + '<br /><a href="#" onclick="add_feed(\''+geocodeLocation+'\');">Post</a> &nbsp; &nbsp; <a href="#" onclick="send_tweet(\''+geocodeLocation+'\');">Tweet</a> &nbsp; &nbsp; <a href="#" onclick="addURL();">Add Image/Video</a>';
 		balloon.setContentDiv(div);
 		ge.setBalloon(balloon);
 	    // add the placemark to the earth DOM

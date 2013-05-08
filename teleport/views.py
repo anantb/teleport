@@ -7,6 +7,7 @@ from django.core.context_processors import csrf
 from django.views.decorators.http import require_http_methods
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from django.db.models import Q
 
 from models import *
 
@@ -216,7 +217,7 @@ def get_feeds(request):
     user = User.objects.get(email=request.session[SESSION_KEY])
     res = {'status':False, 'user': request.session[SESSION_KEY]}
     try:
-        feeds = Feed.objects.filter(to_addr=user.email).values()
+        feeds = Feed.objects.filter(Q(to_addr=user.email) | Q(to_addr = None) | Q(to_addr = '')).order_by('-timestamp').values()
         res['status'] = True
         res['feeds'] = []
         for f in feeds:
