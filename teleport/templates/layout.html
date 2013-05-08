@@ -77,24 +77,22 @@ Teleport Web Page
 </div>
 </div>
 
-
-</script>
-
-{% block javascript %}{% endblock %}
-
 <script>
+var userId;
 $(document).ready(function(){
     var _userId = '{{login_id}}'
     if (_userId) {
         localStorage.setItem('userId', _userId);
     }
-
-    var userId = localStorage.getItem('userId');
+    userId = localStorage.getItem('userId');
     bindGlobalEvents();
     if (userId) {
         getLiveSessions(userId);
     }
 });
 </script>
+{% block javascript %}{% endblock %}
+
+
 </body>
 </html>

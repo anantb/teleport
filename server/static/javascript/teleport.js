@@ -1,5 +1,5 @@
 
-var nodeSrv='http://localhost:3000/';
+var nodeSrv='http://teleport.csail.mit.edu:3000/';
 
 // REALTIME NOTIFICATION SOCKET
 var socket = io.connect(nodeSrv);
@@ -349,11 +349,5 @@ $.extend({
 });
 
 
-$(document).ready(function() {
-    var userId = localStorage.getItem('userId');
-    bindGlobalEvents();
-    if (userId) {
-        getLiveSessions(userId);
-    }
-});
+
 
