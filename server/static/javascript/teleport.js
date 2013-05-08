@@ -340,6 +340,12 @@ function bindTeletalkEvents(){
 
     socket.on('follow', function (data) {
         // update google earth with leader's coordinates
+        if(data.keyup != null){
+        	keyUp(data.keyup)
+        }
+        if(data.keydown != null){
+        	keyDown(data.keydown)
+        }
         console.log('follow: ', data)
     });
 
