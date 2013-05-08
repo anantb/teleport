@@ -108,8 +108,6 @@ def login(request):
             user = User.objects.get(email=login_email, password=login_password)
             request.session.flush()
             request.session[SESSION_KEY] = user.email
-            login = Login(user=user.email)
-            login.save()
             return HttpResponseRedirect('/')
         except:
             print sys.exc_info()
@@ -129,8 +127,6 @@ def register(request):
             user.save()
             request.session.flush()
             request.session[SESSION_KEY] = user.email
-            login = Login(user=user.email)
-            login.save()
             return HttpResponseRedirect('/')
         except:
             print sys.exc_info()
@@ -139,12 +135,8 @@ def register(request):
         return register_form(request)
 
 
-
-
-
 def logout(request):
     user = request.session[SESSION_KEY]
-    login = Login(user)
     request.session.flush()
     return HttpResponseRedirect('/login')
 
