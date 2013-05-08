@@ -136,7 +136,8 @@ function displaySessions(data) {
         for (var i in data) {
             var s = data[i];
             console.log(s.session_id);
-            session_cont.append("<li><a href='/teletalk?session="+s.session_id+"'>Session Name</a></li>")
+            session_cont.append("<li><a class='nav' href='/teletalk?session="+s.session_id+"'>Session Name</a></li>");
+
         }
     }
 }
@@ -178,6 +179,41 @@ function initTeletalk(apiKey, userId){
 	}
 	bindTeletalkEvents()
 
+}
+
+function initSmallVideo(sessionId, token) {
+    //TB.setLogLevel(TB.DEBUG);
+    // Initialize session, set up event listeners, and connect
+    session = TB.initSession(sessionId);
+    session.addEventListener('sessionConnected', sessionConnectedHandler);
+    session.addEventListener('streamCreated', streamCreatedHandler);
+    session.connect(apiKey, token);
+}
+
+function svSessionConnectedHandler(event) {
+    subscribeToStreams(event.streams);
+}
+
+function svStreamCreatedHandler(event) {
+    subscribeToStreams(event.streams);
+}
+
+function svSubscribeToStreams(event) {
+    for (var i = 0; i < streams.length; i++) {
+    // Make sure we don't subscribe to ourself
+        if (streams[i].connection.connectionId == session.connection.connectionId) {
+          return;
+        }
+        // // Create the div to put the subscriber element in to
+        // var div = $('<div style="width:100%;"></div>');
+        // div.appendTo($('#chat-windows'))
+        // div.attr('id', 'stream' + streams[i].streamId);
+        // //document.body.appendChild(div);
+        // // Subscribe to the stream
+        // session.subscribe(streams[i], div.attr('id'));
+        // //console.log($('#stream' + streams[i].streamId))
+        // $('#stream' + streams[i].streamId).css('width', '100%')
+    }
 }
 
 function bindTeletalkEvents(){
@@ -278,6 +314,9 @@ function subscribeToStreams(streams) {
         $('#stream' + streams[i].streamId).css('width', '100%')
     }
 }
+
+
+
 
 
 function joinChat(sessionId) {
