@@ -347,7 +347,7 @@ function bindTeletalkEvents(){
         if(data.reset){
         	var la = ge.createLookAt('');
 			  la.set(data.reset.localAnchorLla[0], data.reset.localAnchorLla[1],
-			         cameraAltitude + bounce,
+			         cameraAltitude,
 			         ge.ALTITUDE_RELATIVE_TO_SEA_FLOOR,
 			         fixAngle(data.reset.headingAngle * 180 / Math.PI), /* heading */         
 			         data.reset.tiltAngle * 180 / Math.PI + 90, /* tilt */         
