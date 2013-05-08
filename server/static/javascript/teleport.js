@@ -53,8 +53,11 @@ function get_feed_html(id){
 
 var ge = null;
 var cam = null;
+var loc = null
 
-function initTeleport() {
+function initTeleport(_loc) {
+	loc = _loc
+	console.log(loc)
 	google.load("maps", "2", {"callback" : loadGoogleEarth});
 }
 
@@ -67,6 +70,12 @@ function initGoogleEarth() {
  	google.earth.createInstance("map3d", geInitSuccess, geInitFail);
 }
 
+function get_hash() {
+    if(window.location.href.indexOf('#') != -1)
+        return decodeURIComponent(window.location.href.slice(window.location.href.indexOf('#') + 1))
+    else
+        return null
+}
 
 function geInitSuccess(object) {
 	ge = object;
@@ -75,8 +84,13 @@ function geInitSuccess(object) {
 	ge.getLayerRoot().enableLayerById(ge.LAYER_BUILDINGS, true);
 	// ge.getLayerRoot().enableLayerById(ge.LAYER_TERRAIN, true);
 	//ge.getLayerRoot().enableLayerById(ge.LAYER_TREES, true);
-
-	setLocation('MIT', "Massachusetts Institute of Technology")
+	if(loc != null){
+		console.log(loc)
+		setLocation(loc)
+		createPlacemark(loc)		
+	}else{
+		setLocation('MIT Cambridge', "Massachusetts Institute of Technology")
+	}
 
 	keyboardFocusHack(ge);
 }
@@ -87,36 +101,79 @@ function geInitFail(object) {
 
 
 
+function add_feed(location){
+	var url = "http://teleport.csail.mit.edu/teleport#" +encodeURIComponent(location);
+    var msg = "Looking forward to seeing \"" + location  + "\". <a href=\""+url+"\">"+url+"</a>"
+	$.ajax({
+      type: 'POST',
+      async: true,
+      url: '/add_feed/',
+      data: {'msg':msg},
+      success: function(res) {
+          console.log(res)
+      }
+  });
+}
 
-function createPlacemark(point, geocodeLocation, desc){
-    // create the placemark
-    placemark = ge.createPlacemark('');
+function send_tweet(location){
+	var url = "http://teleport.csail.mit.edu/teleport#" +encodeURIComponent(location);
+    var message = "Looking forward to seeing \"" + location  + "\""
+    window.open ("https://twitter.com/share?" + 
+    	"url=" + encodeURIComponent(url) + 
+        "&counturl=" + encodeURIComponent(url) +
+        "&text=" + encodeURIComponent(message) + 
+        "&hashtags=" + encodeURIComponent('teleport') + 
+        "&via=" + encodeURIComponent('teleport_mit'), 
+        "twitter", "width=500,height=300");
+}
 
-    var p = ge.createPoint('');
-    p.setLatitude(point.y);
-    p.setLongitude(point.x);
-    placemark.setGeometry(p);
 
-    // add the placemark to the earth DOM
-    ge.getFeatures().appendChild(placemark);
-    placemark.setName(geocodeLocation);
-    placemark.setDescription(desc);
+
+function createPlacemark(geocodeLocation){
+	var geocoder = new google.maps.ClientGeocoder();
+	geocoder.getLatLng(geocodeLocation, function(point) {
+	if(point) {
+	    // create the placemark
+	    placemark = ge.createPlacemark('');
+
+	    var p = ge.createPoint('');
+	    p.setLatitude(point.y);
+	    p.setLongitude(point.x);
+	    placemark.setGeometry(p);
+
+	    var balloon = ge.createHtmlDivBalloon('');
+		balloon.setFeature(placemark);
+		var div = document.createElement('DIV');
+		div.innerHTML = geocodeLocation + '<br /><a href="#" onclick="add_feed(\''+geocodeLocation+'\');">Post</a> &nbsp; &nbsp; <a href="#" onclick="send_tweet(\''+geocodeLocation+'\');">Tweet</a> &nbsp; &nbsp; <a href="#" onclick="addURL();">Add Image/Video</a>';
+		balloon.setContentDiv(div);
+		ge.setBalloon(balloon);
+	    // add the placemark to the earth DOM
+	    ge.getFeatures().appendChild(placemark);
+	    placemark.setName(geocodeLocation);
+	    //placemark.setDescription(desc);
+	}else{
+	  	alert("Couldn't find the location");
+	 }
+	});
+	
 
 }
 
 
-function setLocation(geocodeLocation, desc){
+function setLocation(geocodeLocation){
 	var geocoder = new google.maps.ClientGeocoder();
 	geocoder.getLatLng(geocodeLocation, function(point) {
 	if(point) {
 	    cam = new FirstPersonCam([point.y, point.x, 0])
 	    cam.refreshCamera();
 	    ge.getWindow().setVisibility(true);
-	    createPlacemark(point, geocodeLocation,  desc)
 	    if(socket == null){
 	    	socket = io.connect(nodeSrv);
 	    }
 	    socket.emit('follow', {'location': geocodeLocation});
+	    return point
+	  }else{
+	  	alert("Couldn't find the location");
 	  }
 	});
 

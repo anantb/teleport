@@ -7,6 +7,7 @@ from django.core.context_processors import csrf
 from django.views.decorators.http import require_http_methods
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from django.db.models import Q
 
 from models import *
 
@@ -151,6 +152,15 @@ def contacts(request):
 def feed(request):
     return render_to_response('feed.html')
 
+@csrf_exempt
+@login_required
+def add_feed(request):
+    user = User.objects.get(email=request.session[SESSION_KEY])
+    msg = request.POST["msg"]
+    f1 = Feed(from_addr = user.email, msg = "%s: %s" %(user.f_name + user.l_name, msg))
+    f1.save()
+    return HttpResponse(json.dumps({'status':'ok'}), mimetype="application/json")
+
 
 @login_required
 def teleport(request):
@@ -207,7 +217,7 @@ def get_feeds(request):
     user = User.objects.get(email=request.session[SESSION_KEY])
     res = {'status':False, 'user': request.session[SESSION_KEY]}
     try:
-        feeds = Feed.objects.filter(to_addr=user.email).values()
+        feeds = Feed.objects.filter(Q(to_addr=user.email) | Q(to_addr = None) | Q(to_addr = '')).order_by('-timestamp').values()
         res['status'] = True
         res['feeds'] = []
         for f in feeds:
