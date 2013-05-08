@@ -38,11 +38,12 @@ $(document).unload(function(){
 
 $(document).on('keydown', function(event){
   event.returnValue = false;
-  keyDown(event.keyCode)
+  //keyDown(event.keyCode)
   socket.emit('lead', {
         user_id: localStorage.getItem('userId'),
         session_id: localStorage.getItem('sessionId'),
-        'reset' : reset
+        'reset' : reset,
+        'keydown': event.keyCode
     })
   /*
   keyDown(event.keyCode)
@@ -52,11 +53,12 @@ $(document).on('keydown', function(event){
 
 $(document).on('keyup', function(event){
   event.returnValue = false;
-  keyUp(event.keyCode)
+  //keyUp(event.keyCode)
   socket.emit('lead', {
         user_id: localStorage.getItem('userId'),
         session_id: localStorage.getItem('sessionId'),
-        'reset' : reset
+        'reset' : reset,
+        'keyup' : event.keyCode
     })
   /*
   
