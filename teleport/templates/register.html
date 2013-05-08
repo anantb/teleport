@@ -3,7 +3,7 @@
 <a href="/login">Sign In</a>
 {% endblock %}
 {% block content %}
-<form method="POST" action="/register">
+<form method="POST" action="/register" autocomplete="off">
 	{% csrf_token %}
 	<h3>Create a new Teleport account</h3>
 	<hr />
