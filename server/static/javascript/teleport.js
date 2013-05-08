@@ -1,11 +1,10 @@
 
+var nodeSrv='http://localhost:3000/';
+
 // REALTIME NOTIFICATION SOCKET
-var socket = io.connect('http://anantb.csail.mit.edu:3000/');
+var socket = io.connect(nodeSrv);
 
 // Global Tables
-
-
-
 
 /*
 ==================================
@@ -56,7 +55,7 @@ var ge = null;
 var cam = null;
 
 function initTeleport() {
-	google.load("maps", "2", {"callback" : loadGoogleEarth});	
+	google.load("maps", "2", {"callback" : loadGoogleEarth});
 }
 
 function loadGoogleEarth(){
@@ -99,9 +98,9 @@ function createPlacemark(point, geocodeLocation, desc){
     placemark.setGeometry(p);
 
     // add the placemark to the earth DOM
-    ge.getFeatures().appendChild(placemark);   
+    ge.getFeatures().appendChild(placemark);
     placemark.setName(geocodeLocation);
-    placemark.setDescription(desc);  
+    placemark.setDescription(desc);
 
 }
 
@@ -112,15 +111,46 @@ function setLocation(geocodeLocation, desc){
 	if(point) {
 	    cam = new FirstPersonCam([point.y, point.x, 0])
 	    cam.refreshCamera();
-	    ge.getWindow().setVisibility(true); 
+	    ge.getWindow().setVisibility(true);
 	    createPlacemark(point, geocodeLocation,  desc)
 	    if(socket == null){
-	    	socket = io.connect('http://anantb.csail.mit.edu:3000/');
+	    	socket = io.connect(nodeSrv);
 	    }
 	    socket.emit('follow', {'location': geocodeLocation});
 	  }
 	});
-  
+
+}
+
+
+/*
+==================================
+  Global session management stuff
+==================================
+*/
+
+function displaySessions(data) {
+    var session_cont = $("#sessions");
+    session_cont.empty();
+    if (data) {
+        for (var i in data) {
+            var s = data[i];
+            console.log(s.session_id);
+            session_cont.append("<li><a href='/teletalk?session="+s.session_id+"'>Session Name</a></li>")
+        }
+    }
+}
+
+function bindGlobalEvents() {
+    socket.on('sessionUpdate', function(data) {
+        displaySessions(data);
+    });
+}
+
+function getLiveSessions(userId) {
+    socket.emit('getLiveSessions', {
+        user_id: userId
+    });
 }
 
 
@@ -131,13 +161,10 @@ function setLocation(geocodeLocation, desc){
 */
 
 
-var apiKey = null
-var userId = null
+var apiKey = null;
+//var userId = null
 var sessionId, _session_id, token, session, invited;
 
-var socket = null
-        
-  
 
 function initTeletalk(apiKey, userId){
 	apiKey = apiKey
@@ -147,14 +174,13 @@ function initTeletalk(apiKey, userId){
 		invited = true;
 	}
 	if(socket == null){
-		socket = io.connect('http://anantb.csail.mit.edu:3000/');
+		socket = io.connect(nodeSrv);
 	}
 	bindTeletalkEvents()
 
 }
-    
-    
-function bindTeletalkEvents(){  
+
+function bindTeletalkEvents(){
 
     socket.on('notify', function(data) {
         if (data) {
@@ -288,14 +314,11 @@ function inviteUser(invitee) {
             'session_id': sessionId,
             'inviter': userId
         };
-        
+
         baseurl = window.location.href.split('?')[0];
         socket.emit('invite', msg);
         $('#messages').append('Notification sent! You can also directly send this URL to people: <br/>'+'<a href="' + baseurl+'?session='+sessionId + '">'+baseurl+'?session='+sessionId+'</a>');
         $('#invitee').val('');
-        
-
-
     }
 }
 
@@ -322,6 +345,15 @@ $.extend({
     },
     getUrlVar : function(name) {
         return $.getUrlVars()[name];
+    }
+});
+
+
+$(document).ready(function() {
+    var userId = localStorage.getItem('userId');
+    bindGlobalEvents();
+    if (userId) {
+        getLiveSessions(userId);
     }
 });
 

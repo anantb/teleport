@@ -197,6 +197,7 @@ body {
 	vertical-align: top;
 	background-color: #00aeef;
 	border-right: solid 1px #00aff0;
+    position:relative;
 
 }
 
@@ -572,11 +573,11 @@ table.dataTable tbody tr td {
 table.dataTable tbody tr:hover td {
 	background: #f0f4f9;
 }
-	
+
 .dataTables_scroll {
 	border: #ccc solid 1px;
 }
-	
+
 .dataTables_filter {
 	background: #f6f6f6;
 	padding: 15px 5px;
@@ -596,6 +597,13 @@ table.dataTable tbody tr:hover td {
 }
 
 
+.session-info {
+    height:20%;
+    position:absolute;
+    bottom:0;
+    padding:15px;
+    color: #fff;
+}
 
 
 

@@ -95,7 +95,7 @@ def logout(request):
 
 @login_required
 def contacts(request):
-    return render_to_response('contacts.html')
+    return render_to_response('contacts.html', {'login_id': request.session[SESSION_KEY]})
 
 
 @login_required
@@ -126,7 +126,7 @@ def get_contacts(request):
     res = {'status':False, 'user': request.session[SESSION_KEY]}
     try:
         res['status'] = True
-        res['contacts'] = []        
+        res['contacts'] = []
         contacts = Contact.objects.filter(user1=user).values()
         for c in contacts:
             name = ''
@@ -149,7 +149,7 @@ def get_feeds(request):
     try:
         feeds = Feed.objects.filter(to_addr=user).values()
         res['status'] = True
-        res['feeds'] = []        
+        res['feeds'] = []
         for f in feeds:
             res['feeds'].append({'timestamp':format_date_time(f.timestamp), 'msg':f['msg'], 'from':f['from_addr']})
     except:
