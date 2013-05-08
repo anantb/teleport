@@ -43,6 +43,7 @@ var tiltMin = -90.0 * Math.PI / 180.0;
 
 INITIAL_CAMERA_ALTITUDE = 1.7*150; // Roughly 6 feet tall
 cameraAltitude = INITIAL_CAMERA_ALTITUDE;
+
 //----------------------------------------------------------------------------
 // Utility Functions
 //----------------------------------------------------------------------------
