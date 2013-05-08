@@ -102,7 +102,7 @@ function geInitFail(object) {
 
 function send_tweet(location){
 	var url = "http://teleport.csail.mit.edu/teleport#" +encodeURIComponent(location);
-    var message = "Looking forward to seeing \"" + location  + "\" " + url
+    var message = "Looking forward to seeing \"" + location  + "\""
     window.open ("https://twitter.com/share?" + 
     	"url=" + encodeURIComponent(url) + 
         "&counturl=" + encodeURIComponent(url) +
