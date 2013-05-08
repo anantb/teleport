@@ -14,6 +14,9 @@ Teleport Web Page
 <link rel=stylesheet href='/tp_static/css/firstpersoncam.css' type='text/css' />
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="/tp_static/noty/jquery.noty.js"></script>
+<script type="text/javascript" src="/tp_static/noty/layouts/topCenter.js"></script>
+<script type="text/javascript" src="/tp_static/noty/themes/default.js"></script>
 <script type="text/javascript" src="/tp_static/javascript/jquery.dataTables.min.js"></script>
 
 <script src="http://www.google.com/jsapi?key=AIzaSyAdgYw9dd2TiekDSJ7tsQC0ogDcDwD673s"></script>
@@ -48,7 +51,7 @@ Teleport Web Page
 <td class="col-small user-profile">
     <span class="profile-big"></span>
 </td>
-<td class="col-big search backdrop-subtle">
+<td id="header-right" class="col-big search backdrop-subtle" style="position:relative;">
 {% block main_content_header %}{% endblock %}
 </td>
 </tr>

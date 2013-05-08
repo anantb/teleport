@@ -84,7 +84,7 @@ function geInitSuccess(object) {
 	ge.getLayerRoot().enableLayerById(ge.LAYER_BUILDINGS, true);
 	// ge.getLayerRoot().enableLayerById(ge.LAYER_TERRAIN, true);
 	//ge.getLayerRoot().enableLayerById(ge.LAYER_TREES, true);
-	if(loc != null){
+	if(loc != null && loc!=""){
 		console.log(loc)
 		setLocation(loc)
 		createPlacemark(loc)
@@ -110,7 +110,7 @@ function add_feed(location){
       url: '/add_feed/',
       data: {'msg':msg},
       success: function(res) {
-          console.log(res)
+          show_notify('Shared with your contacts', true)
       }
   });
 }
@@ -127,7 +127,22 @@ function send_tweet(location){
         "twitter", "width=500,height=300");
 }
 
+function show_notify(msg, res){
+	if(!res){
+		noty({text: msg, dismissQueue: true, timeout:2000, force: true, type: 'error', layout: 'topCenter'});
+	}else{			
+		noty({text: msg, dismissQueue: true, timeout:2000, force: true, type:'success', layout: 'topCenter'});			
+	}
+}
 
+
+function show_notify_stick(msg, res){
+	if(!res){
+		noty({text: msg, dismissQueue: false,  force: true, type: 'error', layout: 'topCenter'});
+	}else{			
+		noty({text: msg, dismissQueue: false, force: true, type:'success', layout: 'topCenter'});			
+	}
+}
 
 function createPlacemark(geocodeLocation){
 	var geocoder = new google.maps.ClientGeocoder();
