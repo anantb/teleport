@@ -135,9 +135,6 @@ def register(request):
         return register_form(request)
 
 
-
-
-
 def logout(request):
     user = request.session[SESSION_KEY]
     request.session.flush()
