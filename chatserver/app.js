@@ -30,6 +30,7 @@ io.sockets.on('connection', function(client){
                     calls[res.session_id] = {
                         'session_id': res.session_id,
                         'members': [],
+                        'member_names': {},
                         'invited': [msg.initiator],
                         'leader':  msg.initiator,
                         'initiator': msg.initiator,
@@ -50,6 +51,8 @@ io.sockets.on('connection', function(client){
             call = {};
 
         console.log('getLiveSessions', msg);
+        console.log(calls);
+        console.log(msg.user_id);
 
         for (var sessionId in calls) {
             call = calls[sessionId];
@@ -93,31 +96,43 @@ io.sockets.on('connection', function(client){
 
                         client.set('user_id', msg.user_id);
 
-                        if (call_state.members.indexOf(msg.invitee) == -1) {
+                        if (call_state.members.indexOf(msg.user_id) == -1) {
                             call_state.members.push(msg.user_id);
                         }
 
                         // join the room
                         client.join(msg.session_id);
 
-                        // let everyone know there's a new guy in town.
-                        io.sockets.in(msg.session_id).emit('notify', {
-                            'msg' : msg.user_id + ' joined the chat.'
-                        });
 
-                        // report token to user
-                        client.emit('join', {
-                            'token': res.token,
-                            'session_id': msg.session_id
-                        });
+                        if (msg.teletalk) {
+                            // let everyone know there's a new guy in town.
+                            io.sockets.in(msg.session_id).emit('notify', {
+                                'msg' : msg.user_id + ' joined the chat.'
+                            });
 
-                        // send user backlog of messages
-                        client.emit('message', {
-                            'messages': call_state.buffer
-                        });
+                            // send user backlog of messages
+                            client.emit('message', {
+                                'messages': call_state.buffer
+                            });
+
+                            // report token to user
+                            client.emit('join', {
+                                'token': res.token,
+                                'session_id': msg.session_id
+                            });
+
+                        } else {
+                            client.emit('join-global', {
+                                'token': res.token,
+                                'session_id': msg.session_id
+                            });
+                        }
+
+
                     }
                 }
             );
+
             return;
         }
         client.emit('error', {'error': 'Something is wrong!'});
@@ -165,9 +180,9 @@ io.sockets.on('connection', function(client){
                 var session_id = field.substring(1);
                 if (session_id in calls) {
                     client.get('user_id', function(err, uid) {
-                        io.sockets.in(session_id).emit('notify', {
-                            'msg' : uid + ' has left chat.'
-                        });
+                        // io.sockets.in(session_id).emit('notify', {
+                        //     'msg' : uid + ' has left chat.'
+                        // });
                     });
 
                     // TODO: also remove from members?  needed?

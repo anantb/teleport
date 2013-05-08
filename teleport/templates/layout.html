@@ -22,7 +22,7 @@ Teleport Web Page
 <script type="text/javascript" src="/tp_static/javascript/math3d.js"></script>
 <script type="text/javascript" src="/tp_static/javascript/firstpersoncam.js"></script>
 
-<script src="http://anantb.csail.mit.edu:3000/socket.io/socket.io.js"></script>
+<script src="http://teleport.csail.mit.edu:3000/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="/tp_static/javascript/teleport.js"></script>
 
 <script src="http://static.opentok.com/webrtc/v2.0/js/TB.min.js" ></script>
@@ -42,14 +42,14 @@ Teleport Web Page
 
 
 <div id="page">
-<div id="content">
+<div id="content backdrop">
 
 <table id="content-layout">
 <tr>
 <td class="col-small user-profile">
-<span class="profile-big"></span>
+    <span class="profile-big"></span>
 </td>
-<td class="col-big search">
+<td class="col-big search backdrop-subtle">
 {% block main_content_header %}{% endblock %}
 </td>
 </tr>
@@ -62,15 +62,24 @@ Teleport Web Page
 <a class="nav" href="/teleport">Teleport</a>
 </div>
 {% endblock %}
-
-<div class="session-info">
-    <ul id="sessions">
-
-    </ul>
+<div style="width:120px;">
+    <div class="mini-chat">
+        <div id="my-chat-window"></div>
+    </div>
 </div>
 
+<div class="session-info">
+    <div style="width:120px;">
+        <div class="mini-chat">
+            <div id="other-chat-window"></div>
+        </div>
+    </div>
+</div>
+
+
+
 </td>
-<td class="col-big">
+<td class="col-big backdrop">
 {% block main_content_body %}{% endblock %}
 </td>
 </tr>
@@ -80,20 +89,29 @@ Teleport Web Page
 </div>
 
 <script>
-var userId;
+var userId, apiKey, teleTalk;
+
 $(document).ready(function(){
-    var _userId = '{{login_id}}'
-    if (_userId) {
+    var _userId = '{{login_id}}';
+    var _apiKey = '{{api_key}}';
+    if (_userId && _apiKey) {
         localStorage.setItem('userId', _userId);
+        localStorage.setItem('apiKey', _apiKey);
     }
     userId = localStorage.getItem('userId');
-    bindGlobalEvents();
-    if (userId) {
-        getLiveSessions(userId);
-    }
+    apiKey = localStorage.getItem('apiKey');
+
 });
 </script>
 {% block javascript %}{% endblock %}
+
+<script>
+console.log(teleTalk);
+if (!teleTalk) {
+    bindGlobalEvents();
+    getLiveSessions(userId);
+}
+</script>
 
 
 </body>

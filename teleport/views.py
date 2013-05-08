@@ -34,28 +34,28 @@ def get_client_ip(request):
     return ip
 
 
-def send_email(addr, subject, msg_body):    
+def send_email(addr, subject, msg_body):
     email_subject = subject
     from_addr="no-reply@teleport.csail.mit.edu"
     to_addr = [addr]
-    
+
     msg = MIMEMultipart()
     msg['From'] = 'Teleport Notification<no-reply@teleport.csail.mit.edu>'
     msg['To'] = ",".join(to_addr)
     msg['Subject'] = email_subject
-    msg.attach(MIMEText(msg_body))  
-    
-    
+    msg.attach(MIMEText(msg_body))
+
+
     username = 'anantb'
     password = 'JcAt250486'
     smtp_conn = smtplib.SMTP_SSL('cs.stanford.edu', 465)
     #smtp_conn.ehlo()
     #smtp_conn.starttls()
     #smtp_conn.ehlo()
-    smtp_conn.login(username, password) 
-    #smtp_conn.set_debuglevel(True) 
+    smtp_conn.login(username, password)
+    #smtp_conn.set_debuglevel(True)
     smtp_conn.sendmail(from_addr, to_addr, msg.as_string())
-    smtp_conn.close() 
+    smtp_conn.close()
 
 
 @csrf_exempt
@@ -145,7 +145,7 @@ def logout(request):
 
 @login_required
 def contacts(request):
-    return render_to_response('contacts.html', {'login_id': request.session[SESSION_KEY]})
+    return render_to_response('contacts.html', {'api_key': OPENTOK_API_KEY, 'login_id': request.session[SESSION_KEY]})
 
 
 @login_required
@@ -185,7 +185,7 @@ def add_contact(request):
             print sys.exc_info()
             pass
         return HttpResponse(json.dumps({'invite':user2}), mimetype="application/json")
-        
+
     else:
         return render_to_response('add_contact.html')
 
@@ -250,12 +250,12 @@ def update_settings(request):
             user = User.objects.get(email=request.session[SESSION_KEY])
             password = request.POST["password"]
             f_name = request.POST["f_name"]
-            l_name = request.POST["l_name"]       
+            l_name = request.POST["l_name"]
             user.f_name=f_name
             user.l_name=l_name
             user.save()
             if(password.strip() !=""):
-                user.password=hashlib.sha1(password)            
+                user.password=hashlib.sha1(password)
             user.save()
             return HttpResponseRedirect('/settings')
         except:

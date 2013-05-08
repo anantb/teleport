@@ -193,27 +193,35 @@ function setLocation(geocodeLocation){
 */
 
 function displaySessions(data) {
-    var session_cont = $("#sessions");
-    session_cont.empty();
-    if (data) {
-        for (var i in data) {
-            var s = data[i];
-            console.log(s.session_id);
-            session_cont.append("<li><a class='nav' href='/teletalk?session="+s.session_id+"'>Session Name</a></li>");
-
-        }
+    var session_cont = $(".session-info");
+    //session_cont.empty();
+    if(data.length >0){
+        console.log("display", data);
+        var s = data[0];
+        var url = "/teletalk?session="+s.session_id;
+        joinChat(s.session_id, false);
+        $("#other-chat-window").click(function() {
+            window.location = url;
+        });
+        session_cont.prepend("<a class='nav' href='/teletalk?session="+s.session_id+"'>Current Chat</a>");
     }
+
 }
 
 function bindGlobalEvents() {
     socket.on('sessionUpdate', function(data) {
         displaySessions(data);
     });
+
+    socket.on('join-global', function(data) {
+        console.log('join-global', data);
+        initSmallVideo(data.session_id, data.token);
+    });
 }
 
 function getLiveSessions(userId) {
     socket.emit('getLiveSessions', {
-        user_id: userId
+        user_id: localStorage.getItem('userId')
     });
 }
 
@@ -224,8 +232,6 @@ function getLiveSessions(userId) {
 ==================================
 */
 
-
-var apiKey = null;
 //var userId = null
 var sessionId, _session_id, token, session, invited;
 
@@ -246,53 +252,42 @@ function initTeletalk(apiKey, userId){
 
 function initSmallVideo(sessionId, token) {
     //TB.setLogLevel(TB.DEBUG);
-    // Initialize session, set up event listeners, and connect
     session = TB.initSession(sessionId);
-    session.addEventListener('sessionConnected', sessionConnectedHandler);
-    session.addEventListener('streamCreated', streamCreatedHandler);
+    session.addEventListener('sessionConnected', svSessionConnectedHandler);
+    session.addEventListener('streamCreated', svStreamCreatedHandler);
     session.connect(apiKey, token);
 }
 
 function svSessionConnectedHandler(event) {
-    subscribeToStreams(event.streams);
+    svSubscribeToStreams(event.streams);
 }
 
 function svStreamCreatedHandler(event) {
-    subscribeToStreams(event.streams);
+    svSubscribeToStreams(event.streams);
 }
 
-function svSubscribeToStreams(event) {
+function svSubscribeToStreams(streams) {
     for (var i = 0; i < streams.length; i++) {
     // Make sure we don't subscribe to ourself
         if (streams[i].connection.connectionId == session.connection.connectionId) {
           return;
         }
-        // // Create the div to put the subscriber element in to
-        // var div = $('<div style="width:100%;"></div>');
-        // div.appendTo($('#chat-windows'))
-        // div.attr('id', 'stream' + streams[i].streamId);
-        // //document.body.appendChild(div);
-        // // Subscribe to the stream
-        // session.subscribe(streams[i], div.attr('id'));
-        // //console.log($('#stream' + streams[i].streamId))
-        // $('#stream' + streams[i].streamId).css('width', '100%')
+        session.subscribe(streams[i], 'other-chat-window');
+        resize('other-chat-window', 100);
     }
 }
 
 function bindTeletalkEvents(){
 
     socket.on('notify', function(data) {
-        if (data) {
-            $('#messages').prepend('<p>'+ data.msg +'</p>');
-        }
+        alert_msg(data.msg);
     });
 
     socket.on('join', function (data) {
         token = data.token;
         sessionId = data.session_id;
-
-        //TB.setLogLevel(TB.DEBUG);
         // Initialize session, set up event listeners, and connect
+        //TB.setLogLevel(TB.DEBUG);
         session = TB.initSession(sessionId);
         session.addEventListener('sessionConnected', sessionConnectedHandler);
         session.addEventListener('streamCreated', streamCreatedHandler);
@@ -312,10 +307,7 @@ function bindTeletalkEvents(){
     });
 
     socket.on('accepted', function (data) {
-        socket.emit('join', {
-            'user_id' : userId,
-            'session_id': data.session_id
-        });
+        joinChat(data.session_id, true)
     });
 
     socket.on('follow', function (data) {
@@ -324,7 +316,7 @@ function bindTeletalkEvents(){
     });
 
     socket.on('error', function (data) {
-        alert(data.error);
+        alert_msg(data.error);
     });
 }
 
@@ -348,7 +340,7 @@ function sessionConnectedHandler(event) {
     var publisher = TB.initPublisher(apiKey, elemId);
     session.publish(publisher);
 
-    resize(elemId, 80);
+    resize(elemId, 100);
 
     // Subscribe to streams that were in the session when we connected
     subscribeToStreams(event.streams);
@@ -375,21 +367,17 @@ function subscribeToStreams(streams) {
         session.subscribe(streams[i], div.attr('id'));
         //console.log($('#stream' + streams[i].streamId))
         $('#stream' + streams[i].streamId).css('width', '100%')
+        resize('stream' + streams[i].streamId, 200);
     }
 }
 
-
-
-
-
-function joinChat(sessionId) {
+function joinChat(sessionId, teletalk) {
     socket.emit('join', {
         user_id: userId,
-        session_id: sessionId
+        session_id: sessionId,
+        teletalk: teletalk
     })
 }
-
-
 
 function initiateChat() {
     socket.emit('initiate', {'initiator': userId});
@@ -424,6 +412,15 @@ function inviteUser(invitee) {
     }
 }
 
+
+function alert_msg(msg){
+    var sel = '#alert';
+    $(sel).show();
+    $(sel).text(msg);
+    setTimeout(function() {
+        $(sel).fadeOut(1000);
+    }, 3000);
+}
 
 function enable_alert(msg){
   $("body .alert .message").text(msg);
