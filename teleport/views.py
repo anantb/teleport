@@ -134,6 +134,9 @@ def register(request):
         return register_form(request)
 
 
+
+
+
 def logout(request):
     request.session.flush()
     return HttpResponseRedirect('/login')
@@ -215,7 +218,30 @@ def teletalk(request):
 
 @login_required
 def settings(request):
-    return render_to_response('settings.html')
+    user = User.objects.get(email=request.session[SESSION_KEY])
+    c = {'email':user.email, 'fname':user.f_name, 'lname':user.l_name}
+    c.update(csrf(request))
+    return render_to_response('settings.html', c)
+
+def update_settings(request):
+    if request.method == "POST":
+        try:
+            user = User.objects.get(email=request.session[SESSION_KEY])
+            password = request.POST["password"]
+            f_name = request.POST["f_name"]
+            l_name = request.POST["l_name"]       
+            user.f_name=f_name
+            user.l_name=l_name
+            user.save()
+            if(password.strip() !=""):
+                user.password=password            
+            user.save()
+            return HttpResponseRedirect('/settings')
+        except:
+            print sys.exc_info()
+            return HttpResponseRedirect('/settings')
+    else:
+        return HttpResponseRedirect('/settings')
 
 
 @csrf_exempt
