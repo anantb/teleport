@@ -8,6 +8,7 @@ Teleport Web Page
 {% block javascript %} 
 
 <script type="text/javascript">
+var invite = '{{invite}}'
 function populate_contacts(){
   var raw_html = ''
   for (var i=0; i<40; i++){
@@ -56,9 +57,9 @@ $(document).ready(function(){
       "bFilter": true,
       "sWidth": "100%",
       "aoColumns": [                 
-        {"bSortable": false, "sWidth": "40%"},
-        {"bSortable": false, "sWidth": "20%"},
-        {"bSortable": false, "sWidth": "40%"}
+        {"bSortable": false, "sWidth": "50%"},
+        {"bSortable": false, "sWidth": "25%"},
+        {"bSortable": false, "sWidth": "25%"}
       ],
       "oLanguage": {
         "sEmptyTable": "Your contact list is empty"

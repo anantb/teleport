@@ -1,10 +1,12 @@
 import json
-import OpenTokSDK, datetime
+import OpenTokSDK, datetime, smtplib
 from django.http import *
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
 from django.core.context_processors import csrf
 from django.views.decorators.http import require_http_methods
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 from models import *
 
@@ -29,6 +31,50 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
+
+def send_email(addr, subject, msg_body):    
+    email_subject = subject
+    from_addr="no-reply@teleport.csail.mit.edu"
+    to_addr = [addr]
+    
+    msg = MIMEMultipart()
+    msg['From'] = 'Teleport Notification<no-reply@teleport.csail.mit.edu>'
+    msg['To'] = ",".join(to_addr)
+    msg['Subject'] = email_subject
+    msg.attach(MIMEText(msg_body))  
+    
+    
+    username = 'anantb'
+    password = 'JcAt250486'
+    smtp_conn = smtplib.SMTP_SSL('cs.stanford.edu', 465)
+    #smtp_conn.ehlo()
+    #smtp_conn.starttls()
+    #smtp_conn.ehlo()
+    smtp_conn.login(username, password) 
+    #smtp_conn.set_debuglevel(True) 
+    smtp_conn.sendmail(from_addr, to_addr, msg.as_string())
+    smtp_conn.close() 
+
+
+@csrf_exempt
+def invite_email(request):
+    login_email = request.session[SESSION_KEY]
+    to_email = request.POST["email"]
+    subject = "%s has invited you to Teleport" %(login_email)
+    msg_body = """
+    Dear %s,
+
+    %s has invited you to Teleport, an application designed to keep you and your loved ones together.
+    Please click the below link to join Teleport:
+
+    http://teleport.csail.mit.edu/register
+
+    """ %(to_email, login_email)
+    send_email(to_email, subject, msg_body)
+    return HttpResponse(json.dumps({'status':'ok'}),  mimetype="application/json")
+
+
 
 
 def login_required(f):
@@ -115,7 +161,7 @@ def add_contact(request):
         user2 = request.POST["email"]
         c = Contact(user1=user1, user2=user2)
         c.save()
-        return HttpResponseRedirect('/contacts')
+        return HttpResponse(json.dumps({'invite':user2}), mimetype="application/json")
     else:
         return render_to_response('add_contact.html')
 
@@ -165,6 +211,11 @@ def format_date_time(d):
 @login_required
 def teletalk(request):
     return render_to_response('teletalk.html', {'api_key': OPENTOK_API_KEY, 'login_id': request.session[SESSION_KEY]})
+
+
+@login_required
+def settings(request):
+    return render_to_response('settings.html')
 
 
 @csrf_exempt

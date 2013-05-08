@@ -323,6 +323,14 @@ function inviteUser(invitee) {
 }
 
 
+function enable_alert(msg){
+  $("body .alert .message").text(msg);
+  $("body").addClass("notice");
+  setTimeout(function(){
+    $("body").removeClass("notice");
+  }, 3000);
+}
+
 
 /*
 ==================================

@@ -22,5 +22,7 @@ urlpatterns = patterns('',
 
     url(r'^login', 'teleport.views.login'),
     url(r'^register', 'teleport.views.register'),
+    url(r'^settings', 'teleport.views.settings'),
+    url(r'^invite_email', 'teleport.views.invite_email'),
     url(r'^logout', 'teleport.views.logout'),
 )
