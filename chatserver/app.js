@@ -25,7 +25,7 @@ io.sockets.on('connection', function(client){
     client.on('announce', function(msg) {
         console.log("User " + msg.user_id + " announced." );
         client.set('user_id', msg.user_id, function() {
-            console.log("User " + msg.user_id + " announced." );
+            console.log(client.id, "User " + msg.user_id + " announced." );
         });
     });
 
@@ -156,17 +156,18 @@ io.sockets.on('connection', function(client){
         var call_state = calls[msg.session_id];
 
         if (call_state) {
-            if (call_state.members.indexOf(msg.inviter) > -1 &&
-                call_state.invited.indexOf(msg.invitee) == -1) {
+            if (call_state.members.indexOf(msg.inviter) > -1 && (call_state.invited.indexOf(msg.invitee) == -1 || true)) {
                 call_state.invited.push(msg.invitee);
                 for (var i in clients) {
-                    client[i].get('user_id', function(err, user_id) {
-                        if (user_id === msg.invitee) {
-                            client[i].emit('invited', msg);
+                    clients[i].get('user_id', function(err, user_id) {
+                        if (user_id == msg.invitee) {
+                            console.log(user_id);
+                            clients[i].emit('invited', msg);
                         }
                     });
                 }
             }
+
             return;
         }
         client.emit('error', {'error': 'Something is wrong!'});

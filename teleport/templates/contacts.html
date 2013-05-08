@@ -5,7 +5,7 @@ Teleport Web Page
 -->
 {% extends "layout.html" %}
 
-{% block javascript %} 
+{% block javascript %}
 
 <script type="text/javascript">
 var invite = '{{invite}}'
@@ -29,7 +29,7 @@ function get_status_html(s){
 }
 
 function get_email_html(e){
-  var html = '<a href="mailto:' +e +'"><span class="email-icon"></span></a>'  
+  var html = '<a href="mailto:' +e +'"><span class="email-icon"></span></a>'
   return html
 }
 
@@ -40,7 +40,7 @@ function populate_contacts_table(res){
     contacts_table.fnAddData( [
         res.contacts[i].name,
         get_status_html(res.contacts[i].status) + res.contacts[i].status,
-        chat_html +  get_email_html(res.contacts[i].email)
+        '<a href="/teletalk?invitee=' + res.contacts[i].email +'"><span class="chat-icon"></span></a>' +  get_email_html(res.contacts[i].email)
     ]);
   }
 
@@ -56,30 +56,30 @@ $(document).ready(function(){
       "bAutoWidth": false,
       "bFilter": true,
       "sWidth": "100%",
-      "aoColumns": [                 
+      "aoColumns": [
         {"bSortable": false, "sWidth": "50%"},
         {"bSortable": false, "sWidth": "25%"},
         {"bSortable": false, "sWidth": "25%"}
       ],
       "oLanguage": {
         "sEmptyTable": "Your contact list is empty"
-      }  
+      }
     });
 
 
-    $.get('get_contacts', 
+    $.get('get_contacts',
         function(res){
           populate_contacts_table(res);
         }
-    ); 
+    );
 
     $("#search_contacts").on('keyup', function(){
       contacts_table.fnFilter($(this).val())
-    }) 
+    })
 });
 
 </script>
-{% endblock %} 
+{% endblock %}
 
 {% block links %}
 <div class="links">
@@ -89,16 +89,16 @@ $(document).ready(function(){
 </div>
 {% endblock %}
 
-{% block main_content_header %} 
+{% block main_content_header %}
 <div class="search-container">
 <input type="text" id="search_contacts" class="search-box" title="Search Contacts" placeholder="Search your contact list" style="width:60%;margin-right:20px;"></input>
 <a class="button" href="/add_contact" style="float:right;">+&nbsp;&nbsp;Add Contact</a>
 </div>
-{% endblock %} 
+{% endblock %}
 
 
 
-{% block main_content_body %} 
+{% block main_content_body %}
 <div class="content-inner">
 <table id="contacts-table">
 <thead>
@@ -110,4 +110,4 @@ $(document).ready(function(){
 </thead>
 </table>
 </div>
-{% endblock %} 
+{% endblock %}

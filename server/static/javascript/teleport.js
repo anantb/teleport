@@ -1,5 +1,5 @@
 
-var nodeSrv='http://teleport.csail.mit.edu:3000/';
+var nodeSrv='http://localhost:3000/';
 
 // REALTIME NOTIFICATION SOCKET
 var socket = io.connect(nodeSrv);
@@ -228,10 +228,14 @@ function bindGlobalEvents() {
         initSmallVideo(data.session_id, data.token);
     });
 
+
+}
+
+function bindInvited() {
     socket.on('invited', function(data) {
-        console.log(data);
-        show_notify_stick('Yay', true);
-    })
+        var msg = "<a href='/teletalk?session="+ data.session_id + "'>" + data.inviter + " has invited you to TeleTalk!</a>";
+        show_notify_stick(msg, true);
+    });
 }
 
 function getLiveSessions(userId) {
@@ -257,7 +261,7 @@ function initTeletalk(apiKey, userId){
 	if ($.getUrlVar('session')) {
 		_session_id = $.getUrlVar('session');
 		invited = true;
-	} else if ($.getUrlVar('invite')) {
+	} else if ($.getUrlVar('invitee')) {
         _invitee = $.getUrlVar('invitee');
     }
 	if(socket == null){
@@ -332,13 +336,8 @@ function bindTeletalkEvents(){
     socket.on('accepted', function (data) {
         joinChat(data.session_id, true);
         if (_invitee) {
-            var msg = {
-                'invitee': _invitee,
-                'session_id': data.session_id,
-                'inviter': userId
-            };
-
-            socket.emit('invite', msg);
+            inviteUser(_invitee);
+            show_notify("You have invited " + _invitee + " to chat.", true);
         }
     });
 
@@ -442,11 +441,7 @@ function inviteUser(invitee) {
             'session_id': sessionId,
             'inviter': userId
         };
-
-        baseurl = window.location.href.split('?')[0];
         socket.emit('invite', msg);
-        $('#messages').append('Notification sent! You can also directly send this URL to people: <br/>'+'<a href="' + baseurl+'?session='+sessionId + '">'+baseurl+'?session='+sessionId+'</a>');
-        $('#invitee').val('');
     }
 }
 
