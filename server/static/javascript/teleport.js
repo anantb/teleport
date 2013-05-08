@@ -216,20 +216,16 @@ function setLocation(geocodeLocation){
 ==================================
 */
 
-function displaySessions(data) {
+
+function displaySessions(sessionId) {
     var session_cont = $(".session-info");
     //session_cont.empty();
-    if(data.length >0){
-        console.log("display", data);
-        var s = data[0];
-        var url = "/teletalk?session="+s.session_id;
-        joinChat(s.session_id, false);
-        $("#other-chat-window").click(function() {
-            window.location = url;
-        });
-        session_cont.prepend("<a class='nav' href='/teletalk?session="+s.session_id+"'>Current Chat</a>");
-    }
-
+    var url = "/teletalk?session="+sessionId;
+    joinChat(sessionId, false);
+    $("#other-chat-window").click(function() {
+        window.location = url;
+    });
+    session_cont.prepend("<a class='nav' href='/teletalk?session="+sessionId+"'>Current Chat</a>");
 }
 
 function bindGlobalEvents() {
@@ -238,11 +234,8 @@ function bindGlobalEvents() {
     });
 
     socket.on('join-global', function(data) {
-        console.log('join-global', data);
         initSmallVideo(data.session_id, data.token);
     });
-
-
 }
 
 function bindInvited() {
@@ -253,9 +246,10 @@ function bindInvited() {
 }
 
 function getLiveSessions(userId) {
-    socket.emit('getLiveSessions', {
-        user_id: localStorage.getItem('userId')
-    });
+    var s = localStorage.getItem('sessionId');
+    if (s) {
+        displaySessions(s);
+    }
 }
 
 
@@ -327,7 +321,6 @@ function bindTeletalkEvents(){
     socket.on('join', function (data) {
         token = data.token;
         sessionId = data.session_id;
-
         localStorage.setItem('sessionId', sessionId);
 
         if (_invitee) {
