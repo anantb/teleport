@@ -223,7 +223,6 @@ function displaySessions(data) {
         console.log("display", data);
         var s = data[0];
         var url = "/teletalk?session="+s.session_id;
-        localStorage.setItem("sessionId",s.session_id);
         joinChat(s.session_id, false);
         $("#other-chat-window").click(function() {
             window.location = url;
@@ -328,6 +327,8 @@ function bindTeletalkEvents(){
     socket.on('join', function (data) {
         token = data.token;
         sessionId = data.session_id;
+
+        localStorage.setItem('sessionId', sessionId);
 
         if (_invitee) {
             inviteUser(_invitee);
