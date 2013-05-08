@@ -7,13 +7,7 @@ Teleport Web Page
 
 
 {% block javascript %} 
-<script type="text/javascript">
 
-$(document).ready(function(){
-  populate_contacts()
-});
-
-</script>
 
 {% endblock %} 
 
@@ -23,17 +17,17 @@ $(document).ready(function(){
  {% block main_content_body %}   
 
 <div class="content-inner">
-<form method="POST" action="/update_settings">
+<form method="POST" action="/update_settings" autocomplete="off">
   {% csrf_token %}
   <label for="email">Email Address</label><br />
-  <input type="text" name="email" id="email" placeholder="Your email address"/><br /><br />
+  <input type="text" name="email" id="email" placeholder="Your email address" value="{{email}}" autocomplete="off" disabled="disabled" style="background-color:#ddd;"/><br /><br />
   <label for="f_name">First Name</label><br />
-  <input type="text" name="f_name" id="f_name" placeholder="Your first name"/><br /><br />
+  <input type="text" name="f_name" id="f_name" placeholder="Your first name" value="{{fname}}" autocomplete="off"/><br /><br />
   <label for="l_name">Last Name</label><br />
-  <input type="text" name="l_name" id="l_name" placeholder="Your last name"/><br /><br />
+  <input type="text" name="l_name" id="l_name" placeholder="Your last name" value="{{lname}}" autocomplete="off"/><br /><br />
   <label for="password">Password</label><br />
-  <input type="password" name="password" id="password" placeholder="Enter your password"/><br /><br />
-  <input type="submit" value="Update Settings" />
+  <input type="password" name="password" id="password" placeholder="Enter new password" autocomplete="off"/><br /><br />
+  <input type="submit" value="Update Information" />
 </form>
 </div>
 {% endblock %} 

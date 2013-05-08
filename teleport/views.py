@@ -1,5 +1,5 @@
 import json
-import OpenTokSDK, datetime, smtplib
+import OpenTokSDK, datetime, smtplib, hashlib
 from django.http import *
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
@@ -103,7 +103,7 @@ def login(request):
     if request.method == "POST":
         try:
             login_email = request.POST["login_email"]
-            login_password = request.POST["login_password"]
+            login_password = hashlib.sha1(request.POST["login_password"]).hexdigest()
             user = User.objects.get(email=login_email, password=login_password)
             request.session.flush()
             request.session[SESSION_KEY] = user.email
@@ -119,7 +119,7 @@ def register(request):
     if request.method == "POST":
         try:
             email = request.POST["email"]
-            password = request.POST["password"]
+            password = hashlib.sha1(request.POST["password"]).hexdigest()
             f_name = request.POST["f_name"]
             l_name = request.POST["l_name"]
             user = User(email=email, password=password, f_name=f_name, l_name=l_name)
@@ -132,6 +132,9 @@ def register(request):
             return register_form(request)
     else:
         return register_form(request)
+
+
+
 
 
 def logout(request):
@@ -157,11 +160,22 @@ def teleport(request):
 @login_required
 def add_contact(request):
     if request.method == "POST":
-        user1 = User.objects.get(email=request.session[SESSION_KEY])
+        user1 = request.session[SESSION_KEY]
         user2 = request.POST["email"]
-        c = Contact(user1=user1, user2=user2)
-        c.save()
+        c1 = Contact(user1=user1, user2=user2)
+        c1.save()
+        c2 = Contact(user1=user2, user2=user1)
+        c2.save()
+        try:
+            f1 = Feed(to_addr = user1, from_addr = user2, msg = "You added %s to your contact list." %(user2))
+            f2 = Feed(to_addr = user1, from_addr = user2, msg = "%s added you in his contact list." %(user2))
+            f1.save()
+            f2.save()
+        except:
+            print sys.exc_info()
+            pass
         return HttpResponse(json.dumps({'invite':user2}), mimetype="application/json")
+        
     else:
         return render_to_response('add_contact.html')
 
@@ -173,7 +187,7 @@ def get_contacts(request):
     try:
         res['status'] = True
         res['contacts'] = []
-        contacts = Contact.objects.filter(user1=user).values()
+        contacts = Contact.objects.filter(user1=user.email).values()
         for c in contacts:
             name = ''
             u= User.objects.filter(email=c['user2']).values()
@@ -193,11 +207,11 @@ def get_feeds(request):
     user = User.objects.get(email=request.session[SESSION_KEY])
     res = {'status':False, 'user': request.session[SESSION_KEY]}
     try:
-        feeds = Feed.objects.filter(to_addr=user).values()
+        feeds = Feed.objects.filter(to_addr=user.email).values()
         res['status'] = True
         res['feeds'] = []
         for f in feeds:
-            res['feeds'].append({'timestamp':format_date_time(f.timestamp), 'msg':f['msg'], 'from':f['from_addr']})
+            res['feeds'].append({'timestamp':format_date_time(f['timestamp']), 'msg':f['msg'], 'from':f['from_addr']})
     except:
         print sys.exc_info()
         res['code'] = 'UNKNOWN_ERROR'
@@ -215,7 +229,30 @@ def teletalk(request):
 
 @login_required
 def settings(request):
-    return render_to_response('settings.html')
+    user = User.objects.get(email=request.session[SESSION_KEY])
+    c = {'email':user.email, 'fname':user.f_name, 'lname':user.l_name}
+    c.update(csrf(request))
+    return render_to_response('settings.html', c)
+
+def update_settings(request):
+    if request.method == "POST":
+        try:
+            user = User.objects.get(email=request.session[SESSION_KEY])
+            password = request.POST["password"]
+            f_name = request.POST["f_name"]
+            l_name = request.POST["l_name"]       
+            user.f_name=f_name
+            user.l_name=l_name
+            user.save()
+            if(password.strip() !=""):
+                user.password=hashlib.sha1(password)            
+            user.save()
+            return HttpResponseRedirect('/settings')
+        except:
+            print sys.exc_info()
+            return HttpResponseRedirect('/settings')
+    else:
+        return HttpResponseRedirect('/settings')
 
 
 @csrf_exempt
